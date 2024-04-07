@@ -41,8 +41,10 @@ assign: ValueDefinition typedName ASSIGN_OPERATOR right=expression
 reassign: name=ID ASSIGN_OPERATOR right=expression
 ;
 
+
+
 expression: pipeline # PIPELINE
-    | localScope # scope
+    | localScope # Scope
     | tuple # ArgumentList_
     | left=expression op=BOOL_OPERATOR right=expression # BOOL_OP
 	| left=expression op=('*'|'/') right=expression # MulDiv

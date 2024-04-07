@@ -184,6 +184,18 @@ public class PipedBaseListener implements PipedListener {
 	 *
 	 * <p>The default implementation does nothing.</p>
 	 */
+	@Override public void enterScope(PipedParser.ScopeContext ctx) { }
+	/**
+	 * {@inheritDoc}
+	 *
+	 * <p>The default implementation does nothing.</p>
+	 */
+	@Override public void exitScope(PipedParser.ScopeContext ctx) { }
+	/**
+	 * {@inheritDoc}
+	 *
+	 * <p>The default implementation does nothing.</p>
+	 */
 	@Override public void enterValue_(PipedParser.Value_Context ctx) { }
 	/**
 	 * {@inheritDoc}
@@ -227,18 +239,6 @@ public class PipedBaseListener implements PipedListener {
 	 * <p>The default implementation does nothing.</p>
 	 */
 	@Override public void exitParens(PipedParser.ParensContext ctx) { }
-	/**
-	 * {@inheritDoc}
-	 *
-	 * <p>The default implementation does nothing.</p>
-	 */
-	@Override public void enterScope(PipedParser.ScopeContext ctx) { }
-	/**
-	 * {@inheritDoc}
-	 *
-	 * <p>The default implementation does nothing.</p>
-	 */
-	@Override public void exitScope(PipedParser.ScopeContext ctx) { }
 	/**
 	 * {@inheritDoc}
 	 *

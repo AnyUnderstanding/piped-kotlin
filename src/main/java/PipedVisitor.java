@@ -96,6 +96,13 @@ public interface PipedVisitor<T> extends ParseTreeVisitor<T> {
 	 */
 	T visitBOOL_OP(PipedParser.BOOL_OPContext ctx);
 	/**
+	 * Visit a parse tree produced by the {@code Scope}
+	 * labeled alternative in {@link PipedParser#expression}.
+	 * @param ctx the parse tree
+	 * @return the visitor result
+	 */
+	T visitScope(PipedParser.ScopeContext ctx);
+	/**
 	 * Visit a parse tree produced by the {@code Value_}
 	 * labeled alternative in {@link PipedParser#expression}.
 	 * @param ctx the parse tree
@@ -123,13 +130,6 @@ public interface PipedVisitor<T> extends ParseTreeVisitor<T> {
 	 * @return the visitor result
 	 */
 	T visitParens(PipedParser.ParensContext ctx);
-	/**
-	 * Visit a parse tree produced by the {@code scope}
-	 * labeled alternative in {@link PipedParser#expression}.
-	 * @param ctx the parse tree
-	 * @return the visitor result
-	 */
-	T visitScope(PipedParser.ScopeContext ctx);
 	/**
 	 * Visit a parse tree produced by the {@code PIPELINE}
 	 * labeled alternative in {@link PipedParser#expression}.

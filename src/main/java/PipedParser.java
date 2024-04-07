@@ -1005,6 +1005,26 @@ public class PipedParser extends Parser {
 		}
 	}
 	@SuppressWarnings("CheckReturnValue")
+	public static class ScopeContext extends ExpressionContext {
+		public LocalScopeContext localScope() {
+			return getRuleContext(LocalScopeContext.class,0);
+		}
+		public ScopeContext(ExpressionContext ctx) { copyFrom(ctx); }
+		@Override
+		public void enterRule(ParseTreeListener listener) {
+			if ( listener instanceof PipedListener ) ((PipedListener)listener).enterScope(this);
+		}
+		@Override
+		public void exitRule(ParseTreeListener listener) {
+			if ( listener instanceof PipedListener ) ((PipedListener)listener).exitScope(this);
+		}
+		@Override
+		public <T> T accept(ParseTreeVisitor<? extends T> visitor) {
+			if ( visitor instanceof PipedVisitor ) return ((PipedVisitor<? extends T>)visitor).visitScope(this);
+			else return visitor.visitChildren(this);
+		}
+	}
+	@SuppressWarnings("CheckReturnValue")
 	public static class Value_Context extends ExpressionContext {
 		public ValueContext value() {
 			return getRuleContext(ValueContext.class,0);
@@ -1093,26 +1113,6 @@ public class PipedParser extends Parser {
 		@Override
 		public <T> T accept(ParseTreeVisitor<? extends T> visitor) {
 			if ( visitor instanceof PipedVisitor ) return ((PipedVisitor<? extends T>)visitor).visitParens(this);
-			else return visitor.visitChildren(this);
-		}
-	}
-	@SuppressWarnings("CheckReturnValue")
-	public static class ScopeContext extends ExpressionContext {
-		public LocalScopeContext localScope() {
-			return getRuleContext(LocalScopeContext.class,0);
-		}
-		public ScopeContext(ExpressionContext ctx) { copyFrom(ctx); }
-		@Override
-		public void enterRule(ParseTreeListener listener) {
-			if ( listener instanceof PipedListener ) ((PipedListener)listener).enterScope(this);
-		}
-		@Override
-		public void exitRule(ParseTreeListener listener) {
-			if ( listener instanceof PipedListener ) ((PipedListener)listener).exitScope(this);
-		}
-		@Override
-		public <T> T accept(ParseTreeVisitor<? extends T> visitor) {
-			if ( visitor instanceof PipedVisitor ) return ((PipedVisitor<? extends T>)visitor).visitScope(this);
 			else return visitor.visitChildren(this);
 		}
 	}

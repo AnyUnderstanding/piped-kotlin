@@ -1,15 +1,38 @@
 package de.any.analyzer
 
-class Scope(val parent: Scope? = null) {
+class Scope(val parent: Scope? = null, var id: Int = nextScopeId) {
+    var returnType: Type? = null
     private val subScopes = mutableListOf<Scope>()
     private val variables = mutableListOf<Field>()
+    private val referencedVariables = mutableListOf<Field>()
+    var visitCount = 0
+
+    init {
+        nextScopeId++
+    }
 
 
     fun addScope(): Scope {
-        val newScope = Scope(this)
+        val newScope = Scope(this, id++)
         subScopes.add(newScope)
         return newScope
     }
+
+    fun addReferencedVariable(variable: Field) {
+        referencedVariables.add(variable)
+    }
+
+    fun getReferencedVariables(): List<Field> {
+        return referencedVariables
+    }
+
+    fun nextChild(): Scope {
+        if (visitCount < subScopes.size) {
+            return subScopes[visitCount++]
+        }
+        throw IllegalStateException("No more children")
+    }
+
 
     fun bubbleUp(): Scope {
         if (parent == null) {
@@ -26,6 +49,14 @@ class Scope(val parent: Scope? = null) {
         return variables.find { it.name == name } ?: parent?.findVariable(name)
     }
 
+    fun getGlobalScope(): Scope {
+        var currentScope = this
+        while (currentScope.parent != null) {
+            currentScope = currentScope.parent!!
+        }
+        return currentScope
+    }
+
     override fun toString(): String {
         val stringBuilder: StringBuilder = StringBuilder()
         variables.forEach {
@@ -38,5 +69,9 @@ class Scope(val parent: Scope? = null) {
             stringBuilder.append("   $it")
         }
         return stringBuilder.toString()
+    }
+
+    companion object {
+        var nextScopeId = 0
     }
 }

@@ -18,16 +18,18 @@ class TypeChecker : PipedBaseVisitor<Type>() {
         parameters = listOf()
 
         visitChildren(ctx)
-        val returnType: Type? = ctx!!.return_().map { visit(it) }.reduceOrNull() { type, acc ->
+        val returnType: Type = ctx!!.return_().map { visit(it) }.reduceOrNull() { type, acc ->
             if (type != acc) {
                 throw PipedException(Cause.TYPE_MISMATCH, ctx.start)
             }
             type
-        }
+        } ?: PrimitiveType.VOID.type
+
+        currentScope.returnType = returnType
         currentScope = currentScope.bubbleUp()
 
 
-        return returnType ?: PrimitiveType.VOID.type
+        return returnType
     }
 
     override fun visitReturn(ctx: PipedParser.ReturnContext?): Type {
@@ -36,7 +38,10 @@ class TypeChecker : PipedBaseVisitor<Type>() {
 
     override fun visitVar(ctx: PipedParser.VarContext?): Type {
         val path = ctx!!.text.split(".")
-        var type = currentScope.findVariable(path.first())?.type ?: throw PipedException(Cause.UNKNOWN_TYPE, ctx.start)
+        val variable = currentScope.findVariable(path.first()) ?: throw PipedException(Cause.UNKNOWN_TYPE, ctx.start)
+        var type = variable.type
+        currentScope.addReferencedVariable(variable)
+
         for (i in 1 until path.size) {
             type = type.getField(path[i])?.type ?: throw PipedException(Cause.UNKNOWN_TYPE, ctx.start)
         }

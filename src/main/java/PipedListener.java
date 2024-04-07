@@ -151,6 +151,18 @@ public interface PipedListener extends ParseTreeListener {
 	 */
 	void exitBOOL_OP(PipedParser.BOOL_OPContext ctx);
 	/**
+	 * Enter a parse tree produced by the {@code Scope}
+	 * labeled alternative in {@link PipedParser#expression}.
+	 * @param ctx the parse tree
+	 */
+	void enterScope(PipedParser.ScopeContext ctx);
+	/**
+	 * Exit a parse tree produced by the {@code Scope}
+	 * labeled alternative in {@link PipedParser#expression}.
+	 * @param ctx the parse tree
+	 */
+	void exitScope(PipedParser.ScopeContext ctx);
+	/**
 	 * Enter a parse tree produced by the {@code Value_}
 	 * labeled alternative in {@link PipedParser#expression}.
 	 * @param ctx the parse tree
@@ -198,18 +210,6 @@ public interface PipedListener extends ParseTreeListener {
 	 * @param ctx the parse tree
 	 */
 	void exitParens(PipedParser.ParensContext ctx);
-	/**
-	 * Enter a parse tree produced by the {@code scope}
-	 * labeled alternative in {@link PipedParser#expression}.
-	 * @param ctx the parse tree
-	 */
-	void enterScope(PipedParser.ScopeContext ctx);
-	/**
-	 * Exit a parse tree produced by the {@code scope}
-	 * labeled alternative in {@link PipedParser#expression}.
-	 * @param ctx the parse tree
-	 */
-	void exitScope(PipedParser.ScopeContext ctx);
 	/**
 	 * Enter a parse tree produced by the {@code PIPELINE}
 	 * labeled alternative in {@link PipedParser#expression}.

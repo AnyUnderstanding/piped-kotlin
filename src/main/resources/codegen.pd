@@ -1,0 +1,11 @@
+Bundle Person{
+    val name: Int,
+    val age: Int,
+}
+
+pi main(n1: Int, n0: Int) : Int {
+   val y: Int <| { >> 1;};
+   val x: Int <| 1 + 10;
+   val x: Int <| 1 + 10;
+    >> y + x*3;
+}
