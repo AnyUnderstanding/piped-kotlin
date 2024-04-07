@@ -1,0 +1,19 @@
+Bundle Person{
+    val name: String,
+    val age: Int,
+}
+
+pi Fib(n1: Int, n0: Int) : (Int, Int) {
+    val x: (Int, Int) <| (1,1) |> Fib [ (r, l) |>
+    (l == 0) (1,1),
+    else (r, l)
+    ]|> MulDiv;
+    val y: Int <| 1+1+1;
+    val z: Int <| y;
+    val i: Boolean <| true==false;
+    >> (1, 1);
+}
+
+pi MulDiv(a: Int, b: Int) : (Int, Int) {
+    >> (a*b, a/b);
+}

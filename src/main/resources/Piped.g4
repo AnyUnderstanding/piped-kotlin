@@ -12,53 +12,70 @@ globalScope: (bundleDefinition | pipeDefinition)*
 ;
 
 localScope: '{'
- ((expression | assign | return) END_STATEMENT)*
+ ((expression | assign | reassign | return) END_STATEMENT)*
  '}'
 ;
 
 
 
-pipeDefinition: 'pi' ID '(' argumentsDefinition ')'  localScope
+pipeDefinition: 'pi' name=ID '(' args=argumentsDefinition ')' (':' returnType=typeName)? block=localScope
 ;
 
 argumentsDefinition: ((typedName ',')* typedName)?
 ;
 
-bundleDefinition: 'Bundle' ID '{'
+bundleDefinition: 'Bundle' name=ID '{'
  (ValueDefinition typedName ',')*
  (ValueDefinition typedName)?
  '}'
 ;
 
-typedName: ID ':' ID
+typedName: name=ID ':' type=typeName
 ;
 
 return: RETURN_OPERATOR expression
 ;
-assign: ValueDefinition? typedName ASSIGN_OPERATOR expression
+assign: ValueDefinition typedName ASSIGN_OPERATOR right=expression
 ;
-expression: pipeLine # PIPELINE
-    | expression BOOL_OPERATOR expression # BOOL_OP
-	| expression ('*'|'/') expression # MulDiv
-    | expression ('+'|'-') expression # AddSub
+
+reassign: name=ID ASSIGN_OPERATOR right=expression
+;
+
+expression: pipeline # PIPELINE
+    | localScope # scope
+    | tuple # ArgumentList_
+    | left=expression op=BOOL_OPERATOR right=expression # BOOL_OP
+	| left=expression op=('*'|'/') right=expression # MulDiv
+    | left=expression op=('+'|'-') right=expression # AddSub
     | value # Value_
-    | ID # Variable
+    | var # Var_
     | '(' expression ')' # Parens
     ;
 
-ValueDefinition: ('val' | 'var')
+var : ID ('.' ID)*
+;
+typeName: ID | tupleType;
+
+// for now just imutable values
+ValueDefinition: ('val')
 ;
 
-pipeLine: argumentList (PIPE_OPERATOR nextPipe | guardedPipe (PIPE_OPERATOR nextPipe)?)? | nextPipe
+pipeline: inital=tuple? (nextPipe | guardedPipe)*
 ;
-nextPipe: (ID (':' ID)?) (PIPE_OPERATOR nextPipe | guardedPipe (PIPE_OPERATOR nextPipe)?)?
+guardedPipe: '[' untypedArgumentList PIPE_OPERATOR (guard)* 'else' (elseBody=expression) ']' (':' typeName)?
 ;
-guardedPipe: '[' '('argumentsDefinition')' PIPE_OPERATOR ('(' expression ')' (expression| localScope) ',')* '(' expression ')' (expression | localScope) ','? ']' (':' ID)?
-;
-
-argumentList: '(' (expression ',')* expression ')'
+nextPipe: PIPE_OPERATOR name=ID
 ;
 
+untypedArgumentList: '(' (ID ',')* ID ')'
+;
+guard: '(' condition=expression ')' body=expression ','
+;
+tuple: '(' (expression ',')* expression ')'
+;
+
+tupleType: '(' (ID ',')*  ID')'
+;
 
 
 value : INT | STRING_ | BOOLEAN;
