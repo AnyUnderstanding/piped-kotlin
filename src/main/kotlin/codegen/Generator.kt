@@ -47,7 +47,7 @@ class Generator(var currentScope: Scope) : PipedBaseVisitor<String>() {
     }
 
     override fun visitVar(ctx: PipedParser.VarContext?): String {
-        return "%"+ currentScope.findVariable(ctx!!.text)!!.name
+        return "%" + currentScope.findVariable(ctx!!.text)!!.name
     }
 
     override fun visitPipeDefinition(ctx: PipedParser.PipeDefinitionContext?): String {
@@ -77,7 +77,7 @@ class Generator(var currentScope: Scope) : PipedBaseVisitor<String>() {
             result = tempRegister
         }
 
-        currentScope.bubbleUp()
+        currentScope = currentScope.bubbleUp()
         return result
     }
 
@@ -130,14 +130,49 @@ class Generator(var currentScope: Scope) : PipedBaseVisitor<String>() {
         return register
     }
 
-    override fun visitValue_(ctx: PipedParser.Value_Context?): String {
-        return ctx!!.text
+    override fun visitBOOL_OP(ctx: PipedParser.BOOL_OPContext?): String {
+        val left = visit(ctx!!.left)
+        val right = visit(ctx.right)
+
+        val type = getLLVMType(TreeInfo.getType(ctx.left))
+
+        val op = ctx.op.text
+        val register = nextTempRegisterName.next()
+        val instruction = when (op) {
+            "==" -> "$register = icmp eq $type $left, $right"
+            "!=" -> "$register = icmp ne $type $left, $right"
+            "<" -> "$register = icmp slt $type $left, $right"
+            "<=" -> "$register = icmp sle $type $left, $right"
+            ">" -> "$register = icmp sgt $type $left, $right"
+            ">=" -> "$register = icmp sge $type $left, $right"
+            else -> throw IllegalArgumentException("Unknown operator")
+        }
+        expressionCode.add(instruction)
+
+        return register
     }
+
+
+
+    override fun visitValue_(ctx: PipedParser.Value_Context?): String {
+        val type = getLLVMType(TreeInfo.getType(ctx!!.value()))
+        val value = when (ctx!!.text) {
+            "true" -> "add $type 1, 0"
+            "false" -> "add $type 0, 0"
+            else -> "add $type ${ctx.text}, 0"
+        }
+        val nextTempRegister = nextTempRegisterName.next()
+        expressionCode.add("$nextTempRegister = $value")
+        return nextTempRegister
+    }
+
+
 
     fun getLLVMType(type: Type): String {
         return when (type) {
             PrimitiveType.INT.type -> "i32"
             PrimitiveType.VOID.type -> "void"
+            PrimitiveType.BOOLEAN.type -> "i1"
             else -> throw IllegalArgumentException("Unknown type")
         }
     }

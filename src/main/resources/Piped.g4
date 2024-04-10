@@ -12,7 +12,7 @@ globalScope: (bundleDefinition | pipeDefinition)*
 ;
 
 localScope: '{'
- ((expression | assign | reassign | return) END_STATEMENT)*
+ ((expression | assign | return) END_STATEMENT)*
  '}'
 ;
 
@@ -73,7 +73,7 @@ untypedArgumentList: '(' (ID ',')* ID ')'
 ;
 guard: '(' condition=expression ')' body=expression ','
 ;
-tuple: '(' (expression ',')* expression ')'
+tuple: '(' expression ',' (expression ',')* expression? ')'
 ;
 
 tupleType: '(' (ID ',')*  ID')'

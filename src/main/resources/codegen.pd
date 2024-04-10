@@ -3,9 +3,14 @@ Bundle Person{
     val age: Int,
 }
 
-pi main(n1: Int, n0: Int) : Int {
+pi main(n1: Int, n0: Int) : Boolean {
    val y: Int <| { >> 1;};
-   val x: Int <| 1 + 10;
-   val x: Int <| 1 + 10;
-    >> y + x*3;
+   val r: (Int, Int) <| (1,1);
+   val x: Boolean <| n1 == 1;
+   val z: Boolean <| true == true;
+    >> x;
+}
+
+pi not(n: Boolean) : Boolean {
+    >> n==false;
 }

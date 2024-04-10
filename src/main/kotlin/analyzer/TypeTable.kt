@@ -16,7 +16,6 @@ object TypeTable {
 
 
     fun addType(type: Type) {
-        check(!knownTypes.contains(type)) { "Type already known" }
         knownTypes.add(type)
     }
 

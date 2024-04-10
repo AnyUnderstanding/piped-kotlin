@@ -28,12 +28,20 @@ class TypeChecker : PipedBaseVisitor<Type>() {
         currentScope.returnType = returnType
         currentScope = currentScope.bubbleUp()
 
-
+        TreeInfo.addType(ctx, returnType)
         return returnType
     }
 
     override fun visitReturn(ctx: PipedParser.ReturnContext?): Type {
-        return visit(ctx!!.expression())
+        val returnType = visit(ctx!!.expression())
+        TreeInfo.addType(ctx, returnType)
+        return returnType
+    }
+
+    override fun visitVar_(ctx: PipedParser.Var_Context?): Type {
+        val type = visit(ctx!!.`var`())
+        TreeInfo.addType(ctx, type)
+        return type
     }
 
     override fun visitVar(ctx: PipedParser.VarContext?): Type {
@@ -45,6 +53,7 @@ class TypeChecker : PipedBaseVisitor<Type>() {
         for (i in 1 until path.size) {
             type = type.getField(path[i])?.type ?: throw PipedException(Cause.UNKNOWN_TYPE, ctx.start)
         }
+        TreeInfo.addType(ctx, type)
         return type
     }
 
@@ -72,6 +81,7 @@ class TypeChecker : PipedBaseVisitor<Type>() {
             throw PipedException(Cause.IMMUTABLE_MUTATION, ctx.start)
         }
 
+
         return PrimitiveType.VOID.type
     }
 
@@ -82,17 +92,22 @@ class TypeChecker : PipedBaseVisitor<Type>() {
         if (left != PrimitiveType.INT.type || right != PrimitiveType.INT.type) {
             throw PipedException(Cause.TYPE_MISMATCH, ctx.start)
         }
+        TreeInfo.addType(ctx, PrimitiveType.INT.type)
         return PrimitiveType.INT.type
     }
 
     override fun visitTupleType(ctx: PipedParser.TupleTypeContext?): Type {
-        return validateTupleType(ctx!!)
+        val type = validateTupleType(ctx!!)
+        TypeTable.addType(type)
+        return type
     }
 
     override fun visitTuple(ctx: PipedParser.TupleContext?): Type {
         val types = ctx!!.expression().map { visit(it) }
         val typeName = "(" + types.map { it.name }.joinTo(StringBuilder(), ",") + ")"
-        return Type(typeName)
+        val type = Type(typeName)
+        TypeTable.addType(type)
+        return type
     }
 
     override fun visitAddSub(ctx: PipedParser.AddSubContext?): Type {
@@ -101,6 +116,7 @@ class TypeChecker : PipedBaseVisitor<Type>() {
         if (left != PrimitiveType.INT.type || right != PrimitiveType.INT.type) {
             throw PipedException(Cause.TYPE_MISMATCH, ctx.start)
         }
+        TreeInfo.addType(ctx, PrimitiveType.INT.type)
         return PrimitiveType.INT.type
     }
 
@@ -117,11 +133,15 @@ class TypeChecker : PipedBaseVisitor<Type>() {
     }
 
     override fun visitTypedName(ctx: PipedParser.TypedNameContext?): Type {
-        return visit(ctx!!.typeName())
+        val type = visit(ctx!!.typeName())
+        TreeInfo.addType(ctx, type)
+        return type
     }
 
     override fun visitTypeName(ctx: PipedParser.TypeNameContext?): Type {
-        return TypeTable.findType(ctx!!.text) ?: visit(ctx.tupleType())
+        val type = TypeTable.findType(ctx!!.text) ?: visit(ctx.tupleType())
+        TreeInfo.addType(ctx, type)
+        return type
     }
 
     override fun visitBOOL_OP(ctx: PipedParser.BOOL_OPContext?): Type {
@@ -130,17 +150,29 @@ class TypeChecker : PipedBaseVisitor<Type>() {
         if (left != right) {
             throw PipedException(Cause.TYPE_MISMATCH, ctx.start)
         }
+
+        TreeInfo.addType(ctx, PrimitiveType.BOOLEAN.type)
         return PrimitiveType.BOOLEAN.type
+    }
+
+
+    override fun visitValue_(ctx: PipedParser.Value_Context?): Type {
+        val type = visit(ctx!!.value())
+        TreeInfo.addType(ctx, type)
+        return type
     }
 
     override fun visitValue(ctx: PipedParser.ValueContext?): Type {
         if (ctx?.STRING_() != null) {
+            TreeInfo.addType(ctx, PrimitiveType.STRING.type)
             return PrimitiveType.STRING.type
         }
         if (ctx?.INT() != null) {
+            TreeInfo.addType(ctx, PrimitiveType.INT.type)
             return PrimitiveType.INT.type
         }
         if (ctx?.BOOLEAN() != null) {
+            TreeInfo.addType(ctx, PrimitiveType.BOOLEAN.type)
             return PrimitiveType.BOOLEAN.type
         }
         throw IllegalStateException("The value is unknown, this is most likely a bug in the compiler")
@@ -150,7 +182,9 @@ class TypeChecker : PipedBaseVisitor<Type>() {
         if (ctx!!.inital != null) {
             previousReturn = visit(ctx.inital)
         }
-        return ctx!!.children.map { previousReturn = visit(it); previousReturn }.last()
+        val type = ctx!!.children.map { previousReturn = visit(it); previousReturn }.last()
+        TreeInfo.addType(ctx, type)
+        return type
     }
 
     override fun visitGuardedPipe(ctx: PipedParser.GuardedPipeContext?): Type {
@@ -174,12 +208,15 @@ class TypeChecker : PipedBaseVisitor<Type>() {
         }
         val elseReturn = visit(ctx.elseBody)
         // check body
-        return guards.map { visit(it.body) }.fold(elseReturn) { acc, type ->
+        val type = guards.map { visit(it.body) }.fold(elseReturn) { acc, type ->
             if (acc != type) {
                 throw PipedException(Cause.TYPE_MISMATCH, ctx.start)
             }
             acc
         }
+        TreeInfo.addType(ctx, type)
+        currentScope = currentScope.bubbleUp()
+        return type
     }
 
     override fun visitNextPipe(ctx: PipedParser.NextPipeContext?): Type {
@@ -193,7 +230,7 @@ class TypeChecker : PipedBaseVisitor<Type>() {
                 throw PipedException(Cause.TYPE_MISMATCH, ctx.start)
             }
         }
-
+        TypeTable.addType(pipe.returnType)
         return pipe.returnType
     }
 }
