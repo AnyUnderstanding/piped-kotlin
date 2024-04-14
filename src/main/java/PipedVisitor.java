@@ -10,47 +10,11 @@ import org.antlr.v4.runtime.tree.ParseTreeVisitor;
  */
 public interface PipedVisitor<T> extends ParseTreeVisitor<T> {
 	/**
-	 * Visit a parse tree produced by {@link PipedParser#programm}.
+	 * Visit a parse tree produced by {@link PipedParser#program}.
 	 * @param ctx the parse tree
 	 * @return the visitor result
 	 */
-	T visitProgramm(PipedParser.ProgrammContext ctx);
-	/**
-	 * Visit a parse tree produced by {@link PipedParser#imports}.
-	 * @param ctx the parse tree
-	 * @return the visitor result
-	 */
-	T visitImports(PipedParser.ImportsContext ctx);
-	/**
-	 * Visit a parse tree produced by {@link PipedParser#import_}.
-	 * @param ctx the parse tree
-	 * @return the visitor result
-	 */
-	T visitImport_(PipedParser.Import_Context ctx);
-	/**
-	 * Visit a parse tree produced by {@link PipedParser#globalScope}.
-	 * @param ctx the parse tree
-	 * @return the visitor result
-	 */
-	T visitGlobalScope(PipedParser.GlobalScopeContext ctx);
-	/**
-	 * Visit a parse tree produced by {@link PipedParser#localScope}.
-	 * @param ctx the parse tree
-	 * @return the visitor result
-	 */
-	T visitLocalScope(PipedParser.LocalScopeContext ctx);
-	/**
-	 * Visit a parse tree produced by {@link PipedParser#pipeDefinition}.
-	 * @param ctx the parse tree
-	 * @return the visitor result
-	 */
-	T visitPipeDefinition(PipedParser.PipeDefinitionContext ctx);
-	/**
-	 * Visit a parse tree produced by {@link PipedParser#argumentsDefinition}.
-	 * @param ctx the parse tree
-	 * @return the visitor result
-	 */
-	T visitArgumentsDefinition(PipedParser.ArgumentsDefinitionContext ctx);
+	T visitProgram(PipedParser.ProgramContext ctx);
 	/**
 	 * Visit a parse tree produced by {@link PipedParser#bundleDefinition}.
 	 * @param ctx the parse tree
@@ -58,104 +22,35 @@ public interface PipedVisitor<T> extends ParseTreeVisitor<T> {
 	 */
 	T visitBundleDefinition(PipedParser.BundleDefinitionContext ctx);
 	/**
-	 * Visit a parse tree produced by {@link PipedParser#typedName}.
+	 * Visit a parse tree produced by {@link PipedParser#import_}.
 	 * @param ctx the parse tree
 	 * @return the visitor result
 	 */
-	T visitTypedName(PipedParser.TypedNameContext ctx);
+	T visitImport_(PipedParser.Import_Context ctx);
 	/**
-	 * Visit a parse tree produced by {@link PipedParser#return}.
+	 * Visit a parse tree produced by {@link PipedParser#pipeDefinition}.
 	 * @param ctx the parse tree
 	 * @return the visitor result
 	 */
-	T visitReturn(PipedParser.ReturnContext ctx);
+	T visitPipeDefinition(PipedParser.PipeDefinitionContext ctx);
 	/**
-	 * Visit a parse tree produced by {@link PipedParser#assign}.
-	 * @param ctx the parse tree
-	 * @return the visitor result
-	 */
-	T visitAssign(PipedParser.AssignContext ctx);
-	/**
-	 * Visit a parse tree produced by {@link PipedParser#reassign}.
-	 * @param ctx the parse tree
-	 * @return the visitor result
-	 */
-	T visitReassign(PipedParser.ReassignContext ctx);
-	/**
-	 * Visit a parse tree produced by the {@code Var_}
-	 * labeled alternative in {@link PipedParser#expression}.
-	 * @param ctx the parse tree
-	 * @return the visitor result
-	 */
-	T visitVar_(PipedParser.Var_Context ctx);
-	/**
-	 * Visit a parse tree produced by the {@code BOOL_OP}
-	 * labeled alternative in {@link PipedParser#expression}.
-	 * @param ctx the parse tree
-	 * @return the visitor result
-	 */
-	T visitBOOL_OP(PipedParser.BOOL_OPContext ctx);
-	/**
-	 * Visit a parse tree produced by the {@code Scope}
-	 * labeled alternative in {@link PipedParser#expression}.
+	 * Visit a parse tree produced by {@link PipedParser#scope}.
 	 * @param ctx the parse tree
 	 * @return the visitor result
 	 */
 	T visitScope(PipedParser.ScopeContext ctx);
 	/**
-	 * Visit a parse tree produced by the {@code Value_}
-	 * labeled alternative in {@link PipedParser#expression}.
+	 * Visit a parse tree produced by {@link PipedParser#argumentsDefinitionList}.
 	 * @param ctx the parse tree
 	 * @return the visitor result
 	 */
-	T visitValue_(PipedParser.Value_Context ctx);
+	T visitArgumentsDefinitionList(PipedParser.ArgumentsDefinitionListContext ctx);
 	/**
-	 * Visit a parse tree produced by the {@code MulDiv}
-	 * labeled alternative in {@link PipedParser#expression}.
+	 * Visit a parse tree produced by {@link PipedParser#expr}.
 	 * @param ctx the parse tree
 	 * @return the visitor result
 	 */
-	T visitMulDiv(PipedParser.MulDivContext ctx);
-	/**
-	 * Visit a parse tree produced by the {@code AddSub}
-	 * labeled alternative in {@link PipedParser#expression}.
-	 * @param ctx the parse tree
-	 * @return the visitor result
-	 */
-	T visitAddSub(PipedParser.AddSubContext ctx);
-	/**
-	 * Visit a parse tree produced by the {@code Parens}
-	 * labeled alternative in {@link PipedParser#expression}.
-	 * @param ctx the parse tree
-	 * @return the visitor result
-	 */
-	T visitParens(PipedParser.ParensContext ctx);
-	/**
-	 * Visit a parse tree produced by the {@code PIPELINE}
-	 * labeled alternative in {@link PipedParser#expression}.
-	 * @param ctx the parse tree
-	 * @return the visitor result
-	 */
-	T visitPIPELINE(PipedParser.PIPELINEContext ctx);
-	/**
-	 * Visit a parse tree produced by the {@code ArgumentList_}
-	 * labeled alternative in {@link PipedParser#expression}.
-	 * @param ctx the parse tree
-	 * @return the visitor result
-	 */
-	T visitArgumentList_(PipedParser.ArgumentList_Context ctx);
-	/**
-	 * Visit a parse tree produced by {@link PipedParser#var}.
-	 * @param ctx the parse tree
-	 * @return the visitor result
-	 */
-	T visitVar(PipedParser.VarContext ctx);
-	/**
-	 * Visit a parse tree produced by {@link PipedParser#typeName}.
-	 * @param ctx the parse tree
-	 * @return the visitor result
-	 */
-	T visitTypeName(PipedParser.TypeNameContext ctx);
+	T visitExpr(PipedParser.ExprContext ctx);
 	/**
 	 * Visit a parse tree produced by {@link PipedParser#pipeline}.
 	 * @param ctx the parse tree
@@ -163,29 +58,17 @@ public interface PipedVisitor<T> extends ParseTreeVisitor<T> {
 	 */
 	T visitPipeline(PipedParser.PipelineContext ctx);
 	/**
+	 * Visit a parse tree produced by {@link PipedParser#pipelineTuple}.
+	 * @param ctx the parse tree
+	 * @return the visitor result
+	 */
+	T visitPipelineTuple(PipedParser.PipelineTupleContext ctx);
+	/**
 	 * Visit a parse tree produced by {@link PipedParser#guardedPipe}.
 	 * @param ctx the parse tree
 	 * @return the visitor result
 	 */
 	T visitGuardedPipe(PipedParser.GuardedPipeContext ctx);
-	/**
-	 * Visit a parse tree produced by {@link PipedParser#nextPipe}.
-	 * @param ctx the parse tree
-	 * @return the visitor result
-	 */
-	T visitNextPipe(PipedParser.NextPipeContext ctx);
-	/**
-	 * Visit a parse tree produced by {@link PipedParser#untypedArgumentList}.
-	 * @param ctx the parse tree
-	 * @return the visitor result
-	 */
-	T visitUntypedArgumentList(PipedParser.UntypedArgumentListContext ctx);
-	/**
-	 * Visit a parse tree produced by {@link PipedParser#guard}.
-	 * @param ctx the parse tree
-	 * @return the visitor result
-	 */
-	T visitGuard(PipedParser.GuardContext ctx);
 	/**
 	 * Visit a parse tree produced by {@link PipedParser#tuple}.
 	 * @param ctx the parse tree
@@ -193,15 +76,57 @@ public interface PipedVisitor<T> extends ParseTreeVisitor<T> {
 	 */
 	T visitTuple(PipedParser.TupleContext ctx);
 	/**
-	 * Visit a parse tree produced by {@link PipedParser#tupleType}.
+	 * Visit a parse tree produced by {@link PipedParser#guard}.
 	 * @param ctx the parse tree
 	 * @return the visitor result
 	 */
-	T visitTupleType(PipedParser.TupleTypeContext ctx);
+	T visitGuard(PipedParser.GuardContext ctx);
+	/**
+	 * Visit a parse tree produced by {@link PipedParser#untypedArgumentList}.
+	 * @param ctx the parse tree
+	 * @return the visitor result
+	 */
+	T visitUntypedArgumentList(PipedParser.UntypedArgumentListContext ctx);
+	/**
+	 * Visit a parse tree produced by {@link PipedParser#elseGuard}.
+	 * @param ctx the parse tree
+	 * @return the visitor result
+	 */
+	T visitElseGuard(PipedParser.ElseGuardContext ctx);
+	/**
+	 * Visit a parse tree produced by {@link PipedParser#var}.
+	 * @param ctx the parse tree
+	 * @return the visitor result
+	 */
+	T visitVar(PipedParser.VarContext ctx);
+	/**
+	 * Visit a parse tree produced by {@link PipedParser#assign}.
+	 * @param ctx the parse tree
+	 * @return the visitor result
+	 */
+	T visitAssign(PipedParser.AssignContext ctx);
+	/**
+	 * Visit a parse tree produced by {@link PipedParser#return}.
+	 * @param ctx the parse tree
+	 * @return the visitor result
+	 */
+	T visitReturn(PipedParser.ReturnContext ctx);
 	/**
 	 * Visit a parse tree produced by {@link PipedParser#value}.
 	 * @param ctx the parse tree
 	 * @return the visitor result
 	 */
 	T visitValue(PipedParser.ValueContext ctx);
+	/**
+	 * Visit a parse tree produced by {@link PipedParser#typedName}.
+	 * @param ctx the parse tree
+	 * @return the visitor result
+	 */
+	T visitTypedName(PipedParser.TypedNameContext ctx);
+	/**
+	 * Visit a parse tree produced by {@link PipedParser#int}.
+	 * @param ctx the parse tree
+	 * @return the visitor result
+	 */
+	T visitInt(PipedParser.IntContext ctx);
 }

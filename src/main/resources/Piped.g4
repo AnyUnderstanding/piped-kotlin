@@ -1,88 +1,55 @@
 grammar Piped;
 
-programm: imports globalScope;
+program: import_* (bundleDefinition | pipeDefinition)+;
 
-imports: import_*
-;
+bundleDefinition: 'bundle' ID '{'
+ (VARIABLE_NAME typedName ',')*
+ (VARIABLE_NAME typedName)?
+'}';
 
-import_: '>>' (ID '.')* ID END_STATEMENT
-;
+import_: '>>' (ID '.')* ID END_STATEMENT;
 
-globalScope: (bundleDefinition | pipeDefinition)*
-;
+pipeDefinition: 'pi' name=ID argumentsDefinitionList ':' type=ID scope;
 
-localScope: '{'
- ((expression | assign | return) END_STATEMENT)*
- '}'
-;
+scope : '{' ((assign | expr | return) END_STATEMENT)* '}';
 
+argumentsDefinitionList: '('(typedName ',')* typedName? ')';
 
-
-pipeDefinition: 'pi' name=ID '(' args=argumentsDefinition ')' (':' returnType=typeName)? block=localScope
-;
-
-argumentsDefinition: ((typedName ',')* typedName)?
-;
-
-bundleDefinition: 'Bundle' name=ID '{'
- (ValueDefinition typedName ',')*
- (ValueDefinition typedName)?
- '}'
-;
-
-typedName: name=ID ':' type=typeName
-;
-
-return: RETURN_OPERATOR expression
-;
-assign: ValueDefinition typedName ASSIGN_OPERATOR right=expression
-;
-
-reassign: name=ID ASSIGN_OPERATOR right=expression
-;
-
-
-
-expression: pipeline # PIPELINE
-    | localScope # Scope
-    | tuple # ArgumentList_
-    | left=expression op=BOOL_OPERATOR right=expression # BOOL_OP
-	| left=expression op=('*'|'/') right=expression # MulDiv
-    | left=expression op=('+'|'-') right=expression # AddSub
-    | value # Value_
-    | var # Var_
-    | '(' expression ')' # Parens
+expr:
+	 left=expr op=ADD_SUB_OPERATOR right=expr
+    | left=expr op=MUL_DIV_OPERATOR right=expr
+    | left=expr op=BOOL_OPERATOR right=expr
+    | pipeline
+    | tuple
+    | scope
+    | value
+    | var
+    | '(' expr ')'
     ;
 
-var : ID ('.' ID)*
-;
-typeName: ID | tupleType;
+pipeline: ((pipelineTuple | ID) guardedPipe? PIPE_OPERATOR)* ( pipelineTuple | (ID guardedPipe?) );
+pipelineTuple: '(' ((expr | '#'DEC_INT) ',')* (expr | '#'DEC_INT)? ')';
+guardedPipe: '[' untypedArgumentList PIPE_OPERATOR (guard)* elseGuard ']';
 
-// for now just imutable values
-ValueDefinition: ('val')
-;
-
-pipeline: inital=tuple? (nextPipe | guardedPipe)*
-;
-guardedPipe: '[' untypedArgumentList PIPE_OPERATOR (guard)* 'else' (elseBody=expression) ']' (':' typeName)?
-;
-nextPipe: PIPE_OPERATOR name=ID
-;
-
-untypedArgumentList: '(' (ID ',')* ID ')'
-;
-guard: '(' condition=expression ')' body=expression ','
-;
-tuple: '(' expression ',' (expression ',')* expression? ')'
-;
-
-tupleType: '(' (ID ',')*  ID')'
-;
+tuple: '(' (expr ',')* expr? ')';
+guard: '(' condition=expr')' body=expr ',';
+untypedArgumentList: '(' (ID ',')* ID ')';
+elseGuard: 'else' body=expr;
 
 
-value : INT | STRING_ | BOOLEAN;
 
-INT: DEC_INT | HEX_INT | BIN_INT;
+
+var : ID ('.' ID)*;
+
+
+
+assign: VARIABLE_NAME ID ASSIGN_OPERATOR expr;
+return : RETURN_OPERATOR expr;
+
+value : int | STRING_ | BOOLEAN;
+typedName: name=ID ':' type=ID;
+
+int: DEC_INT | HEX_INT | BIN_INT;
 DEC_INT: [0-9]+;
 HEX_INT: '0x'[0-9A-F]+;
 BIN_INT: '0b'[0-1]+;
@@ -91,15 +58,16 @@ BIN_INT: '0b'[0-1]+;
 STRING_: '"' (~'"'|'\\"')* '"';
 
 
-BOOL_OPERATOR: '==' | '!=' | '>=' | '<=' | '>' | '<'
-;
+BOOL_OPERATOR: '==' | '!=' | '>=' | '<=' | '>' | '<';
+ADD_SUB_OPERATOR: '+' | '-';
+MUL_DIV_OPERATOR: '*' | '/';
 
 BOOLEAN: 'false' | 'true';
 
-
+VARIABLE_NAME: 'let';
 RETURN_OPERATOR: '>>';
 PIPE_OPERATOR: '|>';
-ASSIGN_OPERATOR: '<|';
+ASSIGN_OPERATOR: '=';
 END_STATEMENT: ';';
 ID: [a-zA-Z_][a-zA-Z0-9]*;
 NEWLINE : [\r\n]+ -> skip;

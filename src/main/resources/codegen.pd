@@ -1,6 +1,6 @@
 Bundle Person{
-    val name: Int,
-    val age: Int,
+    let name: Int,
+    let age: Int,
 }
 
 pi main(n1: Int, n0: Int) : Boolean {
