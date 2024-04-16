@@ -1,19 +1,62 @@
-Bundle Person{
-    val name: String,
-    val age: Int,
+bundle Person{
+    let name: String,
+    let age: Int,
+    let dog: Dog,
+}
+
+bundle Dog{
+    let name: String,
+    let age: Int,
 }
 
 pi Fib(n1: Int, n0: Int) : (Int, Int) {
-    val x: (Int, Int) <| (1,1) |> Fib [ (r, l) |>
-    (l == 0) (1,1),
+    let x: (Int, Int) = (1,1) |> Fib [ (r, l) |>
+    (l == 0) (r,1),
     else (r, l)
     ]|> MulDiv;
-    val y: Int <| 1+1+1;
-    val z: Int <| y;
-    val i: Boolean <| true==false;
+    let y: Int = 1+1+1;
+    let z: Int = y;
+    let i: Bool = true==false;
+
+    () |> noneIn;
+    (1) |> half |> (#0) |> half |> () |> noneIn;
+    (1) |> half;
+    // TODO: does not work because my weird string splitting logic () |> allTypes |> (#4, #3, #2, #1, #0) |> allTypesConsumer
+
+
+
+    (1, 1) |> MulDiv;
+    (1, 1) |> MulDiv |> MulDiv;
+    (1, 1) |> MulDiv |> MulDiv |> MulDiv;
+    (1, 1) |> MulDiv |> MulDiv |> MulDiv |> MulDiv;
+    (1, 1) |> MulDiv |> MulDiv |> MulDiv |> MulDiv |> MulDiv;
+    (1, 1) |> MulDiv |> MulDiv |> MulDiv |> MulDiv |> MulDiv |> MulDiv;
+    (1, 1) |> MulDiv |> MulDiv |> MulDiv |> MulDiv |> MulDiv |> MulDiv |> MulDiv;
+    (1, 1) |> MulDiv |> MulDiv |> MulDiv |> MulDiv |> MulDiv |> MulDiv |> MulDiv |> MulDiv;
+    (1, 1) |> MulDiv |> MulDiv |> MulDiv |> MulDiv |> MulDiv |> MulDiv |> MulDiv |> MulDiv |> MulDiv;
+    (1, 1) |> MulDiv |> MulDiv |> MulDiv |> MulDiv |> MulDiv |> MulDiv |> MulDiv |> MulDiv |> MulDiv |> MulDiv;
+
     >> (1, 1);
+    let m: Person = Person("John", 20, Dog("Rex", 5));
+    let n: Int = m.dog.age;
 }
 
 pi MulDiv(a: Int, b: Int) : (Int, Int) {
     >> (a*b, a/b);
+}
+
+pi half(n: Int) : Int {
+    >> n/2;
+}
+
+pi noneIn() : Int {
+    >> 1;
+}
+
+pi allTypes() : (Int, Bool, String, (Int, String)) {
+    >> (1, true, "hello", (1, "world"));
+}
+
+pi allTypesConsumer(n0: (Int, String), n1: String, n2: Bool, n3: Int) : Int {
+    >> 1;
 }

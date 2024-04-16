@@ -57,6 +57,16 @@ public interface PipedListener extends ParseTreeListener {
 	 */
 	void exitScope(PipedParser.ScopeContext ctx);
 	/**
+	 * Enter a parse tree produced by {@link PipedParser#statement}.
+	 * @param ctx the parse tree
+	 */
+	void enterStatement(PipedParser.StatementContext ctx);
+	/**
+	 * Exit a parse tree produced by {@link PipedParser#statement}.
+	 * @param ctx the parse tree
+	 */
+	void exitStatement(PipedParser.StatementContext ctx);
+	/**
 	 * Enter a parse tree produced by {@link PipedParser#argumentsDefinitionList}.
 	 * @param ctx the parse tree
 	 */
@@ -67,15 +77,125 @@ public interface PipedListener extends ParseTreeListener {
 	 */
 	void exitArgumentsDefinitionList(PipedParser.ArgumentsDefinitionListContext ctx);
 	/**
-	 * Enter a parse tree produced by {@link PipedParser#expr}.
+	 * Enter a parse tree produced by the {@code boolOp}
+	 * labeled alternative in {@link PipedParser#expr}.
 	 * @param ctx the parse tree
 	 */
-	void enterExpr(PipedParser.ExprContext ctx);
+	void enterBoolOp(PipedParser.BoolOpContext ctx);
 	/**
-	 * Exit a parse tree produced by {@link PipedParser#expr}.
+	 * Exit a parse tree produced by the {@code boolOp}
+	 * labeled alternative in {@link PipedParser#expr}.
 	 * @param ctx the parse tree
 	 */
-	void exitExpr(PipedParser.ExprContext ctx);
+	void exitBoolOp(PipedParser.BoolOpContext ctx);
+	/**
+	 * Enter a parse tree produced by the {@code pass1}
+	 * labeled alternative in {@link PipedParser#expr}.
+	 * @param ctx the parse tree
+	 */
+	void enterPass1(PipedParser.Pass1Context ctx);
+	/**
+	 * Exit a parse tree produced by the {@code pass1}
+	 * labeled alternative in {@link PipedParser#expr}.
+	 * @param ctx the parse tree
+	 */
+	void exitPass1(PipedParser.Pass1Context ctx);
+	/**
+	 * Enter a parse tree produced by the {@code pass2}
+	 * labeled alternative in {@link PipedParser#expr}.
+	 * @param ctx the parse tree
+	 */
+	void enterPass2(PipedParser.Pass2Context ctx);
+	/**
+	 * Exit a parse tree produced by the {@code pass2}
+	 * labeled alternative in {@link PipedParser#expr}.
+	 * @param ctx the parse tree
+	 */
+	void exitPass2(PipedParser.Pass2Context ctx);
+	/**
+	 * Enter a parse tree produced by the {@code pass3}
+	 * labeled alternative in {@link PipedParser#expr}.
+	 * @param ctx the parse tree
+	 */
+	void enterPass3(PipedParser.Pass3Context ctx);
+	/**
+	 * Exit a parse tree produced by the {@code pass3}
+	 * labeled alternative in {@link PipedParser#expr}.
+	 * @param ctx the parse tree
+	 */
+	void exitPass3(PipedParser.Pass3Context ctx);
+	/**
+	 * Enter a parse tree produced by the {@code mulDivOp}
+	 * labeled alternative in {@link PipedParser#expr}.
+	 * @param ctx the parse tree
+	 */
+	void enterMulDivOp(PipedParser.MulDivOpContext ctx);
+	/**
+	 * Exit a parse tree produced by the {@code mulDivOp}
+	 * labeled alternative in {@link PipedParser#expr}.
+	 * @param ctx the parse tree
+	 */
+	void exitMulDivOp(PipedParser.MulDivOpContext ctx);
+	/**
+	 * Enter a parse tree produced by the {@code pass4}
+	 * labeled alternative in {@link PipedParser#expr}.
+	 * @param ctx the parse tree
+	 */
+	void enterPass4(PipedParser.Pass4Context ctx);
+	/**
+	 * Exit a parse tree produced by the {@code pass4}
+	 * labeled alternative in {@link PipedParser#expr}.
+	 * @param ctx the parse tree
+	 */
+	void exitPass4(PipedParser.Pass4Context ctx);
+	/**
+	 * Enter a parse tree produced by the {@code pass5}
+	 * labeled alternative in {@link PipedParser#expr}.
+	 * @param ctx the parse tree
+	 */
+	void enterPass5(PipedParser.Pass5Context ctx);
+	/**
+	 * Exit a parse tree produced by the {@code pass5}
+	 * labeled alternative in {@link PipedParser#expr}.
+	 * @param ctx the parse tree
+	 */
+	void exitPass5(PipedParser.Pass5Context ctx);
+	/**
+	 * Enter a parse tree produced by the {@code pass6}
+	 * labeled alternative in {@link PipedParser#expr}.
+	 * @param ctx the parse tree
+	 */
+	void enterPass6(PipedParser.Pass6Context ctx);
+	/**
+	 * Exit a parse tree produced by the {@code pass6}
+	 * labeled alternative in {@link PipedParser#expr}.
+	 * @param ctx the parse tree
+	 */
+	void exitPass6(PipedParser.Pass6Context ctx);
+	/**
+	 * Enter a parse tree produced by the {@code parenthesis}
+	 * labeled alternative in {@link PipedParser#expr}.
+	 * @param ctx the parse tree
+	 */
+	void enterParenthesis(PipedParser.ParenthesisContext ctx);
+	/**
+	 * Exit a parse tree produced by the {@code parenthesis}
+	 * labeled alternative in {@link PipedParser#expr}.
+	 * @param ctx the parse tree
+	 */
+	void exitParenthesis(PipedParser.ParenthesisContext ctx);
+	/**
+	 * Enter a parse tree produced by the {@code addSubOp}
+	 * labeled alternative in {@link PipedParser#expr}.
+	 * @param ctx the parse tree
+	 */
+	void enterAddSubOp(PipedParser.AddSubOpContext ctx);
+	/**
+	 * Exit a parse tree produced by the {@code addSubOp}
+	 * labeled alternative in {@link PipedParser#expr}.
+	 * @param ctx the parse tree
+	 */
+	void exitAddSubOp(PipedParser.AddSubOpContext ctx);
 	/**
 	 * Enter a parse tree produced by {@link PipedParser#pipeline}.
 	 * @param ctx the parse tree
@@ -87,6 +207,16 @@ public interface PipedListener extends ParseTreeListener {
 	 */
 	void exitPipeline(PipedParser.PipelineContext ctx);
 	/**
+	 * Enter a parse tree produced by {@link PipedParser#pipelineElement}.
+	 * @param ctx the parse tree
+	 */
+	void enterPipelineElement(PipedParser.PipelineElementContext ctx);
+	/**
+	 * Exit a parse tree produced by {@link PipedParser#pipelineElement}.
+	 * @param ctx the parse tree
+	 */
+	void exitPipelineElement(PipedParser.PipelineElementContext ctx);
+	/**
 	 * Enter a parse tree produced by {@link PipedParser#pipelineTuple}.
 	 * @param ctx the parse tree
 	 */
@@ -96,6 +226,16 @@ public interface PipedListener extends ParseTreeListener {
 	 * @param ctx the parse tree
 	 */
 	void exitPipelineTuple(PipedParser.PipelineTupleContext ctx);
+	/**
+	 * Enter a parse tree produced by {@link PipedParser#placeholder}.
+	 * @param ctx the parse tree
+	 */
+	void enterPlaceholder(PipedParser.PlaceholderContext ctx);
+	/**
+	 * Exit a parse tree produced by {@link PipedParser#placeholder}.
+	 * @param ctx the parse tree
+	 */
+	void exitPlaceholder(PipedParser.PlaceholderContext ctx);
 	/**
 	 * Enter a parse tree produced by {@link PipedParser#guardedPipe}.
 	 * @param ctx the parse tree
@@ -147,6 +287,16 @@ public interface PipedListener extends ParseTreeListener {
 	 */
 	void exitElseGuard(PipedParser.ElseGuardContext ctx);
 	/**
+	 * Enter a parse tree produced by {@link PipedParser#bundleInit}.
+	 * @param ctx the parse tree
+	 */
+	void enterBundleInit(PipedParser.BundleInitContext ctx);
+	/**
+	 * Exit a parse tree produced by {@link PipedParser#bundleInit}.
+	 * @param ctx the parse tree
+	 */
+	void exitBundleInit(PipedParser.BundleInitContext ctx);
+	/**
 	 * Enter a parse tree produced by {@link PipedParser#var}.
 	 * @param ctx the parse tree
 	 */
@@ -196,6 +346,26 @@ public interface PipedListener extends ParseTreeListener {
 	 * @param ctx the parse tree
 	 */
 	void exitTypedName(PipedParser.TypedNameContext ctx);
+	/**
+	 * Enter a parse tree produced by {@link PipedParser#type}.
+	 * @param ctx the parse tree
+	 */
+	void enterType(PipedParser.TypeContext ctx);
+	/**
+	 * Exit a parse tree produced by {@link PipedParser#type}.
+	 * @param ctx the parse tree
+	 */
+	void exitType(PipedParser.TypeContext ctx);
+	/**
+	 * Enter a parse tree produced by {@link PipedParser#tupleType}.
+	 * @param ctx the parse tree
+	 */
+	void enterTupleType(PipedParser.TupleTypeContext ctx);
+	/**
+	 * Exit a parse tree produced by {@link PipedParser#tupleType}.
+	 * @param ctx the parse tree
+	 */
+	void exitTupleType(PipedParser.TupleTypeContext ctx);
 	/**
 	 * Enter a parse tree produced by {@link PipedParser#int}.
 	 * @param ctx the parse tree

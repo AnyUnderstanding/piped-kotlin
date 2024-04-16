@@ -27,6 +27,7 @@ END_STATEMENT=26
 ID=27
 NEWLINE=28
 Space=29
+COMMENT=30
 'bundle'=1
 '{'=2
 ','=3

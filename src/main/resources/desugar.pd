@@ -1,0 +1,14 @@
+bundle Person{
+    let name: (Int, Int, String),
+    let age: Int,
+}
+
+bundle Foo{
+    let bar: Int,
+}
+
+pi main(n1: Int, n0: Int) : (Int, Int) {
+   let u: (Int, Int) = (true) |> not |> (#0, true) |> and;
+   let v: Foo = Foo(1);
+    >> x;
+}

@@ -40,17 +40,87 @@ public interface PipedVisitor<T> extends ParseTreeVisitor<T> {
 	 */
 	T visitScope(PipedParser.ScopeContext ctx);
 	/**
+	 * Visit a parse tree produced by {@link PipedParser#statement}.
+	 * @param ctx the parse tree
+	 * @return the visitor result
+	 */
+	T visitStatement(PipedParser.StatementContext ctx);
+	/**
 	 * Visit a parse tree produced by {@link PipedParser#argumentsDefinitionList}.
 	 * @param ctx the parse tree
 	 * @return the visitor result
 	 */
 	T visitArgumentsDefinitionList(PipedParser.ArgumentsDefinitionListContext ctx);
 	/**
-	 * Visit a parse tree produced by {@link PipedParser#expr}.
+	 * Visit a parse tree produced by the {@code boolOp}
+	 * labeled alternative in {@link PipedParser#expr}.
 	 * @param ctx the parse tree
 	 * @return the visitor result
 	 */
-	T visitExpr(PipedParser.ExprContext ctx);
+	T visitBoolOp(PipedParser.BoolOpContext ctx);
+	/**
+	 * Visit a parse tree produced by the {@code pass1}
+	 * labeled alternative in {@link PipedParser#expr}.
+	 * @param ctx the parse tree
+	 * @return the visitor result
+	 */
+	T visitPass1(PipedParser.Pass1Context ctx);
+	/**
+	 * Visit a parse tree produced by the {@code pass2}
+	 * labeled alternative in {@link PipedParser#expr}.
+	 * @param ctx the parse tree
+	 * @return the visitor result
+	 */
+	T visitPass2(PipedParser.Pass2Context ctx);
+	/**
+	 * Visit a parse tree produced by the {@code pass3}
+	 * labeled alternative in {@link PipedParser#expr}.
+	 * @param ctx the parse tree
+	 * @return the visitor result
+	 */
+	T visitPass3(PipedParser.Pass3Context ctx);
+	/**
+	 * Visit a parse tree produced by the {@code mulDivOp}
+	 * labeled alternative in {@link PipedParser#expr}.
+	 * @param ctx the parse tree
+	 * @return the visitor result
+	 */
+	T visitMulDivOp(PipedParser.MulDivOpContext ctx);
+	/**
+	 * Visit a parse tree produced by the {@code pass4}
+	 * labeled alternative in {@link PipedParser#expr}.
+	 * @param ctx the parse tree
+	 * @return the visitor result
+	 */
+	T visitPass4(PipedParser.Pass4Context ctx);
+	/**
+	 * Visit a parse tree produced by the {@code pass5}
+	 * labeled alternative in {@link PipedParser#expr}.
+	 * @param ctx the parse tree
+	 * @return the visitor result
+	 */
+	T visitPass5(PipedParser.Pass5Context ctx);
+	/**
+	 * Visit a parse tree produced by the {@code pass6}
+	 * labeled alternative in {@link PipedParser#expr}.
+	 * @param ctx the parse tree
+	 * @return the visitor result
+	 */
+	T visitPass6(PipedParser.Pass6Context ctx);
+	/**
+	 * Visit a parse tree produced by the {@code parenthesis}
+	 * labeled alternative in {@link PipedParser#expr}.
+	 * @param ctx the parse tree
+	 * @return the visitor result
+	 */
+	T visitParenthesis(PipedParser.ParenthesisContext ctx);
+	/**
+	 * Visit a parse tree produced by the {@code addSubOp}
+	 * labeled alternative in {@link PipedParser#expr}.
+	 * @param ctx the parse tree
+	 * @return the visitor result
+	 */
+	T visitAddSubOp(PipedParser.AddSubOpContext ctx);
 	/**
 	 * Visit a parse tree produced by {@link PipedParser#pipeline}.
 	 * @param ctx the parse tree
@@ -58,11 +128,23 @@ public interface PipedVisitor<T> extends ParseTreeVisitor<T> {
 	 */
 	T visitPipeline(PipedParser.PipelineContext ctx);
 	/**
+	 * Visit a parse tree produced by {@link PipedParser#pipelineElement}.
+	 * @param ctx the parse tree
+	 * @return the visitor result
+	 */
+	T visitPipelineElement(PipedParser.PipelineElementContext ctx);
+	/**
 	 * Visit a parse tree produced by {@link PipedParser#pipelineTuple}.
 	 * @param ctx the parse tree
 	 * @return the visitor result
 	 */
 	T visitPipelineTuple(PipedParser.PipelineTupleContext ctx);
+	/**
+	 * Visit a parse tree produced by {@link PipedParser#placeholder}.
+	 * @param ctx the parse tree
+	 * @return the visitor result
+	 */
+	T visitPlaceholder(PipedParser.PlaceholderContext ctx);
 	/**
 	 * Visit a parse tree produced by {@link PipedParser#guardedPipe}.
 	 * @param ctx the parse tree
@@ -94,6 +176,12 @@ public interface PipedVisitor<T> extends ParseTreeVisitor<T> {
 	 */
 	T visitElseGuard(PipedParser.ElseGuardContext ctx);
 	/**
+	 * Visit a parse tree produced by {@link PipedParser#bundleInit}.
+	 * @param ctx the parse tree
+	 * @return the visitor result
+	 */
+	T visitBundleInit(PipedParser.BundleInitContext ctx);
+	/**
 	 * Visit a parse tree produced by {@link PipedParser#var}.
 	 * @param ctx the parse tree
 	 * @return the visitor result
@@ -123,6 +211,18 @@ public interface PipedVisitor<T> extends ParseTreeVisitor<T> {
 	 * @return the visitor result
 	 */
 	T visitTypedName(PipedParser.TypedNameContext ctx);
+	/**
+	 * Visit a parse tree produced by {@link PipedParser#type}.
+	 * @param ctx the parse tree
+	 * @return the visitor result
+	 */
+	T visitType(PipedParser.TypeContext ctx);
+	/**
+	 * Visit a parse tree produced by {@link PipedParser#tupleType}.
+	 * @param ctx the parse tree
+	 * @return the visitor result
+	 */
+	T visitTupleType(PipedParser.TupleTypeContext ctx);
 	/**
 	 * Visit a parse tree produced by {@link PipedParser#int}.
 	 * @param ctx the parse tree

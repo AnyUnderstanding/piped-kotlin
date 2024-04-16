@@ -1,4 +1,4 @@
->> std.rand;
+import std.rand;
 
 Bundle Person{
     val name: String,
@@ -13,7 +13,7 @@ pi Fib(n1: Int, n0: XYZ) : X {
 }
 
 pi PipeGuards(){
-    val x: String <| (1,10) |> rand [ (x) |>
+    val x: String = (1,10) |> rand [ (x) |>
     (x==3)  "cool",
     (x==2)  "mid",
     (x!=3)  "uncool",

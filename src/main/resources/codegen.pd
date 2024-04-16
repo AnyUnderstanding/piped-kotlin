@@ -1,16 +1,23 @@
-Bundle Person{
+bundle Person{
     let name: Int,
     let age: Int,
 }
 
-pi main(n1: Int, n0: Int) : Boolean {
-   val y: Int <| { >> 1;};
-   val r: (Int, Int) <| (1,1);
-   val x: Boolean <| n1 == 1;
-   val z: Boolean <| true == true;
+pi main(n1: Int, n0: Int) : Bool {
+   let u: bool = (true) |> not |> (#0, true) |> and;
+   let v: (Int, Int) = (1, 2);
+   let w: Int = 3*(1+1);
+   let y: Int = { >> 1;};
+   let x: Bool = n1 == 1;
+   let z: Bool = true == true;
+
     >> x;
 }
 
-pi not(n: Boolean) : Boolean {
+pi not(n: Bool) : Bool {
     >> n==false;
+}
+
+pi and(n1: Bool, n2: Bool) : Bool {
+    >> (n1 == true) == (n2 == true);
 }
