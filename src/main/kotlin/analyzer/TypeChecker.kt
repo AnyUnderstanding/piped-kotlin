@@ -1,6 +1,7 @@
 package de.any.analyzer
 
 import de.any.AST.*
+import de.any.normalize.TupleTranslator
 
 class TypeChecker : ASTVisitor() {
     var currentScope = VariableScope()
@@ -102,7 +103,8 @@ class TypeChecker : ASTVisitor() {
 
     override fun visitTuple(tuple: Tuple, vararg args: Any) {
         super.visitTuple(tuple)
-        tuple.type = tuple.typeFromElements()
+        val type = tuple.typeFromElements()
+        tuple.type = TupleTranslator.translateTuple(type)
     }
 
     override fun visitPipeLine(pipeLine: PipeLine, vararg args: Any) {

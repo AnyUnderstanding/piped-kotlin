@@ -4,5 +4,10 @@ pi test() : (Int, Int){
 }
 
 pi half(n: Int) : Int {
+    let x : (Int, Int) = () |> test;
     >> n/2;
+}
+
+pi hey(x: (Int, (Int, String))) : Int {
+    >> 1;
 }

@@ -6,7 +6,7 @@ object AntlrAstTranslator : PipedBaseVisitor<ASTNode>() {
     override fun visitProgram(ctx: PipedParser.ProgramContext?): ASTNode {
         val bundles = ctx!!.bundleDefinition().map { visitBundleDefinition(it) as Bundle }
         val pipes = ctx.pipeDefinition().map { visitPipeDefinition(it) as Pipe }
-        return Program(bundles, pipes)
+        return Program(bundles.toMutableList(), pipes)
     }
 
     override fun visitBundleDefinition(ctx: PipedParser.BundleDefinitionContext?): ASTNode {

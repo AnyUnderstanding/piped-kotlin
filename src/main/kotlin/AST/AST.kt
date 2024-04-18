@@ -9,7 +9,7 @@ open class TypedASTNode(var type: Type = PrimitiveType.NONE.type) : ASTNode
 
 
 class Program(
-    val bundles: List<Bundle>,
+    val bundles: MutableList<Bundle>,
     val pipes: List<Pipe>
 ) : ASTNode {
     override fun toString(): String {

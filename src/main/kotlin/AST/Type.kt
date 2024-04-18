@@ -43,7 +43,7 @@ open class Type {
     }
 
     open fun asPipedString(): String {
-        return "(" + children.joinToString(", ") { it.asPipedString() } + ")"
+        return "(" + children.joinToString(",") { it.asPipedString() } + ")"
     }
 
     override fun toString(): String {
@@ -55,6 +55,10 @@ open class Type {
 
         fun fromString(string: String): Type {
             require(validTypeName.matches(string)) { throw IllegalArgumentException("Invalid Type name: $string") }
+            return BasicType(string)
+        }
+
+        fun fromStringUnsafe(string: String): Type {
             return BasicType(string)
         }
 
