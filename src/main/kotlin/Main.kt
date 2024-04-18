@@ -4,23 +4,33 @@ package de.any
 import PipedLexer
 import PipedParser
 import de.any.AST.AntlrAstTranslator
-import de.any.AST.TestVisitor
 import de.any.analyzer.SymbolCollector
 import de.any.analyzer.TypeChecker
+import de.any.codegen.pipedTarget.PipedGenerator
 import org.antlr.v4.runtime.CharStreams
 import org.antlr.v4.runtime.CommonTokenStream
 import org.antlr.v4.runtime.tree.ParseTree
 
 
-val programm = "src/main/resources/scratch.pd"
-// TODO!!! CHANGE TUPLE-TYPE HANDLING
-// TODO!!! CURRENTLY NO NESTING IS SUPPORTED AND TUPLES DONT WORK AS FUNCTION ARGUMENTS
+val programm = "src/main/resources/typeChecker.pd"
+
 fun main() {
-    val tree = getParserTree()
-    val pipedTree = AntlrAstTranslator.visit(tree)
-    SymbolCollector().visit(pipedTree as de.any.AST.Program)
-    TypeChecker().visit(pipedTree)
-    println(pipedTree)
+
+    Compiler.fromFile(programm).tokenize {
+        PipedLexer(it)
+    }.toAst {
+        PipedParser(it).program()
+    }.addAstTranslator {
+        AntlrAstTranslator.visit(it) as de.any.AST.Program
+    }.addSteps(
+        SymbolCollector(),
+        TypeChecker()
+    )
+        .printAst()
+        .addGenerator(PipedGenerator())
+        .print()
+
+
 }
 
 fun getParserTree(): ParseTree {
@@ -29,6 +39,8 @@ fun getParserTree(): ParseTree {
     val parser = PipedParser(tokens)
     return parser.program()
 }
+
+
 
 
 

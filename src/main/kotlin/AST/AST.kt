@@ -63,7 +63,9 @@ class Pipe(
         } else if (parameters.size == 1) {
             return parameters[0].type
         } else {
-            return Type("(${parameters.joinToString(",") { it.type.name }})")
+            return Type(
+                parameters.map { it.type }
+            )
         }
     }
 
@@ -117,8 +119,9 @@ class PipeLine(val elements: List<PipeLineElement>) : Expression() {
     }
 }
 
-open class PipeLineElement : Expression() {
+open class PipeLineElement() : Expression() {
     var previousElement: PipeLineElement? = null
+
 }
 
 class PipeCall(val name: String) : PipeLineElement() {
@@ -161,7 +164,9 @@ class PipeLineTuple(val expressions: List<Expression>) : PipeLineElement() {
         } else if (elements.size == 1) {
             type = elements[0]
         } else {
-            type = Type("(${elements.joinToString(",") { it.name }})")
+            type = Type(
+                elements
+            )
         }
     }
 
@@ -185,7 +190,7 @@ class Tuple(val elements: List<Expression>) : Expression() {
         return "Tuple: \n" + getIndentedStringFromList(elements)
     }
 
-    fun typeFromElements() = Type("(${elements.joinToString(",") { it.type.name }})")
+    fun typeFromElements() = Type(elements.map { it.type })
 }
 
 class Scope(val children: List<TypedASTNode>) : Expression() {

@@ -1,6 +1,8 @@
 pi test() : (Int, Int){
-    let
-
+    (1) |> half |> (#0);
     >> (1, 1);
 }
 
+pi half(n: Int) : Int {
+    >> n/2;
+}

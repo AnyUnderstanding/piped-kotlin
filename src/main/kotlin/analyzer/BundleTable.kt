@@ -14,12 +14,20 @@ object BundleTable {
         bundleTable[name] = bundle
     }
 
-    fun getBundle(name: String): Bundle? {
+    fun getBundleByName(name: String): Bundle? {
         return bundleTable[name]
     }
 
-    fun getBundleStrict(name: String): Bundle {
+    fun getBundleByNameStrict(name: String): Bundle {
         return bundleTable[name] ?: throw Exception("Bundle not found")
+    }
+
+    fun getBundleByType(type: Type): Bundle? {
+        return bundleTable.values.find { it.name == type.getBasicType() }
+    }
+
+    fun getBundleByTypeStrict(type: Type): Bundle {
+        return bundleTable.values.find { it.name == type.getBasicType() } ?: throw Exception("Bundle not found")
     }
 
     fun containsBundle(name: String): Boolean {
@@ -32,7 +40,7 @@ object BundleTable {
 
     fun getTypeForPath(bundle: Bundle, path: List<String>): Type? {
         if (path.isEmpty()) {
-            return Type(bundle.name)
+            return Type.fromString(bundle.name)
         }
         if (path.size == 1 && PrimitiveType.hasType(
             bundle.fields.find { it.name == path.first() }?.type ?: throw Exception("Field not found")
@@ -40,7 +48,7 @@ object BundleTable {
             return bundle.fields.find { it.name == path.first() }?.type
         }
         val nextBundleType = bundle.fields.find { it.name == path.first() }?.type ?: throw Exception("Field not found")
-        val nextBundle = getBundle(nextBundleType.name) ?: throw Exception("Unkown Type")
+        val nextBundle = getBundleByName(nextBundleType.getBasicTypeStrict()) ?: throw Exception("Unkown Type")
         return getTypeForPath(nextBundle, path.drop(1))
     }
 

@@ -8,7 +8,6 @@ class TupleTranslator : ASTVisitor() {
     override fun visitAssignment(assignment: Assignment, vararg args: Any) {
         super.visitAssignment(assignment)
         if (assignment.expectedType.isTuple()){
-
         }
     }
 

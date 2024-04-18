@@ -21,7 +21,7 @@ pi Fib(n1: Int, n0: Int) : (Int, Int) {
     () |> noneIn;
     (1) |> half |> (#0) |> half |> () |> noneIn;
     (1) |> half;
-    // TODO: does not work because my weird string splitting logic () |> allTypes |> (#4, #3, #2, #1, #0) |> allTypesConsumer
+    () |> allTypes |> (#3, #2, #1, #0) |> allTypesConsumer;
 
 
 

@@ -44,7 +44,10 @@ object TypedNameTranslator : PipedBaseVisitor<Field>() {
 
 object TypeTranslator : PipedBaseVisitor<Type>() {
     override fun visitType(ctx: PipedParser.TypeContext?): Type {
-        return Type(ctx!!.text)
+        if (ctx!!.tupleType() != null){
+            return Type(ctx.tupleType().type().map { visitType(it) })
+        }
+        return Type.fromString(ctx.text)
     }
 }
 
