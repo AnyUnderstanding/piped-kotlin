@@ -143,4 +143,3 @@ abstract class ASTVisitor {
     }
 }
 
-class TestVisitor : ASTVisitor()

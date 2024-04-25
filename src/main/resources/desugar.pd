@@ -9,6 +9,7 @@ bundle Foo{
 
 pi main(n1: Int, n0: Int) : (Int, Int) {
    let u: (Int, Int) = (true) |> not |> (#0, true) |> and;
+   let o' = (1, 2)
    let v: Foo = Foo(1);
     >> x;
 }

@@ -1,17 +1,28 @@
 package de.any.AST
 
 
-interface ASTNode {
+abstract class ASTNode {
+    lateinit var parent: ASTNode
 
 }
 
-open class TypedASTNode(var type: Type = PrimitiveType.NONE.type) : ASTNode
+
+open class TypedASTNode(
+    var type: Type = PrimitiveType.NONE.type,
+) : ASTNode()
 
 
 class Program(
     val bundles: MutableList<Bundle>,
-    val pipes: List<Pipe>
-) : ASTNode {
+    val pipes: List<Pipe>,
+) : ASTNode() {
+
+    init {
+        parent = this
+        bundles.forEach { it.parent = this }
+        pipes.forEach { it.parent = this }
+    }
+
     override fun toString(): String {
         return StringBuilder()
             .append("Program: \n")
@@ -21,13 +32,20 @@ class Program(
             .append(getIndentedStringFromList(pipes))
             .toString()
     }
+
+
 }
 
 
 class Bundle(
     val name: String,
-    val fields: List<Field>
-) : ASTNode {
+    var fields: List<Field>,
+) : ASTNode() {
+
+    init {
+        fields.forEach { it.parent = this }
+    }
+
     override fun toString(): String {
         return StringBuilder()
             .append("Bundle\n")
@@ -41,7 +59,8 @@ class Bundle(
 class Field(
     val name: String,
     var type: Type,
-) : ASTNode {
+) : ASTNode() {
+
     override fun toString(): String {
         return "Field:\n name: $name \n type: $type"
     }
@@ -54,8 +73,13 @@ class Pipe(
     val name: String,
     var returnType: Type,
     val parameters: List<Field>,
-    val body: Scope
-) : ASTNode {
+    val body: Scope,
+) : ASTNode() {
+
+    init {
+        parameters.forEach { it.parent = this }
+        body.parent = this
+    }
 
     fun getInType(): Type {
         if (parameters.isEmpty()) {
@@ -82,6 +106,11 @@ class Pipe(
 }
 
 class Assignment(val name: String, var expectedType: Type, val expression: Expression) : TypedASTNode() {
+
+    init {
+        expression.parent = this
+    }
+
     override fun toString(): String {
         return "Assignment: $name: $expectedType = $expression"
     }
@@ -91,21 +120,41 @@ class Assignment(val name: String, var expectedType: Type, val expression: Expre
 // _ EXPRESSIONS _
 open class Expression : TypedASTNode()
 
-class AddSubExpression(val left: Expression, val right: Expression, val operand: String) : Expression() {
+class AddSubExpression(val left: Expression, val right: Expression, val operand: String) :
+    Expression() {
+
+    init {
+        left.parent = this
+        right.parent = this
+    }
+
     override fun toString(): String {
         return "AddSubExpression: $left $operand $right"
     }
 
 }
 
-class MulDivExpression(val left: Expression, val right: Expression, val operand: String) : Expression() {
+class MulDivExpression(val left: Expression, val right: Expression, val operand: String) :
+    Expression() {
+
+    init {
+        left.parent = this
+        right.parent = this
+    }
+
     override fun toString(): String {
         return "MulDivExpression: $left $operand $right"
     }
 
 }
 
-class BoolExpression(val left: Expression, val right: Expression, val operand: String) : Expression() {
+class BoolExpression(val left: Expression, val right: Expression, val operand: String) :
+    Expression() {
+    init {
+        left.parent = this
+        right.parent = this
+    }
+
     override fun toString(): String {
         return "BoolExpression: $left $operand $right"
     }
@@ -114,12 +163,16 @@ class BoolExpression(val left: Expression, val right: Expression, val operand: S
 
 // ___ PIPELINE ___
 class PipeLine(val elements: List<PipeLineElement>) : Expression() {
+    init {
+        elements.forEach { it.parent = this }
+    }
+
     override fun toString(): String {
         return "PipeLine: \n" + getIndentedStringFromList(elements)
     }
 }
 
-open class PipeLineElement() : Expression() {
+open class PipeLineElement : Expression() {
     var previousElement: PipeLineElement? = null
 
 }
@@ -134,37 +187,59 @@ class GuardedPipeCall(
     val name: String,
     val parameters: List<Field>,
     val guards: List<Guard>,
-    val elseGuard: ElseGuard
+    val elseGuard: ElseGuard,
 ) : PipeLineElement() {
+
+    init {
+        parameters.forEach { it.parent = this }
+        guards.forEach { it.parent = this }
+        elseGuard.parent = this
+    }
+
     override fun toString(): String {
         return "GuardedPipeCall: $name \n" + getIndentedStringFromList(guards) + "\n" + elseGuard
     }
 }
 
 class Guard(val guardExpression: Expression, val returnExpression: Expression) : TypedASTNode() {
+
+    init {
+        guardExpression.parent = this
+        returnExpression.parent = this
+    }
+
     override fun toString(): String {
         return "Guard: $guardExpression -> $returnExpression"
     }
 }
 
 class ElseGuard(val returnExpression: Expression) : TypedASTNode() {
+
+    init {
+        returnExpression.parent = this
+    }
+
     override fun toString(): String {
         return "ElseGuard: $returnExpression"
     }
 }
 
 class PipeLineTuple(val expressions: List<Expression>) : PipeLineElement() {
+    init {
+        expressions.forEach { it.parent = this }
+    }
+
     override fun toString(): String {
         return "PipeLineTuple: \n" + getIndentedStringFromList(expressions)
     }
 
     fun typeFromElements(elements: List<Type>) {
-        if (elements.isEmpty()) {
-            type = PrimitiveType.NONE.type
+        type = if (elements.isEmpty()) {
+            PrimitiveType.NONE.type
         } else if (elements.size == 1) {
-            type = elements[0]
+            elements[0]
         } else {
-            type = Type(
+            Type(
                 elements
             )
         }
@@ -173,6 +248,7 @@ class PipeLineTuple(val expressions: List<Expression>) : PipeLineElement() {
 }
 
 class PipeLineTuplePlaceholder(val index: Int, val referencedPipe: Pipe? = null) : Expression() {
+
     override fun toString(): String {
         return "PipeLineTuplePlaceholder: $index"
     }
@@ -180,12 +256,20 @@ class PipeLineTuplePlaceholder(val index: Int, val referencedPipe: Pipe? = null)
 // ___ END PIPELINE ___
 
 class BundleInit(val name: String, val initializers: List<Expression>) : Expression() {
+    init {
+        initializers.forEach { it.parent = this }
+    }
+
     override fun toString(): String {
         return "BundleInit: $name \n" + getIndentedStringFromList(initializers)
     }
 }
 
 class Tuple(val elements: List<Expression>) : Expression() {
+    init {
+        elements.forEach { it.parent = this }
+    }
+
     override fun toString(): String {
         return "Tuple: \n" + getIndentedStringFromList(elements)
     }
@@ -194,6 +278,10 @@ class Tuple(val elements: List<Expression>) : Expression() {
 }
 
 class Scope(val children: List<TypedASTNode>) : Expression() {
+    init {
+        children.forEach { it.parent = this }
+    }
+
     override fun toString(): String {
         return "  Scope: \n" + getIndentedStringFromList(children, "    ")
     }

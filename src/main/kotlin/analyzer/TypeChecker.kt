@@ -103,8 +103,7 @@ class TypeChecker : ASTVisitor() {
 
     override fun visitTuple(tuple: Tuple, vararg args: Any) {
         super.visitTuple(tuple)
-        val type = tuple.typeFromElements()
-        tuple.type = TupleTranslator.translateTuple(type)
+        tuple.type = tuple.typeFromElements()
     }
 
     override fun visitPipeLine(pipeLine: PipeLine, vararg args: Any) {
@@ -162,7 +161,7 @@ class TypeChecker : ASTVisitor() {
     }
 
     fun checkAndTypeGuardArgs(args: List<Field>, expected: Type) {
-        if (args.size != expected.size()) {
+        if (args.size != expected.getChildren().size) {
             throw Exception("Type error: expected ${expected.size()} arguments, got ${args.size}")
         }
         args.zip(expected.getChildren()).forEach { (arg, type) ->

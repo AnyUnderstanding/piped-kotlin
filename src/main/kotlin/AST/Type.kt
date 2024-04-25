@@ -1,5 +1,7 @@
 package de.any.AST
 
+import de.any.analyzer.BundleTable
+
 open class Type {
     private var children = mutableListOf<Type>()
 
@@ -11,7 +13,7 @@ open class Type {
         return false
     }
 
-    fun size(): Int {
+    open fun size(): Int {
         return children.size
     }
 
@@ -30,6 +32,14 @@ open class Type {
 
     open fun getChildren(): List<Type> {
         return children
+    }
+
+    open fun isBundle(): Boolean {
+        return false
+    }
+
+    open fun isBundleGeneratedFromTuple(): Boolean {
+        return false
     }
 
     protected constructor()
@@ -75,7 +85,18 @@ open class Type {
  */
 private class BasicType(val name: String) : Type() {
 
+    override fun size(): Int {
+        if (isBundleGeneratedFromTuple()) {
+            return BundleTable.getBundleByTypeStrict(this).fields.size
+        }
+        return 1
+    }
+
     override fun getChildren(): List<Type> {
+        if (isBundleGeneratedFromTuple()) {
+            return BundleTable.getBundleByTypeStrict(this).fields.map { it.type }
+        }
+
         return listOf(this)
     }
 
@@ -105,6 +126,14 @@ private class BasicType(val name: String) : Type() {
 
     override fun toString(): String {
         return "Type: $name"
+    }
+
+    override fun isBundle(): Boolean {
+        return isBasicType() && !PrimitiveType.hasType(this)
+    }
+
+    override fun isBundleGeneratedFromTuple(): Boolean {
+        return isBundle() && name.contains("$")
     }
 }
 

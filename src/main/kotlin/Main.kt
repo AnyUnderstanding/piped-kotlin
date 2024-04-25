@@ -24,10 +24,9 @@ fun main() {
     }.addAstTranslator {
         AntlrAstTranslator.visit(it) as de.any.AST.Program
     }.addSteps(
-        TupleTranslator(),
         SymbolCollector(),
         TypeChecker(),
-    ).printAst()
+        ).printAst()
 
 
 }
