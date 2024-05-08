@@ -1,13 +1,16 @@
-pi test() : (Int, Int){
-    (1) |> half |> (#0);
-    >> (1, 1);
+pi test() : (Int, String){
+    let z: (Int, Int) = (2,1);
+    (3,5) == (4,3);
+    (1, 2) |> test2 |> test1;
+    (1,2);
+    >> (1,"3");
 }
 
-pi half(n: Int) : Int {
-    let x : (Int, Int) = () |> test;
-    >> n/2;
+pi test1(Int: String) : (Int, Int) {
+    >> (1,2);
 }
 
-pi hey(x: (Int, (Int, String))) : Int {
-    >> 1;
+pi test2(x: Int, y: Int) : (Int, String){
+
+    >> (1,"3");
 }

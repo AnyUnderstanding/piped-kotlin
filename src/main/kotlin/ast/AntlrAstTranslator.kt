@@ -86,11 +86,11 @@ object ExpressionTranslator : PipedBaseVisitor<Expression>() {
     }
 
     override fun visitTuple(ctx: PipedParser.TupleContext?): Expression {
-        return Tuple(ctx!!.expr().map { visit(it) })
+        return Tuple(ctx!!.expr().map { visit(it) }.toMutableList())
     }
 
     override fun visitScope(ctx: PipedParser.ScopeContext?): Expression {
-        return Scope(ctx!!.statement().map { StatementTranslator.visitStatement(it) })
+        return Scope(ctx!!.statement().map { StatementTranslator.visitStatement(it) }.toMutableList())
     }
 
     override fun visitVar(ctx: PipedParser.VarContext?): Expression {
@@ -110,7 +110,7 @@ object ExpressionTranslator : PipedBaseVisitor<Expression>() {
     override fun visitBundleInit(ctx: PipedParser.BundleInitContext?): Expression {
         val name = ctx!!.name.text
         val fields = ctx.expr().map { ExpressionTranslator.visit(it) }
-        return BundleInit(name, fields)
+        return BundleInit(name, fields.toMutableList())
 
     }
 }

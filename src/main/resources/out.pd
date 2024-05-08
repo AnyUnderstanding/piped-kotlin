@@ -1,0 +1,21 @@
+bundle PPIntPIntPP {
+   let field0 : Int, 
+   let field1 : Int, 
+}
+bundle PPIntPStringPP {
+   let field0 : Int, 
+   let field1 : String, 
+}
+pi test() : PPIntPStringPP {
+   let z : PPIntPIntPP = PPIntPIntPP(2, 1);
+   PPIntPIntPP(3, 5) == PPIntPIntPP(4, 3);
+   (1, 2) |> test2 |> test1;
+   PPIntPIntPP(1, 2);
+   >> PPIntPStringPP(1, "3");
+}
+pi test1(Int : String) : PPIntPIntPP {
+   >> PPIntPIntPP(1, 2);
+}
+pi test2(x : Int, y : Int) : PPIntPStringPP {
+   >> PPIntPStringPP(1, "3");
+}

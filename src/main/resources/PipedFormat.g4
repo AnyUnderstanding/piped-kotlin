@@ -1,4 +1,4 @@
-grammar Piped;
+grammar PipedFormat;
 
 // TODO: bundle definition followed by invalid pipe definition does not throw an error
 program: import_* (bundleDefinition | pipeDefinition)+;
@@ -81,6 +81,6 @@ PIPE_OPERATOR: '|>';
 ASSIGN_OPERATOR: '=';
 END_STATEMENT: ';';
 ID: [a-zA-Z_][a-zA-Z0-9]*;
-NEWLINE : [\r\n]+ -> skip;
-Space: [ \t\r\n]+ -> skip;
-COMMENT: '//' ~[\r\n]* -> skip;
+NEWLINE : [\r\n];
+SPACE: [ \t];
+COMMENT: '//' ~[\r\n]*;

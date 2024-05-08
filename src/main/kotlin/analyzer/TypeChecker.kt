@@ -162,7 +162,7 @@ class TypeChecker : ASTVisitor() {
 
     fun checkAndTypeGuardArgs(args: List<Field>, expected: Type) {
         if (args.size != expected.getChildren().size) {
-            throw Exception("Type error: expected ${expected.size()} arguments, got ${args.size}")
+            throw Exception("Type error: expected ${expected.size()} argument(s), got ${args.size}")
         }
         args.zip(expected.getChildren()).forEach { (arg, type) ->
             arg.type = type

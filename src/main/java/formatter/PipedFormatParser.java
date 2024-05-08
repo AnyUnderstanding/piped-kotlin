@@ -1,4 +1,4 @@
-// Generated from /home/christopher/IdeaProjects/piped2/src/main/resources/Piped.g4 by ANTLR 4.13.1
+// Generated from /home/christopher/IdeaProjects/piped2/src/main/resources/PipedFormat.g4 by ANTLR 4.13.1
 import org.antlr.v4.runtime.atn.*;
 import org.antlr.v4.runtime.dfa.DFA;
 import org.antlr.v4.runtime.*;
@@ -9,7 +9,7 @@ import java.util.Iterator;
 import java.util.ArrayList;
 
 @SuppressWarnings({"all", "warnings", "unchecked", "unused", "cast", "CheckReturnValue"})
-public class PipedParser extends Parser {
+public class PipedFormatParser extends Parser {
 	static { RuntimeMetaData.checkVersion("4.13.1", RuntimeMetaData.VERSION); }
 
 	protected static final DFA[] _decisionToDFA;
@@ -20,7 +20,7 @@ public class PipedParser extends Parser {
 		T__9=10, T__10=11, T__11=12, T__12=13, T__13=14, DEC_INT=15, HEX_INT=16, 
 		BIN_INT=17, STRING_=18, BOOL_OPERATOR=19, ADD_SUB_OPERATOR=20, MUL_DIV_OPERATOR=21, 
 		BOOLEAN=22, VARIABLE_NAME=23, RETURN_OPERATOR=24, PIPE_OPERATOR=25, ASSIGN_OPERATOR=26, 
-		END_STATEMENT=27, ID=28, NEWLINE=29, Space=30, COMMENT=31;
+		END_STATEMENT=27, ID=28, NEWLINE=29, SPACE=30, COMMENT=31;
 	public static final int
 		RULE_program = 0, RULE_bundleDefinition = 1, RULE_import_ = 2, RULE_pipeDefinition = 3, 
 		RULE_scope = 4, RULE_statement = 5, RULE_argumentsDefinitionList = 6, 
@@ -54,7 +54,7 @@ public class PipedParser extends Parser {
 			null, null, null, "DEC_INT", "HEX_INT", "BIN_INT", "STRING_", "BOOL_OPERATOR", 
 			"ADD_SUB_OPERATOR", "MUL_DIV_OPERATOR", "BOOLEAN", "VARIABLE_NAME", "RETURN_OPERATOR", 
 			"PIPE_OPERATOR", "ASSIGN_OPERATOR", "END_STATEMENT", "ID", "NEWLINE", 
-			"Space", "COMMENT"
+			"SPACE", "COMMENT"
 		};
 	}
 	private static final String[] _SYMBOLIC_NAMES = makeSymbolicNames();
@@ -92,7 +92,7 @@ public class PipedParser extends Parser {
 	}
 
 	@Override
-	public String getGrammarFileName() { return "Piped.g4"; }
+	public String getGrammarFileName() { return "PipedFormat.g4"; }
 
 	@Override
 	public String[] getRuleNames() { return ruleNames; }
@@ -103,7 +103,7 @@ public class PipedParser extends Parser {
 	@Override
 	public ATN getATN() { return _ATN; }
 
-	public PipedParser(TokenStream input) {
+	public PipedFormatParser(TokenStream input) {
 		super(input);
 		_interp = new ParserATNSimulator(this,_ATN,_decisionToDFA,_sharedContextCache);
 	}
@@ -134,15 +134,15 @@ public class PipedParser extends Parser {
 		@Override public int getRuleIndex() { return RULE_program; }
 		@Override
 		public void enterRule(ParseTreeListener listener) {
-			if ( listener instanceof PipedListener ) ((PipedListener)listener).enterProgram(this);
+			if ( listener instanceof PipedFormatListener ) ((PipedFormatListener)listener).enterProgram(this);
 		}
 		@Override
 		public void exitRule(ParseTreeListener listener) {
-			if ( listener instanceof PipedListener ) ((PipedListener)listener).exitProgram(this);
+			if ( listener instanceof PipedFormatListener ) ((PipedFormatListener)listener).exitProgram(this);
 		}
 		@Override
 		public <T> T accept(ParseTreeVisitor<? extends T> visitor) {
-			if ( visitor instanceof PipedVisitor ) return ((PipedVisitor<? extends T>)visitor).visitProgram(this);
+			if ( visitor instanceof PipedFormatVisitor ) return ((PipedFormatVisitor<? extends T>)visitor).visitProgram(this);
 			else return visitor.visitChildren(this);
 		}
 	}
@@ -212,10 +212,10 @@ public class PipedParser extends Parser {
 	@SuppressWarnings("CheckReturnValue")
 	public static class BundleDefinitionContext extends ParserRuleContext {
 		public Token name;
-		public TerminalNode ID() { return getToken(PipedParser.ID, 0); }
-		public List<TerminalNode> VARIABLE_NAME() { return getTokens(PipedParser.VARIABLE_NAME); }
+		public TerminalNode ID() { return getToken(PipedFormatParser.ID, 0); }
+		public List<TerminalNode> VARIABLE_NAME() { return getTokens(PipedFormatParser.VARIABLE_NAME); }
 		public TerminalNode VARIABLE_NAME(int i) {
-			return getToken(PipedParser.VARIABLE_NAME, i);
+			return getToken(PipedFormatParser.VARIABLE_NAME, i);
 		}
 		public List<TypedNameContext> typedName() {
 			return getRuleContexts(TypedNameContext.class);
@@ -229,15 +229,15 @@ public class PipedParser extends Parser {
 		@Override public int getRuleIndex() { return RULE_bundleDefinition; }
 		@Override
 		public void enterRule(ParseTreeListener listener) {
-			if ( listener instanceof PipedListener ) ((PipedListener)listener).enterBundleDefinition(this);
+			if ( listener instanceof PipedFormatListener ) ((PipedFormatListener)listener).enterBundleDefinition(this);
 		}
 		@Override
 		public void exitRule(ParseTreeListener listener) {
-			if ( listener instanceof PipedListener ) ((PipedListener)listener).exitBundleDefinition(this);
+			if ( listener instanceof PipedFormatListener ) ((PipedFormatListener)listener).exitBundleDefinition(this);
 		}
 		@Override
 		public <T> T accept(ParseTreeVisitor<? extends T> visitor) {
-			if ( visitor instanceof PipedVisitor ) return ((PipedVisitor<? extends T>)visitor).visitBundleDefinition(this);
+			if ( visitor instanceof PipedFormatVisitor ) return ((PipedFormatVisitor<? extends T>)visitor).visitBundleDefinition(this);
 			else return visitor.visitChildren(this);
 		}
 	}
@@ -305,27 +305,27 @@ public class PipedParser extends Parser {
 
 	@SuppressWarnings("CheckReturnValue")
 	public static class Import_Context extends ParserRuleContext {
-		public TerminalNode RETURN_OPERATOR() { return getToken(PipedParser.RETURN_OPERATOR, 0); }
-		public List<TerminalNode> ID() { return getTokens(PipedParser.ID); }
+		public TerminalNode RETURN_OPERATOR() { return getToken(PipedFormatParser.RETURN_OPERATOR, 0); }
+		public List<TerminalNode> ID() { return getTokens(PipedFormatParser.ID); }
 		public TerminalNode ID(int i) {
-			return getToken(PipedParser.ID, i);
+			return getToken(PipedFormatParser.ID, i);
 		}
-		public TerminalNode END_STATEMENT() { return getToken(PipedParser.END_STATEMENT, 0); }
+		public TerminalNode END_STATEMENT() { return getToken(PipedFormatParser.END_STATEMENT, 0); }
 		public Import_Context(ParserRuleContext parent, int invokingState) {
 			super(parent, invokingState);
 		}
 		@Override public int getRuleIndex() { return RULE_import_; }
 		@Override
 		public void enterRule(ParseTreeListener listener) {
-			if ( listener instanceof PipedListener ) ((PipedListener)listener).enterImport_(this);
+			if ( listener instanceof PipedFormatListener ) ((PipedFormatListener)listener).enterImport_(this);
 		}
 		@Override
 		public void exitRule(ParseTreeListener listener) {
-			if ( listener instanceof PipedListener ) ((PipedListener)listener).exitImport_(this);
+			if ( listener instanceof PipedFormatListener ) ((PipedFormatListener)listener).exitImport_(this);
 		}
 		@Override
 		public <T> T accept(ParseTreeVisitor<? extends T> visitor) {
-			if ( visitor instanceof PipedVisitor ) return ((PipedVisitor<? extends T>)visitor).visitImport_(this);
+			if ( visitor instanceof PipedFormatVisitor ) return ((PipedFormatVisitor<? extends T>)visitor).visitImport_(this);
 			else return visitor.visitChildren(this);
 		}
 	}
@@ -386,22 +386,22 @@ public class PipedParser extends Parser {
 		public ScopeContext scope() {
 			return getRuleContext(ScopeContext.class,0);
 		}
-		public TerminalNode ID() { return getToken(PipedParser.ID, 0); }
+		public TerminalNode ID() { return getToken(PipedFormatParser.ID, 0); }
 		public PipeDefinitionContext(ParserRuleContext parent, int invokingState) {
 			super(parent, invokingState);
 		}
 		@Override public int getRuleIndex() { return RULE_pipeDefinition; }
 		@Override
 		public void enterRule(ParseTreeListener listener) {
-			if ( listener instanceof PipedListener ) ((PipedListener)listener).enterPipeDefinition(this);
+			if ( listener instanceof PipedFormatListener ) ((PipedFormatListener)listener).enterPipeDefinition(this);
 		}
 		@Override
 		public void exitRule(ParseTreeListener listener) {
-			if ( listener instanceof PipedListener ) ((PipedListener)listener).exitPipeDefinition(this);
+			if ( listener instanceof PipedFormatListener ) ((PipedFormatListener)listener).exitPipeDefinition(this);
 		}
 		@Override
 		public <T> T accept(ParseTreeVisitor<? extends T> visitor) {
-			if ( visitor instanceof PipedVisitor ) return ((PipedVisitor<? extends T>)visitor).visitPipeDefinition(this);
+			if ( visitor instanceof PipedFormatVisitor ) return ((PipedFormatVisitor<? extends T>)visitor).visitPipeDefinition(this);
 			else return visitor.visitChildren(this);
 		}
 	}
@@ -445,9 +445,9 @@ public class PipedParser extends Parser {
 		public StatementContext statement(int i) {
 			return getRuleContext(StatementContext.class,i);
 		}
-		public List<TerminalNode> END_STATEMENT() { return getTokens(PipedParser.END_STATEMENT); }
+		public List<TerminalNode> END_STATEMENT() { return getTokens(PipedFormatParser.END_STATEMENT); }
 		public TerminalNode END_STATEMENT(int i) {
-			return getToken(PipedParser.END_STATEMENT, i);
+			return getToken(PipedFormatParser.END_STATEMENT, i);
 		}
 		public ScopeContext(ParserRuleContext parent, int invokingState) {
 			super(parent, invokingState);
@@ -455,15 +455,15 @@ public class PipedParser extends Parser {
 		@Override public int getRuleIndex() { return RULE_scope; }
 		@Override
 		public void enterRule(ParseTreeListener listener) {
-			if ( listener instanceof PipedListener ) ((PipedListener)listener).enterScope(this);
+			if ( listener instanceof PipedFormatListener ) ((PipedFormatListener)listener).enterScope(this);
 		}
 		@Override
 		public void exitRule(ParseTreeListener listener) {
-			if ( listener instanceof PipedListener ) ((PipedListener)listener).exitScope(this);
+			if ( listener instanceof PipedFormatListener ) ((PipedFormatListener)listener).exitScope(this);
 		}
 		@Override
 		public <T> T accept(ParseTreeVisitor<? extends T> visitor) {
-			if ( visitor instanceof PipedVisitor ) return ((PipedVisitor<? extends T>)visitor).visitScope(this);
+			if ( visitor instanceof PipedFormatVisitor ) return ((PipedFormatVisitor<? extends T>)visitor).visitScope(this);
 			else return visitor.visitChildren(this);
 		}
 	}
@@ -525,15 +525,15 @@ public class PipedParser extends Parser {
 		@Override public int getRuleIndex() { return RULE_statement; }
 		@Override
 		public void enterRule(ParseTreeListener listener) {
-			if ( listener instanceof PipedListener ) ((PipedListener)listener).enterStatement(this);
+			if ( listener instanceof PipedFormatListener ) ((PipedFormatListener)listener).enterStatement(this);
 		}
 		@Override
 		public void exitRule(ParseTreeListener listener) {
-			if ( listener instanceof PipedListener ) ((PipedListener)listener).exitStatement(this);
+			if ( listener instanceof PipedFormatListener ) ((PipedFormatListener)listener).exitStatement(this);
 		}
 		@Override
 		public <T> T accept(ParseTreeVisitor<? extends T> visitor) {
-			if ( visitor instanceof PipedVisitor ) return ((PipedVisitor<? extends T>)visitor).visitStatement(this);
+			if ( visitor instanceof PipedFormatVisitor ) return ((PipedFormatVisitor<? extends T>)visitor).visitStatement(this);
 			else return visitor.visitChildren(this);
 		}
 	}
@@ -602,15 +602,15 @@ public class PipedParser extends Parser {
 		@Override public int getRuleIndex() { return RULE_argumentsDefinitionList; }
 		@Override
 		public void enterRule(ParseTreeListener listener) {
-			if ( listener instanceof PipedListener ) ((PipedListener)listener).enterArgumentsDefinitionList(this);
+			if ( listener instanceof PipedFormatListener ) ((PipedFormatListener)listener).enterArgumentsDefinitionList(this);
 		}
 		@Override
 		public void exitRule(ParseTreeListener listener) {
-			if ( listener instanceof PipedListener ) ((PipedListener)listener).exitArgumentsDefinitionList(this);
+			if ( listener instanceof PipedFormatListener ) ((PipedFormatListener)listener).exitArgumentsDefinitionList(this);
 		}
 		@Override
 		public <T> T accept(ParseTreeVisitor<? extends T> visitor) {
-			if ( visitor instanceof PipedVisitor ) return ((PipedVisitor<? extends T>)visitor).visitArgumentsDefinitionList(this);
+			if ( visitor instanceof PipedFormatVisitor ) return ((PipedFormatVisitor<? extends T>)visitor).visitArgumentsDefinitionList(this);
 			else return visitor.visitChildren(this);
 		}
 	}
@@ -691,19 +691,19 @@ public class PipedParser extends Parser {
 		public ExprContext expr(int i) {
 			return getRuleContext(ExprContext.class,i);
 		}
-		public TerminalNode BOOL_OPERATOR() { return getToken(PipedParser.BOOL_OPERATOR, 0); }
+		public TerminalNode BOOL_OPERATOR() { return getToken(PipedFormatParser.BOOL_OPERATOR, 0); }
 		public BoolOpContext(ExprContext ctx) { copyFrom(ctx); }
 		@Override
 		public void enterRule(ParseTreeListener listener) {
-			if ( listener instanceof PipedListener ) ((PipedListener)listener).enterBoolOp(this);
+			if ( listener instanceof PipedFormatListener ) ((PipedFormatListener)listener).enterBoolOp(this);
 		}
 		@Override
 		public void exitRule(ParseTreeListener listener) {
-			if ( listener instanceof PipedListener ) ((PipedListener)listener).exitBoolOp(this);
+			if ( listener instanceof PipedFormatListener ) ((PipedFormatListener)listener).exitBoolOp(this);
 		}
 		@Override
 		public <T> T accept(ParseTreeVisitor<? extends T> visitor) {
-			if ( visitor instanceof PipedVisitor ) return ((PipedVisitor<? extends T>)visitor).visitBoolOp(this);
+			if ( visitor instanceof PipedFormatVisitor ) return ((PipedFormatVisitor<? extends T>)visitor).visitBoolOp(this);
 			else return visitor.visitChildren(this);
 		}
 	}
@@ -715,15 +715,15 @@ public class PipedParser extends Parser {
 		public Pass1Context(ExprContext ctx) { copyFrom(ctx); }
 		@Override
 		public void enterRule(ParseTreeListener listener) {
-			if ( listener instanceof PipedListener ) ((PipedListener)listener).enterPass1(this);
+			if ( listener instanceof PipedFormatListener ) ((PipedFormatListener)listener).enterPass1(this);
 		}
 		@Override
 		public void exitRule(ParseTreeListener listener) {
-			if ( listener instanceof PipedListener ) ((PipedListener)listener).exitPass1(this);
+			if ( listener instanceof PipedFormatListener ) ((PipedFormatListener)listener).exitPass1(this);
 		}
 		@Override
 		public <T> T accept(ParseTreeVisitor<? extends T> visitor) {
-			if ( visitor instanceof PipedVisitor ) return ((PipedVisitor<? extends T>)visitor).visitPass1(this);
+			if ( visitor instanceof PipedFormatVisitor ) return ((PipedFormatVisitor<? extends T>)visitor).visitPass1(this);
 			else return visitor.visitChildren(this);
 		}
 	}
@@ -735,15 +735,15 @@ public class PipedParser extends Parser {
 		public Pass2Context(ExprContext ctx) { copyFrom(ctx); }
 		@Override
 		public void enterRule(ParseTreeListener listener) {
-			if ( listener instanceof PipedListener ) ((PipedListener)listener).enterPass2(this);
+			if ( listener instanceof PipedFormatListener ) ((PipedFormatListener)listener).enterPass2(this);
 		}
 		@Override
 		public void exitRule(ParseTreeListener listener) {
-			if ( listener instanceof PipedListener ) ((PipedListener)listener).exitPass2(this);
+			if ( listener instanceof PipedFormatListener ) ((PipedFormatListener)listener).exitPass2(this);
 		}
 		@Override
 		public <T> T accept(ParseTreeVisitor<? extends T> visitor) {
-			if ( visitor instanceof PipedVisitor ) return ((PipedVisitor<? extends T>)visitor).visitPass2(this);
+			if ( visitor instanceof PipedFormatVisitor ) return ((PipedFormatVisitor<? extends T>)visitor).visitPass2(this);
 			else return visitor.visitChildren(this);
 		}
 	}
@@ -755,15 +755,15 @@ public class PipedParser extends Parser {
 		public Pass3Context(ExprContext ctx) { copyFrom(ctx); }
 		@Override
 		public void enterRule(ParseTreeListener listener) {
-			if ( listener instanceof PipedListener ) ((PipedListener)listener).enterPass3(this);
+			if ( listener instanceof PipedFormatListener ) ((PipedFormatListener)listener).enterPass3(this);
 		}
 		@Override
 		public void exitRule(ParseTreeListener listener) {
-			if ( listener instanceof PipedListener ) ((PipedListener)listener).exitPass3(this);
+			if ( listener instanceof PipedFormatListener ) ((PipedFormatListener)listener).exitPass3(this);
 		}
 		@Override
 		public <T> T accept(ParseTreeVisitor<? extends T> visitor) {
-			if ( visitor instanceof PipedVisitor ) return ((PipedVisitor<? extends T>)visitor).visitPass3(this);
+			if ( visitor instanceof PipedFormatVisitor ) return ((PipedFormatVisitor<? extends T>)visitor).visitPass3(this);
 			else return visitor.visitChildren(this);
 		}
 	}
@@ -778,19 +778,19 @@ public class PipedParser extends Parser {
 		public ExprContext expr(int i) {
 			return getRuleContext(ExprContext.class,i);
 		}
-		public TerminalNode MUL_DIV_OPERATOR() { return getToken(PipedParser.MUL_DIV_OPERATOR, 0); }
+		public TerminalNode MUL_DIV_OPERATOR() { return getToken(PipedFormatParser.MUL_DIV_OPERATOR, 0); }
 		public MulDivOpContext(ExprContext ctx) { copyFrom(ctx); }
 		@Override
 		public void enterRule(ParseTreeListener listener) {
-			if ( listener instanceof PipedListener ) ((PipedListener)listener).enterMulDivOp(this);
+			if ( listener instanceof PipedFormatListener ) ((PipedFormatListener)listener).enterMulDivOp(this);
 		}
 		@Override
 		public void exitRule(ParseTreeListener listener) {
-			if ( listener instanceof PipedListener ) ((PipedListener)listener).exitMulDivOp(this);
+			if ( listener instanceof PipedFormatListener ) ((PipedFormatListener)listener).exitMulDivOp(this);
 		}
 		@Override
 		public <T> T accept(ParseTreeVisitor<? extends T> visitor) {
-			if ( visitor instanceof PipedVisitor ) return ((PipedVisitor<? extends T>)visitor).visitMulDivOp(this);
+			if ( visitor instanceof PipedFormatVisitor ) return ((PipedFormatVisitor<? extends T>)visitor).visitMulDivOp(this);
 			else return visitor.visitChildren(this);
 		}
 	}
@@ -802,15 +802,15 @@ public class PipedParser extends Parser {
 		public Pass4Context(ExprContext ctx) { copyFrom(ctx); }
 		@Override
 		public void enterRule(ParseTreeListener listener) {
-			if ( listener instanceof PipedListener ) ((PipedListener)listener).enterPass4(this);
+			if ( listener instanceof PipedFormatListener ) ((PipedFormatListener)listener).enterPass4(this);
 		}
 		@Override
 		public void exitRule(ParseTreeListener listener) {
-			if ( listener instanceof PipedListener ) ((PipedListener)listener).exitPass4(this);
+			if ( listener instanceof PipedFormatListener ) ((PipedFormatListener)listener).exitPass4(this);
 		}
 		@Override
 		public <T> T accept(ParseTreeVisitor<? extends T> visitor) {
-			if ( visitor instanceof PipedVisitor ) return ((PipedVisitor<? extends T>)visitor).visitPass4(this);
+			if ( visitor instanceof PipedFormatVisitor ) return ((PipedFormatVisitor<? extends T>)visitor).visitPass4(this);
 			else return visitor.visitChildren(this);
 		}
 	}
@@ -822,15 +822,15 @@ public class PipedParser extends Parser {
 		public Pass5Context(ExprContext ctx) { copyFrom(ctx); }
 		@Override
 		public void enterRule(ParseTreeListener listener) {
-			if ( listener instanceof PipedListener ) ((PipedListener)listener).enterPass5(this);
+			if ( listener instanceof PipedFormatListener ) ((PipedFormatListener)listener).enterPass5(this);
 		}
 		@Override
 		public void exitRule(ParseTreeListener listener) {
-			if ( listener instanceof PipedListener ) ((PipedListener)listener).exitPass5(this);
+			if ( listener instanceof PipedFormatListener ) ((PipedFormatListener)listener).exitPass5(this);
 		}
 		@Override
 		public <T> T accept(ParseTreeVisitor<? extends T> visitor) {
-			if ( visitor instanceof PipedVisitor ) return ((PipedVisitor<? extends T>)visitor).visitPass5(this);
+			if ( visitor instanceof PipedFormatVisitor ) return ((PipedFormatVisitor<? extends T>)visitor).visitPass5(this);
 			else return visitor.visitChildren(this);
 		}
 	}
@@ -842,15 +842,15 @@ public class PipedParser extends Parser {
 		public Pass6Context(ExprContext ctx) { copyFrom(ctx); }
 		@Override
 		public void enterRule(ParseTreeListener listener) {
-			if ( listener instanceof PipedListener ) ((PipedListener)listener).enterPass6(this);
+			if ( listener instanceof PipedFormatListener ) ((PipedFormatListener)listener).enterPass6(this);
 		}
 		@Override
 		public void exitRule(ParseTreeListener listener) {
-			if ( listener instanceof PipedListener ) ((PipedListener)listener).exitPass6(this);
+			if ( listener instanceof PipedFormatListener ) ((PipedFormatListener)listener).exitPass6(this);
 		}
 		@Override
 		public <T> T accept(ParseTreeVisitor<? extends T> visitor) {
-			if ( visitor instanceof PipedVisitor ) return ((PipedVisitor<? extends T>)visitor).visitPass6(this);
+			if ( visitor instanceof PipedFormatVisitor ) return ((PipedFormatVisitor<? extends T>)visitor).visitPass6(this);
 			else return visitor.visitChildren(this);
 		}
 	}
@@ -862,15 +862,15 @@ public class PipedParser extends Parser {
 		public ParenthesisContext(ExprContext ctx) { copyFrom(ctx); }
 		@Override
 		public void enterRule(ParseTreeListener listener) {
-			if ( listener instanceof PipedListener ) ((PipedListener)listener).enterParenthesis(this);
+			if ( listener instanceof PipedFormatListener ) ((PipedFormatListener)listener).enterParenthesis(this);
 		}
 		@Override
 		public void exitRule(ParseTreeListener listener) {
-			if ( listener instanceof PipedListener ) ((PipedListener)listener).exitParenthesis(this);
+			if ( listener instanceof PipedFormatListener ) ((PipedFormatListener)listener).exitParenthesis(this);
 		}
 		@Override
 		public <T> T accept(ParseTreeVisitor<? extends T> visitor) {
-			if ( visitor instanceof PipedVisitor ) return ((PipedVisitor<? extends T>)visitor).visitParenthesis(this);
+			if ( visitor instanceof PipedFormatVisitor ) return ((PipedFormatVisitor<? extends T>)visitor).visitParenthesis(this);
 			else return visitor.visitChildren(this);
 		}
 	}
@@ -885,19 +885,19 @@ public class PipedParser extends Parser {
 		public ExprContext expr(int i) {
 			return getRuleContext(ExprContext.class,i);
 		}
-		public TerminalNode ADD_SUB_OPERATOR() { return getToken(PipedParser.ADD_SUB_OPERATOR, 0); }
+		public TerminalNode ADD_SUB_OPERATOR() { return getToken(PipedFormatParser.ADD_SUB_OPERATOR, 0); }
 		public AddSubOpContext(ExprContext ctx) { copyFrom(ctx); }
 		@Override
 		public void enterRule(ParseTreeListener listener) {
-			if ( listener instanceof PipedListener ) ((PipedListener)listener).enterAddSubOp(this);
+			if ( listener instanceof PipedFormatListener ) ((PipedFormatListener)listener).enterAddSubOp(this);
 		}
 		@Override
 		public void exitRule(ParseTreeListener listener) {
-			if ( listener instanceof PipedListener ) ((PipedListener)listener).exitAddSubOp(this);
+			if ( listener instanceof PipedFormatListener ) ((PipedFormatListener)listener).exitAddSubOp(this);
 		}
 		@Override
 		public <T> T accept(ParseTreeVisitor<? extends T> visitor) {
-			if ( visitor instanceof PipedVisitor ) return ((PipedVisitor<? extends T>)visitor).visitAddSubOp(this);
+			if ( visitor instanceof PipedFormatVisitor ) return ((PipedFormatVisitor<? extends T>)visitor).visitAddSubOp(this);
 			else return visitor.visitChildren(this);
 		}
 	}
@@ -1068,9 +1068,9 @@ public class PipedParser extends Parser {
 		public PipelineElementContext pipelineElement(int i) {
 			return getRuleContext(PipelineElementContext.class,i);
 		}
-		public List<TerminalNode> PIPE_OPERATOR() { return getTokens(PipedParser.PIPE_OPERATOR); }
+		public List<TerminalNode> PIPE_OPERATOR() { return getTokens(PipedFormatParser.PIPE_OPERATOR); }
 		public TerminalNode PIPE_OPERATOR(int i) {
-			return getToken(PipedParser.PIPE_OPERATOR, i);
+			return getToken(PipedFormatParser.PIPE_OPERATOR, i);
 		}
 		public PipelineContext(ParserRuleContext parent, int invokingState) {
 			super(parent, invokingState);
@@ -1078,15 +1078,15 @@ public class PipedParser extends Parser {
 		@Override public int getRuleIndex() { return RULE_pipeline; }
 		@Override
 		public void enterRule(ParseTreeListener listener) {
-			if ( listener instanceof PipedListener ) ((PipedListener)listener).enterPipeline(this);
+			if ( listener instanceof PipedFormatListener ) ((PipedFormatListener)listener).enterPipeline(this);
 		}
 		@Override
 		public void exitRule(ParseTreeListener listener) {
-			if ( listener instanceof PipedListener ) ((PipedListener)listener).exitPipeline(this);
+			if ( listener instanceof PipedFormatListener ) ((PipedFormatListener)listener).exitPipeline(this);
 		}
 		@Override
 		public <T> T accept(ParseTreeVisitor<? extends T> visitor) {
-			if ( visitor instanceof PipedVisitor ) return ((PipedVisitor<? extends T>)visitor).visitPipeline(this);
+			if ( visitor instanceof PipedFormatVisitor ) return ((PipedFormatVisitor<? extends T>)visitor).visitPipeline(this);
 			else return visitor.visitChildren(this);
 		}
 	}
@@ -1142,7 +1142,7 @@ public class PipedParser extends Parser {
 		public PipelineTupleContext pipelineTuple() {
 			return getRuleContext(PipelineTupleContext.class,0);
 		}
-		public TerminalNode ID() { return getToken(PipedParser.ID, 0); }
+		public TerminalNode ID() { return getToken(PipedFormatParser.ID, 0); }
 		public GuardedPipeContext guardedPipe() {
 			return getRuleContext(GuardedPipeContext.class,0);
 		}
@@ -1152,15 +1152,15 @@ public class PipedParser extends Parser {
 		@Override public int getRuleIndex() { return RULE_pipelineElement; }
 		@Override
 		public void enterRule(ParseTreeListener listener) {
-			if ( listener instanceof PipedListener ) ((PipedListener)listener).enterPipelineElement(this);
+			if ( listener instanceof PipedFormatListener ) ((PipedFormatListener)listener).enterPipelineElement(this);
 		}
 		@Override
 		public void exitRule(ParseTreeListener listener) {
-			if ( listener instanceof PipedListener ) ((PipedListener)listener).exitPipelineElement(this);
+			if ( listener instanceof PipedFormatListener ) ((PipedFormatListener)listener).exitPipelineElement(this);
 		}
 		@Override
 		public <T> T accept(ParseTreeVisitor<? extends T> visitor) {
-			if ( visitor instanceof PipedVisitor ) return ((PipedVisitor<? extends T>)visitor).visitPipelineElement(this);
+			if ( visitor instanceof PipedFormatVisitor ) return ((PipedFormatVisitor<? extends T>)visitor).visitPipelineElement(this);
 			else return visitor.visitChildren(this);
 		}
 	}
@@ -1231,15 +1231,15 @@ public class PipedParser extends Parser {
 		@Override public int getRuleIndex() { return RULE_pipelineTuple; }
 		@Override
 		public void enterRule(ParseTreeListener listener) {
-			if ( listener instanceof PipedListener ) ((PipedListener)listener).enterPipelineTuple(this);
+			if ( listener instanceof PipedFormatListener ) ((PipedFormatListener)listener).enterPipelineTuple(this);
 		}
 		@Override
 		public void exitRule(ParseTreeListener listener) {
-			if ( listener instanceof PipedListener ) ((PipedListener)listener).exitPipelineTuple(this);
+			if ( listener instanceof PipedFormatListener ) ((PipedFormatListener)listener).exitPipelineTuple(this);
 		}
 		@Override
 		public <T> T accept(ParseTreeVisitor<? extends T> visitor) {
-			if ( visitor instanceof PipedVisitor ) return ((PipedVisitor<? extends T>)visitor).visitPipelineTuple(this);
+			if ( visitor instanceof PipedFormatVisitor ) return ((PipedFormatVisitor<? extends T>)visitor).visitPipelineTuple(this);
 			else return visitor.visitChildren(this);
 		}
 	}
@@ -1338,22 +1338,22 @@ public class PipedParser extends Parser {
 
 	@SuppressWarnings("CheckReturnValue")
 	public static class PlaceholderContext extends ParserRuleContext {
-		public TerminalNode DEC_INT() { return getToken(PipedParser.DEC_INT, 0); }
+		public TerminalNode DEC_INT() { return getToken(PipedFormatParser.DEC_INT, 0); }
 		public PlaceholderContext(ParserRuleContext parent, int invokingState) {
 			super(parent, invokingState);
 		}
 		@Override public int getRuleIndex() { return RULE_placeholder; }
 		@Override
 		public void enterRule(ParseTreeListener listener) {
-			if ( listener instanceof PipedListener ) ((PipedListener)listener).enterPlaceholder(this);
+			if ( listener instanceof PipedFormatListener ) ((PipedFormatListener)listener).enterPlaceholder(this);
 		}
 		@Override
 		public void exitRule(ParseTreeListener listener) {
-			if ( listener instanceof PipedListener ) ((PipedListener)listener).exitPlaceholder(this);
+			if ( listener instanceof PipedFormatListener ) ((PipedFormatListener)listener).exitPlaceholder(this);
 		}
 		@Override
 		public <T> T accept(ParseTreeVisitor<? extends T> visitor) {
-			if ( visitor instanceof PipedVisitor ) return ((PipedVisitor<? extends T>)visitor).visitPlaceholder(this);
+			if ( visitor instanceof PipedFormatVisitor ) return ((PipedFormatVisitor<? extends T>)visitor).visitPlaceholder(this);
 			else return visitor.visitChildren(this);
 		}
 	}
@@ -1384,7 +1384,7 @@ public class PipedParser extends Parser {
 	@SuppressWarnings("CheckReturnValue")
 	public static class GuardedPipeContext extends ParserRuleContext {
 		public UntypedArgumentListContext args;
-		public TerminalNode PIPE_OPERATOR() { return getToken(PipedParser.PIPE_OPERATOR, 0); }
+		public TerminalNode PIPE_OPERATOR() { return getToken(PipedFormatParser.PIPE_OPERATOR, 0); }
 		public ElseGuardContext elseGuard() {
 			return getRuleContext(ElseGuardContext.class,0);
 		}
@@ -1403,15 +1403,15 @@ public class PipedParser extends Parser {
 		@Override public int getRuleIndex() { return RULE_guardedPipe; }
 		@Override
 		public void enterRule(ParseTreeListener listener) {
-			if ( listener instanceof PipedListener ) ((PipedListener)listener).enterGuardedPipe(this);
+			if ( listener instanceof PipedFormatListener ) ((PipedFormatListener)listener).enterGuardedPipe(this);
 		}
 		@Override
 		public void exitRule(ParseTreeListener listener) {
-			if ( listener instanceof PipedListener ) ((PipedListener)listener).exitGuardedPipe(this);
+			if ( listener instanceof PipedFormatListener ) ((PipedFormatListener)listener).exitGuardedPipe(this);
 		}
 		@Override
 		public <T> T accept(ParseTreeVisitor<? extends T> visitor) {
-			if ( visitor instanceof PipedVisitor ) return ((PipedVisitor<? extends T>)visitor).visitGuardedPipe(this);
+			if ( visitor instanceof PipedFormatVisitor ) return ((PipedFormatVisitor<? extends T>)visitor).visitGuardedPipe(this);
 			else return visitor.visitChildren(this);
 		}
 	}
@@ -1474,15 +1474,15 @@ public class PipedParser extends Parser {
 		@Override public int getRuleIndex() { return RULE_tuple; }
 		@Override
 		public void enterRule(ParseTreeListener listener) {
-			if ( listener instanceof PipedListener ) ((PipedListener)listener).enterTuple(this);
+			if ( listener instanceof PipedFormatListener ) ((PipedFormatListener)listener).enterTuple(this);
 		}
 		@Override
 		public void exitRule(ParseTreeListener listener) {
-			if ( listener instanceof PipedListener ) ((PipedListener)listener).exitTuple(this);
+			if ( listener instanceof PipedFormatListener ) ((PipedFormatListener)listener).exitTuple(this);
 		}
 		@Override
 		public <T> T accept(ParseTreeVisitor<? extends T> visitor) {
-			if ( visitor instanceof PipedVisitor ) return ((PipedVisitor<? extends T>)visitor).visitTuple(this);
+			if ( visitor instanceof PipedFormatVisitor ) return ((PipedFormatVisitor<? extends T>)visitor).visitTuple(this);
 			else return visitor.visitChildren(this);
 		}
 	}
@@ -1556,15 +1556,15 @@ public class PipedParser extends Parser {
 		@Override public int getRuleIndex() { return RULE_guard; }
 		@Override
 		public void enterRule(ParseTreeListener listener) {
-			if ( listener instanceof PipedListener ) ((PipedListener)listener).enterGuard(this);
+			if ( listener instanceof PipedFormatListener ) ((PipedFormatListener)listener).enterGuard(this);
 		}
 		@Override
 		public void exitRule(ParseTreeListener listener) {
-			if ( listener instanceof PipedListener ) ((PipedListener)listener).exitGuard(this);
+			if ( listener instanceof PipedFormatListener ) ((PipedFormatListener)listener).exitGuard(this);
 		}
 		@Override
 		public <T> T accept(ParseTreeVisitor<? extends T> visitor) {
-			if ( visitor instanceof PipedVisitor ) return ((PipedVisitor<? extends T>)visitor).visitGuard(this);
+			if ( visitor instanceof PipedFormatVisitor ) return ((PipedFormatVisitor<? extends T>)visitor).visitGuard(this);
 			else return visitor.visitChildren(this);
 		}
 	}
@@ -1602,9 +1602,9 @@ public class PipedParser extends Parser {
 
 	@SuppressWarnings("CheckReturnValue")
 	public static class UntypedArgumentListContext extends ParserRuleContext {
-		public List<TerminalNode> ID() { return getTokens(PipedParser.ID); }
+		public List<TerminalNode> ID() { return getTokens(PipedFormatParser.ID); }
 		public TerminalNode ID(int i) {
-			return getToken(PipedParser.ID, i);
+			return getToken(PipedFormatParser.ID, i);
 		}
 		public UntypedArgumentListContext(ParserRuleContext parent, int invokingState) {
 			super(parent, invokingState);
@@ -1612,15 +1612,15 @@ public class PipedParser extends Parser {
 		@Override public int getRuleIndex() { return RULE_untypedArgumentList; }
 		@Override
 		public void enterRule(ParseTreeListener listener) {
-			if ( listener instanceof PipedListener ) ((PipedListener)listener).enterUntypedArgumentList(this);
+			if ( listener instanceof PipedFormatListener ) ((PipedFormatListener)listener).enterUntypedArgumentList(this);
 		}
 		@Override
 		public void exitRule(ParseTreeListener listener) {
-			if ( listener instanceof PipedListener ) ((PipedListener)listener).exitUntypedArgumentList(this);
+			if ( listener instanceof PipedFormatListener ) ((PipedFormatListener)listener).exitUntypedArgumentList(this);
 		}
 		@Override
 		public <T> T accept(ParseTreeVisitor<? extends T> visitor) {
-			if ( visitor instanceof PipedVisitor ) return ((PipedVisitor<? extends T>)visitor).visitUntypedArgumentList(this);
+			if ( visitor instanceof PipedFormatVisitor ) return ((PipedFormatVisitor<? extends T>)visitor).visitUntypedArgumentList(this);
 			else return visitor.visitChildren(this);
 		}
 	}
@@ -1681,15 +1681,15 @@ public class PipedParser extends Parser {
 		@Override public int getRuleIndex() { return RULE_elseGuard; }
 		@Override
 		public void enterRule(ParseTreeListener listener) {
-			if ( listener instanceof PipedListener ) ((PipedListener)listener).enterElseGuard(this);
+			if ( listener instanceof PipedFormatListener ) ((PipedFormatListener)listener).enterElseGuard(this);
 		}
 		@Override
 		public void exitRule(ParseTreeListener listener) {
-			if ( listener instanceof PipedListener ) ((PipedListener)listener).exitElseGuard(this);
+			if ( listener instanceof PipedFormatListener ) ((PipedFormatListener)listener).exitElseGuard(this);
 		}
 		@Override
 		public <T> T accept(ParseTreeVisitor<? extends T> visitor) {
-			if ( visitor instanceof PipedVisitor ) return ((PipedVisitor<? extends T>)visitor).visitElseGuard(this);
+			if ( visitor instanceof PipedFormatVisitor ) return ((PipedFormatVisitor<? extends T>)visitor).visitElseGuard(this);
 			else return visitor.visitChildren(this);
 		}
 	}
@@ -1723,7 +1723,7 @@ public class PipedParser extends Parser {
 	public static class BundleInitContext extends ParserRuleContext {
 		public Token name;
 		public Token args;
-		public TerminalNode ID() { return getToken(PipedParser.ID, 0); }
+		public TerminalNode ID() { return getToken(PipedFormatParser.ID, 0); }
 		public List<ExprContext> expr() {
 			return getRuleContexts(ExprContext.class);
 		}
@@ -1736,15 +1736,15 @@ public class PipedParser extends Parser {
 		@Override public int getRuleIndex() { return RULE_bundleInit; }
 		@Override
 		public void enterRule(ParseTreeListener listener) {
-			if ( listener instanceof PipedListener ) ((PipedListener)listener).enterBundleInit(this);
+			if ( listener instanceof PipedFormatListener ) ((PipedFormatListener)listener).enterBundleInit(this);
 		}
 		@Override
 		public void exitRule(ParseTreeListener listener) {
-			if ( listener instanceof PipedListener ) ((PipedListener)listener).exitBundleInit(this);
+			if ( listener instanceof PipedFormatListener ) ((PipedFormatListener)listener).exitBundleInit(this);
 		}
 		@Override
 		public <T> T accept(ParseTreeVisitor<? extends T> visitor) {
-			if ( visitor instanceof PipedVisitor ) return ((PipedVisitor<? extends T>)visitor).visitBundleInit(this);
+			if ( visitor instanceof PipedFormatVisitor ) return ((PipedFormatVisitor<? extends T>)visitor).visitBundleInit(this);
 			else return visitor.visitChildren(this);
 		}
 	}
@@ -1806,9 +1806,9 @@ public class PipedParser extends Parser {
 
 	@SuppressWarnings("CheckReturnValue")
 	public static class VarContext extends ParserRuleContext {
-		public List<TerminalNode> ID() { return getTokens(PipedParser.ID); }
+		public List<TerminalNode> ID() { return getTokens(PipedFormatParser.ID); }
 		public TerminalNode ID(int i) {
-			return getToken(PipedParser.ID, i);
+			return getToken(PipedFormatParser.ID, i);
 		}
 		public VarContext(ParserRuleContext parent, int invokingState) {
 			super(parent, invokingState);
@@ -1816,15 +1816,15 @@ public class PipedParser extends Parser {
 		@Override public int getRuleIndex() { return RULE_var; }
 		@Override
 		public void enterRule(ParseTreeListener listener) {
-			if ( listener instanceof PipedListener ) ((PipedListener)listener).enterVar(this);
+			if ( listener instanceof PipedFormatListener ) ((PipedFormatListener)listener).enterVar(this);
 		}
 		@Override
 		public void exitRule(ParseTreeListener listener) {
-			if ( listener instanceof PipedListener ) ((PipedListener)listener).exitVar(this);
+			if ( listener instanceof PipedFormatListener ) ((PipedFormatListener)listener).exitVar(this);
 		}
 		@Override
 		public <T> T accept(ParseTreeVisitor<? extends T> visitor) {
-			if ( visitor instanceof PipedVisitor ) return ((PipedVisitor<? extends T>)visitor).visitVar(this);
+			if ( visitor instanceof PipedFormatVisitor ) return ((PipedFormatVisitor<? extends T>)visitor).visitVar(this);
 			else return visitor.visitChildren(this);
 		}
 	}
@@ -1871,11 +1871,11 @@ public class PipedParser extends Parser {
 
 	@SuppressWarnings("CheckReturnValue")
 	public static class AssignContext extends ParserRuleContext {
-		public TerminalNode VARIABLE_NAME() { return getToken(PipedParser.VARIABLE_NAME, 0); }
+		public TerminalNode VARIABLE_NAME() { return getToken(PipedFormatParser.VARIABLE_NAME, 0); }
 		public TypedNameContext typedName() {
 			return getRuleContext(TypedNameContext.class,0);
 		}
-		public TerminalNode ASSIGN_OPERATOR() { return getToken(PipedParser.ASSIGN_OPERATOR, 0); }
+		public TerminalNode ASSIGN_OPERATOR() { return getToken(PipedFormatParser.ASSIGN_OPERATOR, 0); }
 		public ExprContext expr() {
 			return getRuleContext(ExprContext.class,0);
 		}
@@ -1885,15 +1885,15 @@ public class PipedParser extends Parser {
 		@Override public int getRuleIndex() { return RULE_assign; }
 		@Override
 		public void enterRule(ParseTreeListener listener) {
-			if ( listener instanceof PipedListener ) ((PipedListener)listener).enterAssign(this);
+			if ( listener instanceof PipedFormatListener ) ((PipedFormatListener)listener).enterAssign(this);
 		}
 		@Override
 		public void exitRule(ParseTreeListener listener) {
-			if ( listener instanceof PipedListener ) ((PipedListener)listener).exitAssign(this);
+			if ( listener instanceof PipedFormatListener ) ((PipedFormatListener)listener).exitAssign(this);
 		}
 		@Override
 		public <T> T accept(ParseTreeVisitor<? extends T> visitor) {
-			if ( visitor instanceof PipedVisitor ) return ((PipedVisitor<? extends T>)visitor).visitAssign(this);
+			if ( visitor instanceof PipedFormatVisitor ) return ((PipedFormatVisitor<? extends T>)visitor).visitAssign(this);
 			else return visitor.visitChildren(this);
 		}
 	}
@@ -1927,7 +1927,7 @@ public class PipedParser extends Parser {
 
 	@SuppressWarnings("CheckReturnValue")
 	public static class ReturnContext extends ParserRuleContext {
-		public TerminalNode RETURN_OPERATOR() { return getToken(PipedParser.RETURN_OPERATOR, 0); }
+		public TerminalNode RETURN_OPERATOR() { return getToken(PipedFormatParser.RETURN_OPERATOR, 0); }
 		public ExprContext expr() {
 			return getRuleContext(ExprContext.class,0);
 		}
@@ -1937,15 +1937,15 @@ public class PipedParser extends Parser {
 		@Override public int getRuleIndex() { return RULE_return; }
 		@Override
 		public void enterRule(ParseTreeListener listener) {
-			if ( listener instanceof PipedListener ) ((PipedListener)listener).enterReturn(this);
+			if ( listener instanceof PipedFormatListener ) ((PipedFormatListener)listener).enterReturn(this);
 		}
 		@Override
 		public void exitRule(ParseTreeListener listener) {
-			if ( listener instanceof PipedListener ) ((PipedListener)listener).exitReturn(this);
+			if ( listener instanceof PipedFormatListener ) ((PipedFormatListener)listener).exitReturn(this);
 		}
 		@Override
 		public <T> T accept(ParseTreeVisitor<? extends T> visitor) {
-			if ( visitor instanceof PipedVisitor ) return ((PipedVisitor<? extends T>)visitor).visitReturn(this);
+			if ( visitor instanceof PipedFormatVisitor ) return ((PipedFormatVisitor<? extends T>)visitor).visitReturn(this);
 			else return visitor.visitChildren(this);
 		}
 	}
@@ -1978,23 +1978,23 @@ public class PipedParser extends Parser {
 		public IntContext int_() {
 			return getRuleContext(IntContext.class,0);
 		}
-		public TerminalNode STRING_() { return getToken(PipedParser.STRING_, 0); }
-		public TerminalNode BOOLEAN() { return getToken(PipedParser.BOOLEAN, 0); }
+		public TerminalNode STRING_() { return getToken(PipedFormatParser.STRING_, 0); }
+		public TerminalNode BOOLEAN() { return getToken(PipedFormatParser.BOOLEAN, 0); }
 		public ValueContext(ParserRuleContext parent, int invokingState) {
 			super(parent, invokingState);
 		}
 		@Override public int getRuleIndex() { return RULE_value; }
 		@Override
 		public void enterRule(ParseTreeListener listener) {
-			if ( listener instanceof PipedListener ) ((PipedListener)listener).enterValue(this);
+			if ( listener instanceof PipedFormatListener ) ((PipedFormatListener)listener).enterValue(this);
 		}
 		@Override
 		public void exitRule(ParseTreeListener listener) {
-			if ( listener instanceof PipedListener ) ((PipedListener)listener).exitValue(this);
+			if ( listener instanceof PipedFormatListener ) ((PipedFormatListener)listener).exitValue(this);
 		}
 		@Override
 		public <T> T accept(ParseTreeVisitor<? extends T> visitor) {
-			if ( visitor instanceof PipedVisitor ) return ((PipedVisitor<? extends T>)visitor).visitValue(this);
+			if ( visitor instanceof PipedFormatVisitor ) return ((PipedFormatVisitor<? extends T>)visitor).visitValue(this);
 			else return visitor.visitChildren(this);
 		}
 	}
@@ -2050,22 +2050,22 @@ public class PipedParser extends Parser {
 		public TypeContext type() {
 			return getRuleContext(TypeContext.class,0);
 		}
-		public TerminalNode ID() { return getToken(PipedParser.ID, 0); }
+		public TerminalNode ID() { return getToken(PipedFormatParser.ID, 0); }
 		public TypedNameContext(ParserRuleContext parent, int invokingState) {
 			super(parent, invokingState);
 		}
 		@Override public int getRuleIndex() { return RULE_typedName; }
 		@Override
 		public void enterRule(ParseTreeListener listener) {
-			if ( listener instanceof PipedListener ) ((PipedListener)listener).enterTypedName(this);
+			if ( listener instanceof PipedFormatListener ) ((PipedFormatListener)listener).enterTypedName(this);
 		}
 		@Override
 		public void exitRule(ParseTreeListener listener) {
-			if ( listener instanceof PipedListener ) ((PipedListener)listener).exitTypedName(this);
+			if ( listener instanceof PipedFormatListener ) ((PipedFormatListener)listener).exitTypedName(this);
 		}
 		@Override
 		public <T> T accept(ParseTreeVisitor<? extends T> visitor) {
-			if ( visitor instanceof PipedVisitor ) return ((PipedVisitor<? extends T>)visitor).visitTypedName(this);
+			if ( visitor instanceof PipedFormatVisitor ) return ((PipedFormatVisitor<? extends T>)visitor).visitTypedName(this);
 			else return visitor.visitChildren(this);
 		}
 	}
@@ -2097,7 +2097,7 @@ public class PipedParser extends Parser {
 
 	@SuppressWarnings("CheckReturnValue")
 	public static class TypeContext extends ParserRuleContext {
-		public TerminalNode ID() { return getToken(PipedParser.ID, 0); }
+		public TerminalNode ID() { return getToken(PipedFormatParser.ID, 0); }
 		public TupleTypeContext tupleType() {
 			return getRuleContext(TupleTypeContext.class,0);
 		}
@@ -2107,15 +2107,15 @@ public class PipedParser extends Parser {
 		@Override public int getRuleIndex() { return RULE_type; }
 		@Override
 		public void enterRule(ParseTreeListener listener) {
-			if ( listener instanceof PipedListener ) ((PipedListener)listener).enterType(this);
+			if ( listener instanceof PipedFormatListener ) ((PipedFormatListener)listener).enterType(this);
 		}
 		@Override
 		public void exitRule(ParseTreeListener listener) {
-			if ( listener instanceof PipedListener ) ((PipedListener)listener).exitType(this);
+			if ( listener instanceof PipedFormatListener ) ((PipedFormatListener)listener).exitType(this);
 		}
 		@Override
 		public <T> T accept(ParseTreeVisitor<? extends T> visitor) {
-			if ( visitor instanceof PipedVisitor ) return ((PipedVisitor<? extends T>)visitor).visitType(this);
+			if ( visitor instanceof PipedFormatVisitor ) return ((PipedFormatVisitor<? extends T>)visitor).visitType(this);
 			else return visitor.visitChildren(this);
 		}
 	}
@@ -2170,15 +2170,15 @@ public class PipedParser extends Parser {
 		@Override public int getRuleIndex() { return RULE_tupleType; }
 		@Override
 		public void enterRule(ParseTreeListener listener) {
-			if ( listener instanceof PipedListener ) ((PipedListener)listener).enterTupleType(this);
+			if ( listener instanceof PipedFormatListener ) ((PipedFormatListener)listener).enterTupleType(this);
 		}
 		@Override
 		public void exitRule(ParseTreeListener listener) {
-			if ( listener instanceof PipedListener ) ((PipedListener)listener).exitTupleType(this);
+			if ( listener instanceof PipedFormatListener ) ((PipedFormatListener)listener).exitTupleType(this);
 		}
 		@Override
 		public <T> T accept(ParseTreeVisitor<? extends T> visitor) {
-			if ( visitor instanceof PipedVisitor ) return ((PipedVisitor<? extends T>)visitor).visitTupleType(this);
+			if ( visitor instanceof PipedFormatVisitor ) return ((PipedFormatVisitor<? extends T>)visitor).visitTupleType(this);
 			else return visitor.visitChildren(this);
 		}
 	}
@@ -2238,24 +2238,24 @@ public class PipedParser extends Parser {
 
 	@SuppressWarnings("CheckReturnValue")
 	public static class IntContext extends ParserRuleContext {
-		public TerminalNode DEC_INT() { return getToken(PipedParser.DEC_INT, 0); }
-		public TerminalNode HEX_INT() { return getToken(PipedParser.HEX_INT, 0); }
-		public TerminalNode BIN_INT() { return getToken(PipedParser.BIN_INT, 0); }
+		public TerminalNode DEC_INT() { return getToken(PipedFormatParser.DEC_INT, 0); }
+		public TerminalNode HEX_INT() { return getToken(PipedFormatParser.HEX_INT, 0); }
+		public TerminalNode BIN_INT() { return getToken(PipedFormatParser.BIN_INT, 0); }
 		public IntContext(ParserRuleContext parent, int invokingState) {
 			super(parent, invokingState);
 		}
 		@Override public int getRuleIndex() { return RULE_int; }
 		@Override
 		public void enterRule(ParseTreeListener listener) {
-			if ( listener instanceof PipedListener ) ((PipedListener)listener).enterInt(this);
+			if ( listener instanceof PipedFormatListener ) ((PipedFormatListener)listener).enterInt(this);
 		}
 		@Override
 		public void exitRule(ParseTreeListener listener) {
-			if ( listener instanceof PipedListener ) ((PipedListener)listener).exitInt(this);
+			if ( listener instanceof PipedFormatListener ) ((PipedFormatListener)listener).exitInt(this);
 		}
 		@Override
 		public <T> T accept(ParseTreeVisitor<? extends T> visitor) {
-			if ( visitor instanceof PipedVisitor ) return ((PipedVisitor<? extends T>)visitor).visitInt(this);
+			if ( visitor instanceof PipedFormatVisitor ) return ((PipedFormatVisitor<? extends T>)visitor).visitInt(this);
 			else return visitor.visitChildren(this);
 		}
 	}

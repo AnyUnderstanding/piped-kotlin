@@ -9,14 +9,29 @@ bundle Dog{
     let age: Int,
 }
 
+
+bundle Cat{
+    let name: String,
+    let age: Int,
+}
+
+bundle DogAndCat{
+    let animals: (Dog, Cat),
+}
+
 pi Fib(n1: Int, n0: Int) : (Int, Int) {
     let x: (Int, Int) = (1,1) |> Fib [ (r, l) |>
-    (l == 0) (r,1),
-    else (r, l)
+    (l == 0) -> (r,1),
+    (r == 0) -> (l,1),
+    else -> (r, l)
     ]|> MulDiv;
     let y: Int = 1+1+1;
     let z: Int = y;
     let i: Bool = true==false;
+
+    let p: (Int, Int) = (1, 1);
+
+    let zoo : DogAndCat = DogAndCat((Dog("Rex", 5), Cat("Tom", 3)));
 
     () |> noneIn;
     (1) |> half |> (#0) |> half |> () |> noneIn;

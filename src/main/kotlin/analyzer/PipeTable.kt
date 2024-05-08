@@ -23,4 +23,8 @@ object PipeTable {
     fun containsPipe(name: String): Boolean {
         return pipeTable.containsKey(name)
     }
+
+    fun clear() {
+        pipeTable.clear()
+    }
 }

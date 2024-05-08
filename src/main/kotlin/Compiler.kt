@@ -17,7 +17,7 @@ interface Stage {
 object Compiler {
     fun fromFile(path: String): RawCodeStage {
         return RawCodeStage(
-            CharStreams.fromFileName(programm)
+            CharStreams.fromFileName(path)
         )
     }
 
@@ -89,7 +89,7 @@ class CodegenStage(val ast: Program) : Stage {
 
 class OutPutStage(val output: String) : Stage {
     fun toFile(path: String) {
-        // write to file
+        java.io.File(path).writeText(output.replace("$", "P"))
 
     }
 

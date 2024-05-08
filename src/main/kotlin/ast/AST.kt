@@ -105,7 +105,8 @@ class Pipe(
     }
 }
 
-class Assignment(val name: String, var expectedType: Type, val expression: Expression) : TypedASTNode() {
+
+class Assignment(val name: String, var expectedType: Type, var expression: Expression) : TypedASTNode() {
 
     init {
         expression.parent = this
@@ -120,8 +121,13 @@ class Assignment(val name: String, var expectedType: Type, val expression: Expre
 // _ EXPRESSIONS _
 open class Expression : TypedASTNode()
 
-class AddSubExpression(val left: Expression, val right: Expression, val operand: String) :
-    Expression() {
+abstract class InfixOperation(
+    var left: Expression,
+    var right: Expression
+) : Expression()
+
+class AddSubExpression(left: Expression, right: Expression, val operand: String) :
+    InfixOperation(left, right) {
 
     init {
         left.parent = this
@@ -134,8 +140,8 @@ class AddSubExpression(val left: Expression, val right: Expression, val operand:
 
 }
 
-class MulDivExpression(val left: Expression, val right: Expression, val operand: String) :
-    Expression() {
+class MulDivExpression(left: Expression, right: Expression, val operand: String) :
+    InfixOperation(left, right) {
 
     init {
         left.parent = this
@@ -148,8 +154,8 @@ class MulDivExpression(val left: Expression, val right: Expression, val operand:
 
 }
 
-class BoolExpression(val left: Expression, val right: Expression, val operand: String) :
-    Expression() {
+class BoolExpression(left: Expression, right: Expression, val operand: String) :
+    InfixOperation(left, right) {
     init {
         left.parent = this
         right.parent = this
@@ -201,7 +207,7 @@ class GuardedPipeCall(
     }
 }
 
-class Guard(val guardExpression: Expression, val returnExpression: Expression) : TypedASTNode() {
+class Guard(val guardExpression: Expression, var returnExpression: Expression) : TypedASTNode() {
 
     init {
         guardExpression.parent = this
@@ -213,7 +219,7 @@ class Guard(val guardExpression: Expression, val returnExpression: Expression) :
     }
 }
 
-class ElseGuard(val returnExpression: Expression) : TypedASTNode() {
+class ElseGuard(var returnExpression: Expression) : TypedASTNode() {
 
     init {
         returnExpression.parent = this
@@ -255,7 +261,7 @@ class PipeLineTuplePlaceholder(val index: Int, val referencedPipe: Pipe? = null)
 }
 // ___ END PIPELINE ___
 
-class BundleInit(val name: String, val initializers: List<Expression>) : Expression() {
+class BundleInit(val name: String, val initializers: MutableList<Expression>) : Expression() {
     init {
         initializers.forEach { it.parent = this }
     }
@@ -265,7 +271,7 @@ class BundleInit(val name: String, val initializers: List<Expression>) : Express
     }
 }
 
-class Tuple(val elements: List<Expression>) : Expression() {
+class Tuple(val elements: MutableList<Expression>) : Expression() {
     init {
         elements.forEach { it.parent = this }
     }
@@ -277,7 +283,7 @@ class Tuple(val elements: List<Expression>) : Expression() {
     fun typeFromElements() = Type(elements.map { it.type })
 }
 
-class Scope(val children: List<TypedASTNode>) : Expression() {
+class Scope(val children: MutableList<TypedASTNode>) : Expression() {
     init {
         children.forEach { it.parent = this }
     }
@@ -326,6 +332,10 @@ class Variable(val path: List<String>) : Expression() {
 }
 
 class Parenthesis(val expression: Expression) : Expression() {
+    init {
+        expression.parent = this
+    }
+
     override fun toString(): String {
         return "Parenthesis: \n ${expression.toString().prependIndent()}"
     }
@@ -333,7 +343,11 @@ class Parenthesis(val expression: Expression) : Expression() {
 // _ END EXPRESSIONS _
 
 
-class Return(val expression: Expression) : TypedASTNode() {
+class Return(var expression: Expression) : TypedASTNode() {
+    init {
+        expression.parent = this
+    }
+
     override fun toString(): String {
         return "Return: $expression"
     }

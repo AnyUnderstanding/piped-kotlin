@@ -55,4 +55,8 @@ object BundleTable {
     fun getTypeForPathStrict(bundle: Bundle, path: List<String>): Type {
         return getTypeForPath(bundle, path) ?: throw Exception("Type for path $path not found")
     }
+
+    fun clear() {
+        bundleTable.clear()
+    }
 }

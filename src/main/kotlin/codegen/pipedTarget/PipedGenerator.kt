@@ -4,94 +4,200 @@ import de.any.AST.*
 import de.any.codegen.CodeGenerator
 
 
-// TODO not finished
-class PipedGenerator : ASTVisitor(), CodeGenerator{
+class PipedGenerator(val allowTuples: Boolean = false) : CodeGenerator() {
 
-    private val code = StringBuilder()
+    val lineBuilder = StringBuilder()
+
+    fun useLine(suffix: String = "", removeNewLine: Boolean = false) {
+        appendCode(lineBuilder.toString() + suffix, removeNewLine)
+        lineBuilder.clear()
+    }
 
     override fun gen(program: Program): String {
         visit(program)
         return code.toString()
     }
 
-    override fun visit(program: Program, vararg args: Any) {
-        super.visit(program)
-    }
 
     override fun visitBundle(bundle: Bundle, vararg args: Any) {
-        code.append("bundle ${bundle.name} {\n")
-        super.visitBundle(bundle)
-        code.append("}\n\n")
-    }
-
-    override fun visitPipe(pipe: Pipe, vararg args: Any) {
-        code.append("pipe ${pipe.name}(")
-        pipe.parameters.forEach {
-            code.append("${it.name} : ${it.type.asPipedString()}, ")
+        appendCode("bundle ${bundle.name} {")
+        increaseIndent()
+        bundle.fields.forEach {
+            lineBuilder.append("let ")
+            visitField(it)
         }
-        code.append(") : ${pipe.returnType.asPipedString()} {\n")
-        super.visitScope(pipe.body)
-        code.append("}\n\n")
-
-    }
-
-    override fun visitAssignment(assignment: Assignment, vararg args: Any) {
-        code.append("\t let ")
-        code.append(assignment.name)
-        code.append(" : ")
-        code.append(assignment.type.asPipedString())
-        code.append(" = ")
-        super.visitExpression(assignment.expression)
-    }
-
-    override fun visitBoolOpExpression(boolExpression: BoolExpression, vararg args: Any) {
-        code.append("\t")
-        super.visitExpression(boolExpression.left)
-        code.append(" ${boolExpression.operand} ")
-        super.visitExpression(boolExpression.right)
-    }
-
-    override fun visitMulDivExpression(mulDivExpression: MulDivExpression, vararg args: Any) {
-        code.append("\t")
-        super.visitExpression(mulDivExpression.left)
-        code.append(" ${mulDivExpression.operand} ")
-        super.visitExpression(mulDivExpression.right)
-    }
-
-    override fun visitAddSubExpression(addSubExpression: AddSubExpression, vararg args: Any) {
-        code.append("\t")
-        super.visitExpression(addSubExpression.left)
-        code.append(" ${addSubExpression.operand} ")
-        super.visitExpression(addSubExpression.right)
-    }
-
-    override fun visitTuple(tuple: Tuple, vararg args: Any) {
-        code.append("(")
-        tuple.elements.forEach {
-            visitExpression(it)
-            code.append(", ")
-        }
-        code.append(")")
-    }
-
-    override fun visitReturn(return_: Return, vararg args: Any) {
-        code.append("\t >> ")
-        super.visitExpression(return_.expression)
-        code.append("\n")
-    }
-
-    override fun visitValue(value: Value, vararg args: Any) {
-        code.append(value.value)
-
-    }
-
-    override fun visitVariable(variable: Variable, vararg args: Any) {
-        code.append(variable.path.joinToString("."))
+        decreaseIndent()
+        appendCode("}")
     }
 
     override fun visitField(field: Field, vararg args: Any) {
-        code.append("\t${field.name} : ${field.type.asPipedString()}, \n")
+        val removeNewLine = args.isNotEmpty() && args[0] == true
+        lineBuilder.append("${field.name} : ${field.type.asPipedString()}")
+        if (removeNewLine) {
+            lineBuilder.append(", ")
+        } else {
+            useLine(", ")
+        }
     }
 
+    override fun visitPipe(pipe: Pipe, vararg args: Any) {
+        appendCode("pi ${pipe.name}(", true)
+        pipe.parameters.forEach { visitField(it, true) }
+        useLine("", true)
+        if (pipe.parameters.isNotEmpty()) {
+            code.deleteCharAt(code.length - 1)
+            code.deleteCharAt(code.length - 1)
 
+        }
+        appendCode(") : ${pipe.returnType.asPipedString()} ", true)
+        visitScope(pipe.body)
+    }
+
+    override fun visitScope(scope: Scope, vararg args: Any) {
+        appendCode("{")
+        increaseIndent()
+        super.visitScope(scope, true)
+        decreaseIndent()
+        appendCode("}")
+    }
+
+    override fun visitAssignment(assignment: Assignment, vararg args: Any) {
+        lineBuilder.append("let ${assignment.name} : ${assignment.expectedType.asPipedString()} = ")
+        visitExpression(assignment.expression)
+
+        useLine(";")
+    }
+
+    override fun visitReturn(return_: Return, vararg args: Any) {
+        lineBuilder.append(">> ")
+        visitExpression(return_.expression)
+        useLine(";")
+    }
+
+    override fun visitExpression(expression: Expression, vararg args: Any) {
+        super.visitExpression(expression, *args)
+        if (args.isNotEmpty() && args[0] == true) {
+            useLine(";")
+        }
+    }
+
+    override fun visitValue(value: Value, vararg args: Any) {
+        lineBuilder.append(value.value)
+    }
+
+    override fun visitVariable(variable: Variable, vararg args: Any) {
+        lineBuilder.append(variable.path.joinToString("."))
+    }
+
+    override fun visitBoolOpExpression(boolExpression: BoolExpression, vararg args: Any) {
+        visitExpression(boolExpression.left)
+        lineBuilder.append(" ${boolExpression.operand} ")
+        visitExpression(boolExpression.right)
+    }
+
+    override fun visitMulDivExpression(mulDivExpression: MulDivExpression, vararg args: Any) {
+        visitExpression(mulDivExpression.left)
+        lineBuilder.append(" ${mulDivExpression.operand} ")
+        visitExpression(mulDivExpression.right)
+    }
+
+    override fun visitAddSubExpression(expression: AddSubExpression, vararg args: Any) {
+        visitExpression(expression.left)
+        lineBuilder.append(" ${expression.operand} ")
+        visitExpression(expression.right)
+    }
+
+    override fun visitTuple(tuple: Tuple, vararg args: Any) {
+        check(allowTuples) { "Every tuple should be translated to a BundleInit before code generation." }
+        if (tuple.elements.isEmpty()) {
+            lineBuilder.append("()")
+            return
+        }
+        lineBuilder.append("(")
+        tuple.elements.dropLast(1).forEach {
+            visitExpression(it)
+            lineBuilder.append(", ")
+        }
+        visitExpression(tuple.elements.last())
+        lineBuilder.append(")")
+    }
+
+    override fun visitBundleInit(bundleInit: BundleInit, vararg args: Any) {
+        if (bundleInit.initializers.isEmpty()) {
+            lineBuilder.append(bundleInit.name + "()")
+            return
+        }
+        lineBuilder.append(bundleInit.name + "(")
+        bundleInit.initializers.dropLast(1).forEach {
+            visitExpression(it)
+            lineBuilder.append(", ")
+        }
+        visitExpression(bundleInit.initializers.last())
+        lineBuilder.append(")")
+    }
+
+    override fun visitPipeLine(pipeLine: PipeLine, vararg args: Any) {
+        pipeLine.elements.dropLast(1).forEach {
+            visitPipeLineElement(it)
+            lineBuilder.append(" |> ")
+        }
+        visitPipeLineElement(pipeLine.elements.last())
+        lineBuilder.drop(4)
+    }
+
+    override fun visitPipeCall(pipeLineElement: PipeCall, vararg args: Any) {
+        lineBuilder.append(pipeLineElement.name)
+    }
+
+    override fun visitPipeLineTuplePlaceholder(pipeLineTuplePlaceholder: PipeLineTuplePlaceholder, vararg args: Any) {
+        lineBuilder.append("#${pipeLineTuplePlaceholder.index}")
+    }
+
+    override fun visitPipeLineTuple(pipelineTuple: PipeLineTuple, vararg args: Any) {
+        if (pipelineTuple.expressions.isEmpty()) {
+            lineBuilder.append("()")
+            return
+        }
+        lineBuilder.append("(")
+
+        pipelineTuple.expressions.dropLast(1).forEach {
+            visitExpression(it)
+            lineBuilder.append(", ")
+        }
+        visitExpression(pipelineTuple.expressions.last())
+        lineBuilder.append(")")
+    }
+
+    override fun visitParenthesis(parenthesis: Parenthesis, vararg args: Any) {
+        lineBuilder.append("(")
+        visitExpression(parenthesis.expression)
+        lineBuilder.append(")")
+    }
+
+    override fun visitGuardedPipeCall(guardedPipeCall: GuardedPipeCall, vararg args: Any) {
+        lineBuilder.append(guardedPipeCall.name + " [")
+        lineBuilder.append("(")
+        guardedPipeCall.parameters.dropLast(1).forEach {
+            lineBuilder.append(it.name)
+            lineBuilder.append(", ")
+        }
+        lineBuilder.append(guardedPipeCall.parameters.last().name)
+        lineBuilder.append(") |> ")
+        useLine()
+        increaseIndent()
+        guardedPipeCall.guards.forEach {
+            lineBuilder.append("(")
+            visitExpression(it.guardExpression)
+            lineBuilder.append(")")
+            lineBuilder.append(" -> ")
+            visitExpression(it.returnExpression)
+            useLine(",")
+        }
+        lineBuilder.append("else -> ")
+        visitExpression(guardedPipeCall.elseGuard.returnExpression)
+        useLine()
+        lineBuilder.append("]")
+        decreaseIndent()
+
+    }
 }
