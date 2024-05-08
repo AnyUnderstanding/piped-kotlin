@@ -12,9 +12,9 @@ open class TypedASTNode(
 ) : ASTNode()
 
 
-class Program(
+open class Program(
     val bundles: MutableList<Bundle>,
-    val pipes: List<Pipe>,
+    val pipes: MutableList<Pipe>,
 ) : ASTNode() {
 
     init {
@@ -358,6 +358,63 @@ fun getIndentedStringFromList(list: List<Any>, indent: String = "  ", join: Stri
     return list.map { it.toString() }.joinToString(join) { it }.prependIndent(indent)
 }
 
+/* ----------------------------------------------------------- */
+/* ----------------------------------------------------------- */
+/* ----------------------------------------------------------- */
+/* - AST for intermediate lang - */
+/* ----------------------------------------------------------- */
+/* ----------------------------------------------------------- */
+/* ----------------------------------------------------------- */
 
+
+class ILProgram(
+    program: Program,
+    val functions: MutableList<Function>,
+) : Program(program.bundles, program.pipes) {
+
+    init {
+        parent = this
+        bundles.forEach { it.parent = this }
+        pipes.forEach { it.parent = this }
+    }
+
+    override fun toString(): String {
+        return StringBuilder()
+            .append("ILProgram: \n")
+            .append(" Bundles:\n")
+            .append(getIndentedStringFromList(bundles))
+            .append(" Pipes:\n")
+            .append(getIndentedStringFromList(pipes))
+            .toString()
+    }
+}
+
+class Function(
+    val name: String,
+    val returnType: Type,
+    val parameters: List<Field>,
+    val body: Scope,
+) : ASTNode() {
+
+    init {
+        parameters.forEach { it.parent = this }
+        body.parent = this
+    }
+
+    override fun toString(): String {
+        return "Function: $name \n" +
+                " parameters: \n" +
+                getIndentedStringFromList(parameters) +
+                " returnType: $returnType \n" +
+                " body: \n" +
+                body
+    }
+}
+
+class FunctionCall(val name: String, val parameters: List<Expression>) : Expression() {
+    override fun toString(): String {
+        return "PipeCall: $name"
+    }
+}
 
 

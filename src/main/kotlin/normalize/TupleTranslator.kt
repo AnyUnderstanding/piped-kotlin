@@ -2,9 +2,9 @@ package de.any.normalize
 
 import de.any.AST.*
 
-class TupleTranslator : ASTVisitor() {
+class TupleTranslator : ILASTVisitor() {
     val tuples = mutableSetOf<Type>()
-    override fun visit(program: Program, vararg args: Any) {
+    override fun visit(program: ILProgram, vararg args: Any) {
         super.visit(program, *args)
         tuples.distinct().forEach {
             program.bundles.add(
@@ -65,20 +65,25 @@ class TupleTranslator : ASTVisitor() {
                     parent.expectedType = translateTuple(expression.type)
                     parent.expression = getBundleInit(expression, parent)
                 }
+
                 is BundleInit -> {
                     parent.initializers[parent.initializers.indexOf(expression)] =
                         getBundleInit(expression, parent)
                 }
+
                 is Tuple -> {
                     parent.elements[parent.elements.indexOf(expression)] =
                         getBundleInit(expression, parent)
                 }
-                is Guard  -> {
+
+                is Guard -> {
                     parent.returnExpression = getBundleInit(expression, parent)
                 }
+
                 is ElseGuard -> {
                     parent.returnExpression = getBundleInit(expression, parent)
                 }
+
                 else -> throw Exception("Unknown parent $parent")
             }
         }

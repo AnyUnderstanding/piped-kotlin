@@ -143,3 +143,41 @@ abstract class ASTVisitor {
     }
 }
 
+abstract class ILASTVisitor : ASTVisitor() {
+
+    override fun visit(program: Program, vararg args: Any) {
+        // todo its probably better to enforce this using the type system
+        error("this method should not be called on a ILASTVisitor, consider using: fun visit(program: ILProgram, vararg args: Any)")
+    }
+
+    open fun visit(program: ILProgram, vararg args: Any) {
+        program.bundles.forEach { bundle ->
+            visitBundle(bundle)
+
+        }
+        program.pipes.forEach { pipe ->
+            visitPipe(pipe)
+        }
+        program.functions.forEach {
+            visitFunction(it)
+        }
+    }
+
+    open fun visitFunction(function: Function, vararg args: Any) {
+        visitTypeDefinition(function.returnType)
+        function.parameters.forEach { visitField(it) }
+        visitScope(function.body)
+    }
+
+    override fun visitExpression(expression: Expression, vararg args: Any) {
+        if (expression is FunctionCall) {
+            visitFunctionCall(expression)
+        } else {
+            super.visitExpression(expression)
+        }
+    }
+
+    fun visitFunctionCall(expression: FunctionCall, vararg args: Any) {
+        expression.parameters.forEach { visitExpression(it) }
+    }
+}

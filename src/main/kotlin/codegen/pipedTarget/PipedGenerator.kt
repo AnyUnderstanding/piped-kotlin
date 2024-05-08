@@ -1,6 +1,7 @@
 package de.any.codegen.pipedTarget
 
 import de.any.AST.*
+import de.any.AST.Function
 import de.any.codegen.CodeGenerator
 
 
@@ -14,10 +15,23 @@ class PipedGenerator(val allowTuples: Boolean = false) : CodeGenerator() {
     }
 
     override fun gen(program: Program): String {
-        visit(program)
+        if (program is ILProgram) {
+            visit(program as ILProgram)
+        } else {
+            visit(program as Program)
+        }
         return code.toString()
     }
 
+    override fun visit(program: Program, vararg args: Any) {
+        program.bundles.forEach { bundle ->
+            visitBundle(bundle)
+
+        }
+        program.pipes.forEach { pipe ->
+            visitPipe(pipe)
+        }
+    }
 
     override fun visitBundle(bundle: Bundle, vararg args: Any) {
         appendCode("bundle ${bundle.name} {")
@@ -198,6 +212,13 @@ class PipedGenerator(val allowTuples: Boolean = false) : CodeGenerator() {
         useLine()
         lineBuilder.append("]")
         decreaseIndent()
+    }
 
+    override fun visitFunction(function: Function, vararg args: Any) {
+        lineBuilder.append("fun ${function.name}(")
+        function.parameters.forEach {
+            visitField(it, true)
+        }
+        useLine("){}", true)
     }
 }

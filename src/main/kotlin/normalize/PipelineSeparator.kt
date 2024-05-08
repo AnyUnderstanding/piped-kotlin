@@ -1,33 +1,50 @@
 package de.any.normalize
 
 import de.any.AST.*
+import de.any.AST.Function
 
-class PipelineSeparator : ASTVisitor() {
-    private lateinit var currentScope: Scope
+class PipelineSeparator : ILASTVisitor() {
+    lateinit var functions : MutableList<Function>
+    private var index = 0
 
-    override fun visitScope(scope: Scope, vararg args: Any) {
-        currentScope = scope
-        super.visitScope(scope, *args)
+
+    override fun visit(program: ILProgram, vararg args: Any) {
+        functions = program.functions
+        super.visit(program, *args)
     }
 
     override fun visitPipeLine(pipeLine: PipeLine, vararg args: Any) {
-        val assigns = pipeLine.elements.mapIndexed { i, it ->
-            Assignment(
-                "pipe$i",
-                it.type,
-                it
+        functions.add(
+            Function(
+                "pipeLine$index",
+                pipeLine.elements.last().type,
+                getFields(pipeLine.elements.first().type),
+                Scope(
+                    mutableListOf(/*TODO*/)
+                )
             )
+        )
+    }
+
+    private fun getFields(type: Type): List<Field> {
+        return when {
+            type.isBasicType() -> listOf(
+                Field(
+                    "field$0",
+                    type,
+                )
+            )
+            else -> type.getChildren().mapIndexed { index, type ->
+                Field(
+                    "field$index",
+                    when {
+                        type.isBasicType() -> type
+                        else -> error("All tuples should be translated to bundles")
+                    }
+                )
+            }
+
         }
-
-
-
-
-        super.visitPipeLine(pipeLine, *args)
     }
 }
 
-class CallPair(
-    val pipeCall: PipeCall,
-    val args: List<Expression>
-) : TypedASTNode() {
-}
