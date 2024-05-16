@@ -181,7 +181,7 @@ object PipeLineTranslator : PipedBaseVisitor<Expression>() {
             }
         }.filterNotNull()
 
-        return PipeLineTuple(tupleElements)
+        return PipeLineTuple(tupleElements.toMutableList())
     }
 }
 

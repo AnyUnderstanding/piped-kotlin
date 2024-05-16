@@ -5,6 +5,7 @@ import de.any.AST.ILASTVisitor
 import de.any.AST.ILProgram
 import de.any.AST.Program
 import de.any.codegen.CodeGenerator
+import de.any.codegen.CodeTargetGenerator
 import org.antlr.v4.runtime.CharStream
 import org.antlr.v4.runtime.CharStreams
 import org.antlr.v4.runtime.CommonTokenStream
@@ -20,6 +21,7 @@ interface Stage {
 class Compiler {
     val timer: Timer = Timer()
     var tokenCount = 0
+
     init {
         timer.start()
     }
@@ -59,7 +61,7 @@ class LexerStage(
     val compiler: Compiler
 ) : Stage {
     fun <T> toAst(body: (tokens: TokenStream) -> T): ParserStage<T> {
-        compiler.tokenCount = tokens.size()
+        // TODO get token count
         return ParserStage<T>(body(tokens), compiler)
 
     }
@@ -127,7 +129,7 @@ class ILStage(
 class CodegenStage(
     val ast: ILProgram, val compiler: Compiler
 ) : Stage {
-    fun addGenerator(generator: CodeGenerator): OutPutStage {
+    fun addGenerator(generator: CodeTargetGenerator): OutPutStage {
         return OutPutStage(generator.gen(ast), compiler)
     }
 
@@ -146,7 +148,7 @@ class OutPutStage(
 
     fun showStats(): OutPutStage {
         println("Compilation took: ${compiler.timer.getReadableDuration()}")
-        println("Token count: ${compiler.tokenCount}")
+        // println("Token count: ${compiler.tokenCount}")
         return this
     }
 
@@ -188,7 +190,8 @@ class Timer {
     fun getReadableDuration(): String {
         val millis = duration()
         val minutes = TimeUnit.MILLISECONDS.toMinutes(millis)
-        val seconds = TimeUnit.MILLISECONDS.toSeconds(millis) - TimeUnit.MINUTES.toSeconds(TimeUnit.MILLISECONDS.toMinutes(millis))
+        val seconds =
+            TimeUnit.MILLISECONDS.toSeconds(millis) - TimeUnit.MINUTES.toSeconds(TimeUnit.MILLISECONDS.toMinutes(millis))
         val ms = millis - TimeUnit.SECONDS.toMillis(seconds) - TimeUnit.MINUTES.toMillis(minutes)
         return String.format(
             "%d min, %d sec, %d ms",

@@ -4,7 +4,7 @@ import de.any.AST.*
 import de.any.AST.Function
 
 class PipelineSeparator : ILASTVisitor() {
-    lateinit var functions : MutableList<Function>
+    lateinit var functions: MutableList<Function>
     private var index = 0
 
 
@@ -14,26 +14,209 @@ class PipelineSeparator : ILASTVisitor() {
     }
 
     override fun visitPipeLine(pipeLine: PipeLine, vararg args: Any) {
+        val functionArgs = getFields(pipeLine.elements.first().type)
+        val scope = buildScope(pipeLine, functionArgs)
         functions.add(
             Function(
                 "pipeLine$index",
                 pipeLine.elements.last().type,
-                getFields(pipeLine.elements.first().type),
-                Scope(
-                    mutableListOf(/*TODO*/)
-                )
+                functionArgs,
+                scope
             )
         )
+        replacePipeline(
+            pipeLine,
+            FunctionCall("pipeLine$index", (pipeLine.elements.first() as PipeLineTuple).expressions, pipeLine.type)
+        )
+        index++
+        visitScope(scope)
+    }
+
+    fun replacePipeline(pipeLine: PipeLine, functionCall: FunctionCall) {
+        val parent = pipeLine.parent
+        functionCall.parent = parent
+        when (parent) {
+            is Scope -> parent.children.replaceAll { if (it == pipeLine) functionCall else it }
+            is InfixOperation -> {
+                if (parent.left == pipeLine) {
+                    parent.left = functionCall
+                } else {
+                    parent.right = functionCall
+                }
+            }
+
+            is Assignment -> {
+                parent.expression = functionCall
+            }
+
+            is PipeLineTuple -> {
+                parent.expressions.replaceAll { if (it == pipeLine) functionCall else it }
+            }
+
+            is Tuple -> {
+                parent.elements.replaceAll { if (it == pipeLine) functionCall else it }
+            }
+
+            is Return -> {
+                parent.expression = functionCall
+            }
+
+            is Parenthesis -> {
+                parent.expression = functionCall
+            }
+
+            is BundleInit -> {
+                parent.initializers.replaceAll { if (it == pipeLine) functionCall else it }
+            }
+
+            else -> error("Unknown parent type $parent")
+        }
+    }
+
+
+    fun buildScope(
+        pipeLine: PipeLine,
+        functionArgs: List<Field>
+    ): Scope {
+        val scope = Scope(mutableListOf())
+        val children = scope.children
+
+        pipeLine.elements.foreachWithPreviousIndexed { index, previous, current ->
+            val expression = when (previous) {
+                // todo cases can be collapesed if the function gets passed the arguments as a single bundle
+                null -> {
+                    callWithPreviousNull(current, functionArgs)
+                }
+
+                else -> {
+                    callWithPrevious(index, previous, current)
+                }
+            }
+
+            children.add(
+                Assignment(
+                    "element\$$index",
+                    expression.type,
+                    expression
+                )
+            )
+        }
+        val return_ = Return(
+            Variable(listOf("element\$${pipeLine.elements.size - 1}"))
+        )
+        return_.expression.type = pipeLine.type
+        return_.type = pipeLine.type
+        children.add(
+            return_
+        )
+        return scope
+    }
+
+    fun callWithPrevious(
+        index: Int,
+        previous: PipeLineElement,
+        current: PipeLineElement
+    ): Expression {
+        return when (current) {
+            is PipeLineTuple -> {
+                Tuple(
+                    current.expressions.mapIndexed { i, it ->
+                        when (it) {
+                            is PipeLineTuplePlaceholder ->
+                                Variable(
+                                    listOf("element\$${index - 1}", "field${it.index}"),
+                                    it.type,
+                                    current.type
+                                )
+
+                            else -> it
+                        }
+
+                    }.toMutableList()
+                )
+            }
+
+
+            is PipeCall -> {
+                val args =
+                    if (previous.type.getChildren().size == 1) {
+                        listOf(
+                            Variable(
+                                listOf("element\$${index - 1}"),
+                                previous.type,
+                                previous.type
+                            )
+                        )
+                    } else {
+                        previous.type.getChildren().mapIndexed { j, it1 ->
+                            Variable(
+                                listOf("element\$${index - 1}", "field$j"),
+                                it1,
+                                previous.type
+                            )
+                        }
+                    }
+
+                val call = FunctionCall(
+                    current.name,
+                    args,
+                    current.type
+                )
+                call.parent = current.parent
+                call
+            }
+
+            else -> error("not implemented yet")
+
+
+        }
+    }
+
+    fun callWithPreviousNull(
+        current: PipeLineElement,
+        functionArgs: List<Field>
+    ): Expression {
+        when (current) {
+
+            is PipeLineTuple -> {
+                val expressions: MutableList<Expression> = current.expressions.mapIndexed { i, _ ->
+                    Variable(
+                        listOf("field$i"),
+                        functionArgs[i].type,
+                        current.type
+
+                    )
+                }.toMutableList()
+                if (expressions.size == 1) {
+                    return expressions[0]
+                }
+                val type = Type(expressions.map { it.type })
+                return Tuple(
+                    expressions,
+                    type
+                )
+
+            }
+
+            is GuardedPipeCall -> {
+                // todo
+                return error("Does it make sense to have guards as the first element of a pipeline?")
+            }
+
+            else -> error("All elements should be pipeline tuples")
+        }
+
     }
 
     private fun getFields(type: Type): List<Field> {
         return when {
             type.isBasicType() -> listOf(
                 Field(
-                    "field$0",
+                    "field0",
                     type,
                 )
             )
+
             else -> type.getChildren().mapIndexed { index, type ->
                 Field(
                     "field$index",
@@ -44,6 +227,16 @@ class PipelineSeparator : ILASTVisitor() {
                 )
             }
 
+        }
+    }
+
+    fun <T> List<T>.foreachWithPreviousIndexed(action: (Int, T?, T) -> Unit) {
+        var index = 0
+        var previous: T? = null
+        for (element in this) {
+            action(index, previous, element)
+            previous = element
+            index++
         }
     }
 }

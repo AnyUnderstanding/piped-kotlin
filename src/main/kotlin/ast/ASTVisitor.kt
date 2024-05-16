@@ -177,7 +177,7 @@ abstract class ILASTVisitor : ASTVisitor() {
         }
     }
 
-    fun visitFunctionCall(expression: FunctionCall, vararg args: Any) {
+    open fun visitFunctionCall(expression: FunctionCall, vararg args: Any) {
         expression.parameters.forEach { visitExpression(it) }
     }
 }

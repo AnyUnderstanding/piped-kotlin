@@ -5,7 +5,7 @@ import org.antlr.v4.runtime.CommonTokenStream
 import org.antlr.v4.runtime.tree.ParseTree
 import kotlin.test.Test
 
-class TestExpressionTranslator {
+class TestAssignmentTranslator {
     @Test
     fun testTranslate() {
         val testCase = "1 + 2"

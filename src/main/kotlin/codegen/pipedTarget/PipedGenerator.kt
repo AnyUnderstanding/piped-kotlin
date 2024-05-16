@@ -2,23 +2,17 @@ package de.any.codegen.pipedTarget
 
 import de.any.AST.*
 import de.any.AST.Function
-import de.any.codegen.CodeGenerator
+import de.any.codegen.CodeTargetGenerator
 
 
-class PipedGenerator(val allowTuples: Boolean = false) : CodeGenerator() {
+class PipedGenerator(val allowTuples: Boolean = false) : CodeTargetGenerator() {
 
-    val lineBuilder = StringBuilder()
 
-    fun useLine(suffix: String = "", removeNewLine: Boolean = false) {
-        appendCode(lineBuilder.toString() + suffix, removeNewLine)
-        lineBuilder.clear()
-    }
-
-    override fun gen(program: Program): String {
-        if (program is ILProgram) {
-            visit(program as ILProgram)
+    override fun gen(expression: Program): String {
+        if (expression is ILProgram) {
+            visit(expression as ILProgram)
         } else {
-            visit(program as Program)
+            visit(expression as Program)
         }
         return code.toString()
     }
@@ -219,6 +213,21 @@ class PipedGenerator(val allowTuples: Boolean = false) : CodeGenerator() {
         function.parameters.forEach {
             visitField(it, true)
         }
-        useLine("){}", true)
+        useLine("): ${function.returnType.asPipedString()} ", true)
+        visitScope(function.body)
+        useLine()
+
+    }
+
+    override fun visitFunctionCall(expression: FunctionCall, vararg args: Any) {
+        lineBuilder.append(expression.name)
+        lineBuilder.append("(")
+        expression.parameters.forEach {
+            visitExpression(it)
+            lineBuilder.append(", ")
+        }
+
+        lineBuilder.append(")")
+
     }
 }

@@ -91,6 +91,7 @@ class TypeChecker : ASTVisitor() {
         if (variable.isBundleField()) {
             val bundleLookUp = BundleTable.getBundleByTypeStrict(lookUp.type)
             variable.type = BundleTable.getTypeForPathStrict(bundleLookUp, variable.getPathWithoutIdentifier())
+            variable.referencedBundle = lookUp.type
         } else {
             variable.type = lookUp.type
         }
