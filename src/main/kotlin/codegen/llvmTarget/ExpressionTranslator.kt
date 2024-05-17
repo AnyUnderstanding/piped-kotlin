@@ -36,7 +36,21 @@ class ExpressionTranslator : AstNodeTranslator<Expression>() {
         // store values
         repeat(bundleInit.initializers.size) {
             val fieldPointer = getBundleFieldPointer(bundleInit.type, name, it)
-            useLine("store ${bundleInit.initializers[it].type.getLlvmName()} ${locations[it].location}, ptr ${fieldPointer}")
+            val initializer = bundleInit.initializers[it]
+            if (initializer.type.isBundle()) {
+                val bundle = BundleTable.getBundleByTypeStrict(initializer.type)
+                val dest = fieldPointer
+                val src = locations[it].location
+                val castedDest = createVariableName()
+                val castedSrc = createVariableName()
+                useLine("$castedDest = bitcast ptr $dest to i8*")
+                useLine("$castedSrc = bitcast ptr $src to i8*")
+                useLine(
+                    "   call void @llvm.memcpy.p0.p0.i32(ptr $castedDest, ptr $castedSrc, i32 ${bundle.getByteCount()}, i1 0)\n"
+                )
+                return
+            }
+            useLine("store ${initializer.type.getLlvmName()} ${locations[it].location}, ptr ${fieldPointer}")
 
         }
 
@@ -112,8 +126,6 @@ class ExpressionTranslator : AstNodeTranslator<Expression>() {
 
 
     fun getBundleFieldPointer(expression: Variable): String {
-        println(expression)
-        println(expression.referencedBundle)
         val firstBundleType = expression.referencedBundle
         val bundle = BundleTable.getBundleByTypeStrict(firstBundleType)
         val variableName = AssignmentTranslator.assignmentTracking[expression.getIdentifier()]

@@ -1,15 +1,20 @@
 package de.any.codegen.llvmTarget
 
 import de.any.AST.*
-import de.any.AST.ExpressionTranslator
 import de.any.AST.Function
 import de.any.codegen.CodeTargetGenerator
 
 class LlvmGenerator : CodeTargetGenerator() {
+    var labelCounter = 0
     override fun gen(expression: Program): String {
         require(expression is ILProgram) { "Program must be of type ILProgram" }
         visit(expression as ILProgram)
+        addDeclarations()
         return code.toString()
+    }
+
+    fun addDeclarations() {
+        useLine("declare void @llvm.memcpy.p0.p0.i32(ptr noalias nocapture writeonly, ptr noalias nocapture readonly, i32, i1 immarg) #2")
     }
 
     override fun visitPipe(pipe: Pipe, vararg args: Any) {
@@ -28,7 +33,7 @@ class LlvmGenerator : CodeTargetGenerator() {
         appendCode("%${bundle.name} = type {")
         increaseIndent()
         joinLines(",") {
-            bundle.fields.map { "${it.type.getLlvmNamePointer()}" }
+            bundle.fields.map { "${it.type.getLlvmName()}" }
         }
         decreaseIndent()
 
@@ -67,7 +72,25 @@ class LlvmGenerator : CodeTargetGenerator() {
         val translated = ExpressionTranslator().gen(return_.expression)
 
         appendBlock(translated.code)
+        println(return_.expression.type)
         useLine("ret ${return_.expression.type.getLlvmNamePointer()} ${translated.location}")
     }
+
+    override fun visitConditional(conditional: Conditional, vararg args: Any) {
+        val condition = ExpressionTranslator().gen(conditional.condition)
+        appendBlock(condition.code)
+        val trueLabel = getLabel()
+        val falseLabel = getLabel()
+        useLine("br i1 ${condition.location}, label %$trueLabel, label %$falseLabel")
+        useLine("$trueLabel:")
+        visitReturn(conditional.thenBranch)
+        useLine("$falseLabel:")
+    }
+
+    fun getLabel(): String {
+        return "label${labelCounter++}"
+    }
+
+
 }
 

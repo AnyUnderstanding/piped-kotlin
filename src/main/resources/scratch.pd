@@ -1,43 +1,17 @@
-bundle Dog {
-    let age: Int
-}
-
-bundle Human {
-    let age: Int,
-    let dog: Dog
-}
-
 pi main() : Int {
-    let max: Dog = Dog(3);
-    let carl: Human = Human(21, max);
-    >> (carl.dog.age) |> imScared |> add |> imScared |> getSecond;
+    let x: Int = 1;
+    let r: Int = 4;
+    let m : Int = (x, r) |> add [ (l) |>
+        (l==1) -> 2,
+        else -> 3
+    ];
+    >> m;
+}
+
+pi add(x: Int, y: Int) : Int {
+    >> x + y;
 }
 
 
-pi addOne(a: Int) : Int {
-    >> a + 1;
-}
 
-pi add(a: Int, b: Int) : Int {
-    >> a + b;
-}
 
-pi tripleAdd(a: Int, b: Int, c: Int) : Int {
-    >> a + b + c;
-}
-
-pi imScared(a: Int) : (Int, Int) {
-    >> (a, a);
-}
-
-pi tripleFirst(a: Int, b: Int) : (Int, Int) {
-    >> (a * 3, b);
-}
-
-pi getFirst(a: Int, b: Int) : Int {
-    >> a;
-}
-
-pi getSecond(a: Int, b: Int) : Int {
-    >> b;
-}

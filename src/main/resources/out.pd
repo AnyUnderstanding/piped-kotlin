@@ -1,46 +1,27 @@
-bundle Dog {
-   let age : Int, 
-}
-bundle Human {
-   let age : Int, 
-   let dog : Dog, 
-}
 bundle $$Int$Int$$ {
    let field0 : Int, 
    let field1 : Int, 
 }
 pi main() : Int {
-   let max : Dog = Dog(3);
-   let carl : Human = Human(21, max);
-   >> pipeLine0(carl.dog.age, );
+   let x : Int = 1;
+   let r : Int = 4;
+   let m : Int = pipeLine3(x, r, );
+   >> m;
 }
-pi addOne(a : Int) : Int {
-   >> a + 1;
+pi add(x : Int, y : Int) : Int {
+   >> x + y;
 }
-pi add(a : Int, b : Int) : Int {
-   >> a + b;
+fun guard0(l : Int, ): Int {
+   if (l == 1) {
+      >> 2;
+   }
+   >> 3;
 }
-pi tripleAdd(a : Int, b : Int, c : Int) : Int {
-   >> a + b + c;
-}
-pi imScared(a : Int) : $$Int$Int$$ {
-   >> $$Int$Int$$(a, a);
-}
-pi tripleFirst(a : Int, b : Int) : $$Int$Int$$ {
-   >> $$Int$Int$$(a * 3, b);
-}
-pi getFirst(a : Int, b : Int) : Int {
-   >> a;
-}
-pi getSecond(a : Int, b : Int) : Int {
-   >> b;
-}
-fun pipeLine0(field0 : Int, ): Int {
-   let element$0 : Int = field0;
-   let element$1 : $$Int$Int$$ = imScared(element$0, );
-   let element$2 : Int = add(element$1.field0, element$1.field1, );
-   let element$3 : $$Int$Int$$ = imScared(element$2, );
-   let element$4 : Int = getSecond(element$3.field0, element$3.field1, );
-   >> element$4;
+
+fun pipeLine3(field0 : Int, field1 : Int, ): Int {
+   let element$0 : $$Int$Int$$ = $$Int$Int$$(field0, field1);
+   let element$1 : Int = add(element$0.field0, element$0.field1, );
+   let element$2 : Int = guard0(element$1.field0, element$1.field1, );
+   >> element$2;
 }
 

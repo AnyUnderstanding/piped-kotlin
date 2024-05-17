@@ -35,7 +35,7 @@ expr:
 // 1. Possible solutions -> Require '|>' before single pipeline elements
 // 2. Don't allow Pipes to have the same name as Variables
 pipeline: (pipelineElement PIPE_OPERATOR)+ (pipelineElement);
-pipelineElement: pipelineTuple | ID guardedPipe?;
+pipelineElement: pipelineTuple | ID | guardedPipe;
 pipelineTuple: '(' ((expr | placeholder) ',')* (expr | placeholder)? ')';
 placeholder: '#'DEC_INT;
 guardedPipe: '[' args=untypedArgumentList PIPE_OPERATOR (guard)* elseGuard ']';

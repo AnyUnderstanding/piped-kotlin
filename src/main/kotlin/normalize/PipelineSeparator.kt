@@ -6,6 +6,7 @@ import de.any.AST.Function
 class PipelineSeparator : ILASTVisitor() {
     lateinit var functions: MutableList<Function>
     private var index = 0
+    private var guardCounter = 0
 
 
     override fun visit(program: ILProgram, vararg args: Any) {
@@ -80,12 +81,11 @@ class PipelineSeparator : ILASTVisitor() {
     ): Scope {
         val scope = Scope(mutableListOf())
         val children = scope.children
-
-        pipeLine.elements.foreachWithPreviousIndexed { index, previous, current ->
-            val expression = when (previous) {
+        pipeLine.elements.foreachWithPreviousIndexed { _, previous, current ->
+            val expressions = when (previous) {
                 // todo cases can be collapesed if the function gets passed the arguments as a single bundle
                 null -> {
-                    callWithPreviousNull(current, functionArgs)
+                    callWithPreviousNull(current)
                 }
 
                 else -> {
@@ -93,16 +93,19 @@ class PipelineSeparator : ILASTVisitor() {
                 }
             }
 
-            children.add(
-                Assignment(
-                    "element\$$index",
-                    expression.type,
-                    expression
+            expressions.forEach { expression ->
+                children.add(
+                    Assignment(
+                        "element\$$index",
+                        expression.type,
+                        expression
+                    )
                 )
-            )
+                index++
+            }
         }
         val return_ = Return(
-            Variable(listOf("element\$${pipeLine.elements.size - 1}"))
+            Variable(listOf("element\$${index - 1}"))
         )
         return_.expression.type = pipeLine.type
         return_.type = pipeLine.type
@@ -116,84 +119,148 @@ class PipelineSeparator : ILASTVisitor() {
         index: Int,
         previous: PipeLineElement,
         current: PipeLineElement
-    ): Expression {
+    ): List<Expression> {
         return when (current) {
             is PipeLineTuple -> {
-                Tuple(
-                    current.expressions.mapIndexed { i, it ->
-                        when (it) {
-                            is PipeLineTuplePlaceholder ->
-                                Variable(
-                                    listOf("element\$${index - 1}", "field${it.index}"),
-                                    it.type,
-                                    current.type
-                                )
+                listOf(
+                    Tuple(
+                        current.expressions.mapIndexed { i, it ->
+                            when (it) {
+                                is PipeLineTuplePlaceholder ->
+                                    Variable(
+                                        listOf("element\$${index - 1}", "field${it.index}"),
+                                        it.type,
+                                        current.previousElement!!.type
+                                    )
 
-                            else -> it
-                        }
+                                else -> it
+                            }
 
-                    }.toMutableList()
+                        }.toMutableList(),
+                        current.type
+                    )
                 )
             }
 
 
             is PipeCall -> {
-                val args =
-                    if (previous.type.getChildren().size == 1) {
-                        listOf(
-                            Variable(
-                                listOf("element\$${index - 1}"),
-                                previous.type,
-                                previous.type
-                            )
-                        )
-                    } else {
-                        previous.type.getChildren().mapIndexed { j, it1 ->
-                            Variable(
-                                listOf("element\$${index - 1}", "field$j"),
-                                it1,
-                                previous.type
-                            )
-                        }
-                    }
-
-                val call = FunctionCall(
-                    current.name,
-                    args,
-                    current.type
-                )
-                call.parent = current.parent
-                call
+                listOf(handlePipeCall(previous, current))
             }
 
-            else -> error("not implemented yet")
+            is GuardedPipeCall -> {
+                val expression = handlePipeCall(previous, current)
+                val guardCall = handleGuards(previous, current)
+
+                listOf(expression, guardCall)
+            }
+
+            else -> error("this should not happen")
 
 
         }
     }
 
+    fun handleGuards(previous: PipeLineElement, current: GuardedPipeCall): FunctionCall {
+        val args = getArgs(previous, 0)
+        val guardFunctionName = getGuardFunctionName()
+        val expressions: MutableList<TypedASTNode> = current.guards.map {
+            Conditional(
+                it.guardExpression,
+                Return(
+                    it.returnExpression
+                )
+            )
+        }.union(
+            listOf(
+                Return(
+                    current.elseGuard.returnExpression
+                )
+            )
+        ).toMutableList()
+
+
+        val guardFunction = Function(
+            guardFunctionName,
+            current.type,
+            current.parameters,
+            Scope(
+                expressions
+            )
+        )
+        functions.add(guardFunction)
+
+        val call = FunctionCall(
+            guardFunctionName,
+            args,
+            current.type
+        )
+        call.parent = current.parent
+        return call
+
+    }
+
+    fun handlePipeCall(previous: PipeLineElement, current: PipeCall): Expression {
+        return handlePipeCall(previous, current, current.name)
+    }
+
+    fun handlePipeCall(previous: PipeLineElement, current: GuardedPipeCall): Expression {
+        return handlePipeCall(previous, current, current.name)
+    }
+
+    fun handlePipeCall(previous: PipeLineElement, current: PipeLineElement, name: String): Expression {
+
+        val args = getArgs(previous)
+        val call = FunctionCall(
+            name,
+            args,
+            current.type
+        )
+        call.parent = current.parent
+        return call
+    }
+
+    fun getArgs(previous: PipeLineElement, backStep: Int = 1): List<Variable> {
+        return if (previous.type.getChildren().size == 1) {
+            listOf(
+                Variable(
+                    listOf("element\$${index - backStep}"),
+                    previous.type,
+                    previous.type
+                )
+            )
+        } else {
+            previous.type.getChildren().mapIndexed { j, it1 ->
+                Variable(
+                    listOf("element\$${index - backStep}", "field$j"),
+                    it1,
+                    previous.type
+                )
+            }
+        }
+    }
+
     fun callWithPreviousNull(
         current: PipeLineElement,
-        functionArgs: List<Field>
-    ): Expression {
+    ): List<Expression> {
         when (current) {
 
             is PipeLineTuple -> {
-                val expressions: MutableList<Expression> = current.expressions.mapIndexed { i, _ ->
+                val expressions: MutableList<Expression> = current.expressions.mapIndexed { i, it ->
                     Variable(
                         listOf("field$i"),
-                        functionArgs[i].type,
+                        it.type,
                         current.type
-
                     )
                 }.toMutableList()
                 if (expressions.size == 1) {
-                    return expressions[0]
+                    return listOf(expressions[0])
                 }
                 val type = Type(expressions.map { it.type })
-                return Tuple(
-                    expressions,
-                    type
+                return listOf(
+                    Tuple(
+                        expressions,
+                        type
+                    )
                 )
 
             }
@@ -206,6 +273,10 @@ class PipelineSeparator : ILASTVisitor() {
             else -> error("All elements should be pipeline tuples")
         }
 
+    }
+
+    fun getGuardFunctionName(): String {
+        return "guard${guardCounter++}"
     }
 
     private fun getFields(type: Type): List<Field> {

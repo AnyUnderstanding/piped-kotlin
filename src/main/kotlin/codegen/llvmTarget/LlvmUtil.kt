@@ -3,6 +3,7 @@ package de.any.codegen.llvmTarget
 import de.any.AST.Bundle
 import de.any.AST.PrimitiveType
 import de.any.AST.Type
+import de.any.analyzer.BundleTable
 import java.nio.file.Path
 
 fun PrimitiveType.getLlvmName() {
@@ -37,6 +38,18 @@ fun Type.getLlvmNamePointer(): String {
         return getLlvmName()
     }
     return "${getLlvmName()}*"
+}
+
+fun Bundle.getByteCount(): Int {
+    return fields.sumOf {
+        when (it.type) {
+            PrimitiveType.INT.type -> 4
+            PrimitiveType.BOOL.type -> 1
+            PrimitiveType.STRING.type -> 1
+            PrimitiveType.NONE.type -> 0
+            else -> BundleTable.getBundleByTypeStrict(it.type).getByteCount()
+        }
+    }
 }
 
 data class TranslationResult(val code: String, val location: String)

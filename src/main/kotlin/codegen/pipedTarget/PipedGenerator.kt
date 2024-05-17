@@ -228,6 +228,15 @@ class PipedGenerator(val allowTuples: Boolean = false) : CodeTargetGenerator() {
         }
 
         lineBuilder.append(")")
+    }
 
+    override fun visitConditional(conditional: Conditional, vararg args: Any) {
+        lineBuilder.append("if (")
+        visitExpression(conditional.condition)
+        useLine(") {")
+        increaseIndent()
+        visitReturn(conditional.thenBranch)
+        decreaseIndent()
+        useLine("}")
     }
 }

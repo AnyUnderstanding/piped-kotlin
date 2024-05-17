@@ -11,6 +11,7 @@ import de.any.analyzer.TypeChecker
 import de.any.codegen.llvmTarget.LlvmGenerator
 import de.any.codegen.pipedTarget.PipedGenerator
 import de.any.normalize.PipelineSeparator
+import de.any.normalize.ScopeSeparator
 import de.any.normalize.TupleTranslator
 
 // TODO add guarded pipes
@@ -36,10 +37,11 @@ fun main() {
     )
         .addILSteps(
             PipelineSeparator(),
+            ScopeSeparator(),
             TupleTranslator(),
         )
-
-    generatorStage.addGenerator(PipedGenerator()).toFile("src/main/resources/out.pd")
+    generatorStage.printAst()
+    generatorStage.addGenerator(PipedGenerator(true)).toFile("src/main/resources/out.pd")
     generatorStage.addGenerator(LlvmGenerator()).showStats().toFile("out.ll")
 
     BundleTable.clear()

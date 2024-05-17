@@ -149,7 +149,6 @@ object PipeLineTranslator : PipedBaseVisitor<Expression>() {
                 val args = guard.args.ID().map { Field(it.text, PrimitiveType.NONE.type) }
                 val guardings = GuardTranslator.visitGuardedPipe(guard)
                 GuardedPipeCall(
-                    pipeCallName.text,
                     args,
                     guardings.first, guardings.second
                 )

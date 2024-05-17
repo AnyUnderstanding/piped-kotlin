@@ -199,7 +199,6 @@ class PipeCall(val name: String) : PipeLineElement() {
 }
 
 class GuardedPipeCall(
-    val name: String,
     val parameters: List<Field>,
     val guards: List<Guard>,
     val elseGuard: ElseGuard,
@@ -212,7 +211,7 @@ class GuardedPipeCall(
     }
 
     override fun toString(): String {
-        return "GuardedPipeCall: $name \n" + getIndentedStringFromList(guards) + "\n" + elseGuard
+        return "GuardedPipeCall: \n" + getIndentedStringFromList(guards) + "\n" + elseGuard
     }
 }
 
@@ -297,6 +296,8 @@ class Tuple(val elements: MutableList<Expression>) : Expression() {
 }
 
 class Scope(val children: MutableList<TypedASTNode>) : Expression() {
+    lateinit var capturedVariables: List<Variable>
+
     init {
         children.forEach { it.parent = this }
     }
@@ -333,6 +334,7 @@ class StringValue(value: String) : Value(value) {
 
 class Variable(val path: List<String>) : Expression() {
     lateinit var referencedBundle: Type
+
     constructor(path: List<String>, type: Type, referencedBundle: Type) : this(path) {
         this.type = type
         this.referencedBundle = referencedBundle
@@ -443,4 +445,11 @@ class FunctionCall(val name: String, val parameters: List<Expression>, type: Typ
     }
 }
 
-
+class Conditional(
+    val condition: Expression,
+    val thenBranch: Return,
+) : TypedASTNode() {
+    init {
+        type = PrimitiveType.NONE.type
+    }
+}

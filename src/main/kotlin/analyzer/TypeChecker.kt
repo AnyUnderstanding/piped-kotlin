@@ -1,7 +1,6 @@
 package de.any.analyzer
 
 import de.any.AST.*
-import de.any.normalize.TupleTranslator
 
 class TypeChecker : ASTVisitor() {
     var currentScope = VariableScope()
@@ -81,12 +80,14 @@ class TypeChecker : ASTVisitor() {
             acc
         }?.type ?: PrimitiveType.NONE.type
         scope.type = type
+        scope.capturedVariables = currentScope.capturedVariables
         currentScope = currentScope.bubbleUp()
     }
 
     override fun visitVariable(variable: Variable, vararg args: Any) {
         super.visitVariable(variable)
-        val lookUp = currentScope.getVaribaleStrict(variable.getIdentifier())
+
+        val lookUp = currentScope.getVariableStrict(variable)
 
         if (variable.isBundleField()) {
             val bundleLookUp = BundleTable.getBundleByTypeStrict(lookUp.type)
@@ -95,6 +96,7 @@ class TypeChecker : ASTVisitor() {
         } else {
             variable.type = lookUp.type
         }
+        currentScope.captureVariable(variable)
     }
 
     override fun visitParenthesis(parenthesis: Parenthesis, vararg args: Any) {
@@ -111,8 +113,7 @@ class TypeChecker : ASTVisitor() {
         for (i in 0 until pipeLine.elements.size) {
             val previous = pipeLine.elements.getOrNull(i - 1)
             val current = pipeLine.elements[i]
-            current.
-            previousElement = previous
+            current.previousElement = previous
             visitExpression(pipeLine.elements[i])
         }
         super.visitPipeLine(pipeLine)
@@ -136,7 +137,7 @@ class TypeChecker : ASTVisitor() {
 
         checkAndTypeGuardArgs(
             guardedPipeCall.parameters,
-            PipeTable.getPipeStrict(guardedPipeCall.name).returnType
+            guardedPipeCall.previousElement!!.type
         )
         guardedPipeCall.parameters.forEach { currentScope.addField(it) }
 
@@ -175,8 +176,12 @@ class TypeChecker : ASTVisitor() {
         val inType = pipelineTuple.previousElement?.type?.getChildren()
         val tupleTypes = pipelineTuple.expressions.map {
             when (it) {
-                is PipeLineTuplePlaceholder -> inType?.getOrNull(it.index)
-                    ?: throw Exception("Type error: placeholder with index ${it.index} is a invalid reference")
+                is PipeLineTuplePlaceholder -> {
+                    val type = inType?.getOrNull(it.index)
+                        ?: throw Exception("Type error: placeholder with index ${it.index} is a invalid reference")
+                    it.type = type
+                    type
+                }
 
                 else -> it.type
             }

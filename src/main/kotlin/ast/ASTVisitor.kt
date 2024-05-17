@@ -177,7 +177,23 @@ abstract class ILASTVisitor : ASTVisitor() {
         }
     }
 
+    override fun visitScope(scope: Scope, vararg args: Any) {
+        scope.children.forEach {
+            when (it) {
+                is Assignment -> visitAssignment(it, *args)
+                is Expression -> visitExpression(it, *args)
+                is Return -> visitReturn(it, *args)
+                is Conditional -> visitConditional(it, *args)
+            }
+        }
+    }
+
     open fun visitFunctionCall(expression: FunctionCall, vararg args: Any) {
         expression.parameters.forEach { visitExpression(it) }
+    }
+
+    open fun visitConditional(conditional: Conditional, vararg args: Any) {
+        visitExpression(conditional.condition)
+        visitReturn(conditional.thenBranch)
     }
 }
