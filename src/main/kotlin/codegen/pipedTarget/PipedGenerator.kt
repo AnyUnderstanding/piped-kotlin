@@ -183,7 +183,7 @@ class PipedGenerator(val allowTuples: Boolean = false) : CodeTargetGenerator() {
     }
 
     override fun visitGuardedPipeCall(guardedPipeCall: GuardedPipeCall, vararg args: Any) {
-        lineBuilder.append(guardedPipeCall.name + " [")
+        lineBuilder.append(" [")
         lineBuilder.append("(")
         guardedPipeCall.parameters.dropLast(1).forEach {
             lineBuilder.append(it.name)

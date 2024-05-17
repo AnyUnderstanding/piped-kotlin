@@ -1,15 +1,12 @@
 pi main() : Int {
-    let x: Int = 1;
-    let r: Int = 4;
-    let m : Int = (x, r) |> add [ (l) |>
-        (l==1) -> 2,
-        else -> 3
-    ];
-    >> m;
+    >> (0, 1, 13) |> fib;
 }
 
-pi add(x: Int, y: Int) : Int {
-    >> x + y;
+pi fib(prev: Int, curr: Int, count: Int) : Int {
+   >> (count) |> [ (c) |>
+        (c == 0) -> prev,
+        else -> (curr, prev + curr, c - 1) |> fib
+    ];
 }
 
 

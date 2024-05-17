@@ -151,14 +151,7 @@ class TypeChecker : ASTVisitor() {
             }
             acc
         }
-
-        val pipe = PipeTable.getPipeStrict(guardedPipeCall.name)
-
-        if (guardedPipeCall.previousElement != null && guardedPipeCall.previousElement!!.type != pipe.getInType()) {
-            throw Exception("Type error: expected ${pipe.getInType()}, got ${guardedPipeCall.previousElement!!.type}")
-        } else if (guardedPipeCall.previousElement == null && pipe.getInType() != PrimitiveType.NONE.type) {
-            throw Exception("Type error: expected ${pipe.getInType()}, got ${PrimitiveType.NONE.type}")
-        }
+        guardedPipeCall.capturedVariables = currentScope.capturedVariables.distinctBy { it.getIdentifier() }
         currentScope = currentScope.bubbleUp()
     }
 

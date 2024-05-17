@@ -1,27 +1,36 @@
-bundle $$Int$Int$$ {
+bundle $$Int$Int$Int$$ {
    let field0 : Int, 
    let field1 : Int, 
+   let field2 : Int, 
 }
 pi main() : Int {
-   let x : Int = 1;
-   let r : Int = 4;
-   let m : Int = pipeLine3(x, r, );
-   >> m;
+   >> pipeLine2(0, 1, 13, );
 }
-pi add(x : Int, y : Int) : Int {
-   >> x + y;
+pi fib(prev : Int, curr : Int, count : Int) : Int {
+   >> pipeLine8(count, prev, curr, );
 }
-fun guard0(l : Int, ): Int {
-   if (l == 1) {
-      >> 2;
-   }
-   >> 3;
+fun pipeLine2(field0 : Int, field1 : Int, field2 : Int, ): Int {
+   let element$0 : $$Int$Int$Int$$ = $$Int$Int$Int$$(field0, field1, field2);
+   let element$1 : Int = fib(element$0.field0, element$0.field1, element$0.field2, );
+   >> element$1;
 }
 
-fun pipeLine3(field0 : Int, field1 : Int, ): Int {
-   let element$0 : $$Int$Int$$ = $$Int$Int$$(field0, field1);
-   let element$1 : Int = add(element$0.field0, element$0.field1, );
-   let element$2 : Int = guard0(element$1.field0, element$1.field1, );
-   >> element$2;
+fun guard0(c : Int, prev : Int, curr : Int, ): Int {
+   if (c == 0) {
+      >> prev;
+   }
+   >> pipeLine6(curr, prev + curr, c - 1, );
+}
+
+fun pipeLine6(field0 : Int, field1 : Int, field2 : Int, ): Int {
+   let element$4 : $$Int$Int$Int$$ = $$Int$Int$Int$$(field0, field1, field2);
+   let element$5 : Int = fib(element$4.field0, element$4.field1, element$4.field2, );
+   >> element$5;
+}
+
+fun pipeLine8(field0 : Int, prev : Int, curr : Int, ): Int {
+   let element$3 : Int = field0;
+   let element$7 : Int = guard0(element$3, prev, curr, );
+   >> element$7;
 }
 

@@ -179,7 +179,9 @@ class BoolExpression(left: Expression, right: Expression, val operand: String) :
 // ___ PIPELINE ___
 class PipeLine(val elements: List<PipeLineElement>) : Expression() {
     init {
-        elements.forEach { it.parent = this }
+        elements.forEach {
+            it.parent = this
+        }
     }
 
     override fun toString(): String {
@@ -203,6 +205,7 @@ class GuardedPipeCall(
     val guards: List<Guard>,
     val elseGuard: ElseGuard,
 ) : PipeLineElement() {
+    var capturedVariables: List<Variable> = emptyList()
 
     init {
         parameters.forEach { it.parent = this }

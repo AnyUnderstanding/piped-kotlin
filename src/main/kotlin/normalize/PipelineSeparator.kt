@@ -4,18 +4,25 @@ import de.any.AST.*
 import de.any.AST.Function
 
 class PipelineSeparator : ILASTVisitor() {
-    lateinit var functions: MutableList<Function>
+    val functions: MutableList<Function> = mutableListOf()
     private var index = 0
     private var guardCounter = 0
 
 
     override fun visit(program: ILProgram, vararg args: Any) {
-        functions = program.functions
         super.visit(program, *args)
+        program.functions.addAll(functions)
     }
 
     override fun visitPipeLine(pipeLine: PipeLine, vararg args: Any) {
-        val functionArgs = getFields(pipeLine.elements.first().type)
+        val capturedVariables = mutableListOf<Variable>()
+        pipeLine.elements.forEach {
+            if (it is GuardedPipeCall) {
+                capturedVariables.addAll(it.capturedVariables.distinctBy { it.getIdentifier() })
+            }
+        }
+        val functionArgs =
+            getFields(pipeLine.elements.first().type) + capturedVariables.map { Field(it.getIdentifier(), it.type) }
         val scope = buildScope(pipeLine, functionArgs)
         functions.add(
             Function(
@@ -27,7 +34,11 @@ class PipelineSeparator : ILASTVisitor() {
         )
         replacePipeline(
             pipeLine,
-            FunctionCall("pipeLine$index", (pipeLine.elements.first() as PipeLineTuple).expressions, pipeLine.type)
+            FunctionCall(
+                "pipeLine$index",
+                (pipeLine.elements.first() as PipeLineTuple).expressions + capturedVariables,
+                pipeLine.type
+            )
         )
         index++
         visitScope(scope)
@@ -148,10 +159,9 @@ class PipelineSeparator : ILASTVisitor() {
             }
 
             is GuardedPipeCall -> {
-                val expression = handlePipeCall(previous, current)
                 val guardCall = handleGuards(previous, current)
 
-                listOf(expression, guardCall)
+                listOf(guardCall)
             }
 
             else -> error("this should not happen")
@@ -161,7 +171,9 @@ class PipelineSeparator : ILASTVisitor() {
     }
 
     fun handleGuards(previous: PipeLineElement, current: GuardedPipeCall): FunctionCall {
-        val args = getArgs(previous, 0)
+        val capturedArgs: List<Variable> = current.capturedVariables
+
+        val args = getArgs(previous)
         val guardFunctionName = getGuardFunctionName()
         val expressions: MutableList<TypedASTNode> = current.guards.map {
             Conditional(
@@ -178,32 +190,33 @@ class PipelineSeparator : ILASTVisitor() {
             )
         ).toMutableList()
 
-
+        val scope = Scope(expressions)
         val guardFunction = Function(
             guardFunctionName,
             current.type,
-            current.parameters,
-            Scope(
-                expressions
-            )
+            (current.parameters + capturedArgs.map {
+                Field(
+                    it.getIdentifier(),
+                    it.type
+                )
+            }).distinctBy { it.name },
+           scope
         )
         functions.add(guardFunction)
 
         val call = FunctionCall(
             guardFunctionName,
-            args,
+            (args + capturedArgs).distinctBy { it.getIdentifier() },
             current.type
         )
         call.parent = current.parent
+
+        super.visitScope(scope)
         return call
 
     }
 
     fun handlePipeCall(previous: PipeLineElement, current: PipeCall): Expression {
-        return handlePipeCall(previous, current, current.name)
-    }
-
-    fun handlePipeCall(previous: PipeLineElement, current: GuardedPipeCall): Expression {
         return handlePipeCall(previous, current, current.name)
     }
 
@@ -310,5 +323,35 @@ class PipelineSeparator : ILASTVisitor() {
             index++
         }
     }
+}
+
+class CapturedVariablesRetriever : ILASTVisitor() {
+    val capturedVariables: MutableList<Variable> = mutableListOf()
+
+    fun getCapturedVariables(expression: Expression): List<Variable> {
+        visitExpression(expression)
+        return capturedVariables
+    }
+
+    override fun visitExpression(expression: Expression, vararg args: Any) {
+        if (expression is Scope) {
+            capturedVariables.addAll(expression.capturedVariables)
+            return
+        }
+        super.visitExpression(expression, *args)
+    }
+
+    override fun visitVariable(variable: Variable, vararg args: Any) {
+        if (capturedVariables.any { it.getIdentifier() == variable.getIdentifier() }) {
+            return
+        }
+        if (variable.path.size == 1) {
+            capturedVariables.add(variable)
+            return
+        }
+        capturedVariables.add(Variable(listOf(variable.getIdentifier()), variable.type, variable.referencedBundle))
+    }
+
+
 }
 
