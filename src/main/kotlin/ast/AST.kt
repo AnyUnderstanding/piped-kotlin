@@ -241,7 +241,7 @@ class ElseGuard(var returnExpression: Expression) : TypedASTNode() {
     }
 }
 
-class PipeLineTuple(val expressions: MutableList<Expression>) : PipeLineElement() {
+class PipeLineTuple(var expressions: MutableList<Expression>) : PipeLineElement() {
     init {
         expressions.forEach { it.parent = this }
     }
@@ -272,7 +272,7 @@ class PipeLineTuplePlaceholder(val index: Int, val referencedPipe: Pipe? = null)
 }
 // ___ END PIPELINE ___
 
-class BundleInit(val name: String, val initializers: MutableList<Expression>) : Expression() {
+class BundleInit(val name: String, var initializers: MutableList<Expression>) : Expression() {
     init {
         initializers.forEach { it.parent = this }
     }
@@ -282,7 +282,7 @@ class BundleInit(val name: String, val initializers: MutableList<Expression>) : 
     }
 }
 
-class Tuple(val elements: MutableList<Expression>) : Expression() {
+class Tuple(var elements: MutableList<Expression>) : Expression() {
     constructor(elements: MutableList<Expression>, type: Type) : this(elements) {
         this.type = type
     }
@@ -298,7 +298,7 @@ class Tuple(val elements: MutableList<Expression>) : Expression() {
     fun typeFromElements() = Type(elements.map { it.type })
 }
 
-class Scope(val children: MutableList<TypedASTNode>) : Expression() {
+class Scope(var children: MutableList<TypedASTNode>) : Expression() {
     lateinit var capturedVariables: List<Variable>
 
     init {
@@ -454,5 +454,14 @@ class Conditional(
 ) : TypedASTNode() {
     init {
         type = PrimitiveType.NONE.type
+    }
+}
+
+class PreDefinedNode(val content: String) : TypedASTNode() {
+    init {
+        type = PrimitiveType.NONE.type
+    }
+    override fun toString(): String {
+        return "PreCompiledNode: $content"
     }
 }

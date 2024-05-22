@@ -1,0 +1,13 @@
+pi main() : Int {
+   pipeLine2((1 + 2) * 3, );
+   >> 0;
+}
+pi print(value : Int) : Int {
+   >> value;
+}
+fun pipeLine2(field0 : Int, ): Int {
+   let element$0 : Int = field0;
+   let element$1 : Int = print(element$0, );
+   >> element$1;
+}
+

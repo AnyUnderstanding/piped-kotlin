@@ -29,9 +29,14 @@ class ExpressionTranslator : AstNodeTranslator<Expression>() {
         }
 
         // alloc bundle
+        val bundle = BundleTable.getBundleByTypeStrict(bundleInit.type)
+
+        val mallocVariable = createVariableName()
+
+        useLine("$mallocVariable = call i8* @malloc(i32 ${bundle.getByteCount()})")
         val name = createVariableName()
         location = name
-        useLine("$name = alloca ${bundleInit.type.getLlvmName()}")
+        useLine("$name = bitcast i8* $mallocVariable to ${bundleInit.type.getLlvmName()}*")
 
         // store values
         repeat(bundleInit.initializers.size) {

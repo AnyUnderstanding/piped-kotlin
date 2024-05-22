@@ -1,0 +1,46 @@
+bundle Foo {
+   let bar : Bar,
+}
+
+bundle Bar {
+   let baz : Baz,
+}
+
+bundle Baz {
+   let qux : Int,
+}
+
+bundle Human {
+   let age : Int,
+   let dog : Dog,
+}
+
+bundle Dog {
+   let age : Int,
+}
+
+
+
+pi main() : Int {
+   let foo : Foo = (5) |> getFoo;
+   let foo2 : Foo = (3) |> getFoo;
+   let human : Human = (foo.bar.baz.qux * 3 + foo2.bar.baz.qux, foo2.bar.baz.qux + 1) |> getHuman;
+   (human.age) |> print;
+   (human.dog.age) |> print;
+
+    >> 0;
+}
+
+
+pi getFoo(x: Int) : Foo {
+    let baz : Baz = Baz(x);
+    let bar : Bar = Bar(baz);
+    let foo : Foo = Foo(bar);
+    >> foo;
+}
+
+pi getHuman(hAge: Int, dAge: Int) : Human {
+    let dog : Dog = Dog(dAge);
+    let human : Human = Human(hAge, dog);
+    >> human;
+}

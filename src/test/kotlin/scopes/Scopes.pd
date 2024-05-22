@@ -1,0 +1,17 @@
+pi main() : Int {
+    let a : Int = 1;
+    let b : Int = 2;
+    let c : Int = {
+          let d : Int = a + b;
+            >> d;
+    };
+    let d : Int = {
+       >> {
+          >> {
+              >> a + b + c;
+          };
+       };
+    };
+    (d) |> print;
+    >> 0;
+}

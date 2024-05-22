@@ -1,5 +1,23 @@
 grammar Piped;
 
+@parser::members
+{
+  @Override
+  public void notifyErrorListeners(Token offendingToken, String msg, RecognitionException ex)
+  {
+    throw new RuntimeException(msg);
+  }
+}
+
+@lexer::members
+{
+  @Override
+  public void recover(RecognitionException ex)
+  {
+    throw new RuntimeException(ex.getMessage());
+  }
+}
+
 // TODO: bundle definition followed by invalid pipe definition does not throw an error
 program: import_* (bundleDefinition | pipeDefinition)+;
 

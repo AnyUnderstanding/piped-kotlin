@@ -15,6 +15,8 @@ class LlvmGenerator : CodeTargetGenerator() {
 
     fun addDeclarations() {
         useLine("declare void @llvm.memcpy.p0.p0.i32(ptr noalias nocapture writeonly, ptr noalias nocapture readonly, i32, i1 immarg) #2")
+        useLine("declare i8* @malloc(i32) nounwind")
+        appendBlock(printFunctionDeclare)
     }
 
     override fun visitPipe(pipe: Pipe, vararg args: Any) {
@@ -53,6 +55,7 @@ class LlvmGenerator : CodeTargetGenerator() {
     }
 
     override fun visitScope(scope: Scope, vararg args: Any) {
+
         useLine("{")
         increaseIndent()
         super.visitScope(scope)
@@ -68,11 +71,15 @@ class LlvmGenerator : CodeTargetGenerator() {
 
     }
 
+    override fun visitExpression(expression: Expression, vararg args: Any) {
+        val translated = ExpressionTranslator().gen(expression)
+        appendBlock(translated.code)
+    }
+
     override fun visitReturn(return_: Return, vararg args: Any) {
         val translated = ExpressionTranslator().gen(return_.expression)
 
         appendBlock(translated.code)
-        println(return_.expression.type)
         useLine("ret ${return_.expression.type.getLlvmNamePointer()} ${translated.location}")
     }
 
@@ -85,6 +92,10 @@ class LlvmGenerator : CodeTargetGenerator() {
         useLine("$trueLabel:")
         visitReturn(conditional.thenBranch)
         useLine("$falseLabel:")
+    }
+
+    override fun visitPreDefinedNode(predefined: PreDefinedNode, vararg args: Any) {
+        appendBlock(predefined.content)
     }
 
     fun getLabel(): String {

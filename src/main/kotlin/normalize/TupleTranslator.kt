@@ -44,6 +44,8 @@ class TupleTranslator : ILASTVisitor() {
     override fun visitReturn(return_: Return, vararg args: Any) {
         // TODO: this is somehow needed for guarded pipes, but why?
         return_.expression.type = translateTuple(return_.expression.type)
+        if (return_.expression.type.isBasicType()) return
+        super.visitReturn(return_, *args)
     }
 
     override fun visitFunction(function: Function, vararg args: Any) {

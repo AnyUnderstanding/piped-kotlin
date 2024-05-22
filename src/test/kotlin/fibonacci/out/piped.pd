@@ -1,8 +1,8 @@
 pi main() : Int {
-   pipeLine3(46, );
+   pipeLine3(40, );
    >> 0;
 }
-pi fib2(n : Int) : Int {
+pi fib(n : Int) : Int {
    >> pipeLine12(n, n, );
 }
 pi print(value : Int) : Int {
@@ -10,7 +10,7 @@ pi print(value : Int) : Int {
 }
 fun pipeLine3(field0 : Int, ): Int {
    let element$0 : Int = field0;
-   let element$1 : Int = fib2(element$0, );
+   let element$1 : Int = fib(element$0, );
    let element$2 : Int = print(element$1, );
    >> element$2;
 }
@@ -19,18 +19,18 @@ fun guard0(x : Int, n : Int, ): Int {
    if (x < 2) {
       >> n;
    }
-   >> pipeLine7(x - 1, ) + pipeLine10(x - 2, );
+   >> (pipeLine7(x - 1, ) + pipeLine10(x - 2, ));
 }
 
 fun pipeLine7(field0 : Int, ): Int {
    let element$5 : Int = field0;
-   let element$6 : Int = fib2(element$5, );
+   let element$6 : Int = fib(element$5, );
    >> element$6;
 }
 
 fun pipeLine10(field0 : Int, ): Int {
    let element$8 : Int = field0;
-   let element$9 : Int = fib2(element$8, );
+   let element$9 : Int = fib(element$8, );
    >> element$9;
 }
 

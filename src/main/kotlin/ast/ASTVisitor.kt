@@ -184,6 +184,7 @@ abstract class ILASTVisitor : ASTVisitor() {
                 is Expression -> visitExpression(it, *args)
                 is Return -> visitReturn(it, *args)
                 is Conditional -> visitConditional(it, *args)
+                is PreDefinedNode -> visitPreDefinedNode(it, *args)
             }
         }
     }
@@ -195,5 +196,9 @@ abstract class ILASTVisitor : ASTVisitor() {
     open fun visitConditional(conditional: Conditional, vararg args: Any) {
         visitExpression(conditional.condition)
         visitReturn(conditional.thenBranch)
+    }
+
+    open fun visitPreDefinedNode(predefined: PreDefinedNode, vararg args: Any) {
+        // no more children
     }
 }

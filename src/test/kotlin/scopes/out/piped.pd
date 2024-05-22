@@ -1,0 +1,34 @@
+pi main() : Int {
+   let a : Int = 1;
+   let b : Int = 2;
+   let c : Int = scope$0(a, b, );
+   let d : Int = scope$3();
+   pipeLine2(d, );
+   >> 0;
+}
+pi print(value : Int) : Int {
+   >> value;
+}
+fun pipeLine2(field0 : Int, ): Int {
+   let element$0 : Int = field0;
+   let element$1 : Int = print(element$0, );
+   >> element$1;
+}
+
+fun scope$0(a : Int, b : Int, ): Int {
+   let d : Int = a + b;
+   >> d;
+}
+
+fun scope$1(a : Int, b : Int, c : Int, ): Int {
+   >> a + b + c;
+}
+
+fun scope$2(): Int {
+   >> scope$1(a, b, c, );
+}
+
+fun scope$3(): Int {
+   >> scope$2();
+}
+

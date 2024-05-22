@@ -154,7 +154,6 @@ class OutPutStage(
 
     fun toFile(path: String) {
         java.io.File(path).writeText(output)
-
     }
 
     fun print() {

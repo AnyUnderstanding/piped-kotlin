@@ -48,7 +48,10 @@ class PipelineSeparator : ILASTVisitor() {
         val parent = pipeLine.parent
         functionCall.parent = parent
         when (parent) {
-            is Scope -> parent.children.replaceAll { if (it == pipeLine) functionCall else it }
+            is Scope -> {
+                parent.children = parent.children.map { if (it == pipeLine) functionCall else it }.toMutableList()
+            }
+
             is InfixOperation -> {
                 if (parent.left == pipeLine) {
                     parent.left = functionCall
@@ -62,11 +65,11 @@ class PipelineSeparator : ILASTVisitor() {
             }
 
             is PipeLineTuple -> {
-                parent.expressions.replaceAll { if (it == pipeLine) functionCall else it }
+                parent.expressions = parent.expressions.map { if (it == pipeLine) functionCall else it }.toMutableList()
             }
 
             is Tuple -> {
-                parent.elements.replaceAll { if (it == pipeLine) functionCall else it }
+                parent.elements = parent.elements.map { if (it == pipeLine) functionCall else it }.toMutableList()
             }
 
             is Return -> {
@@ -78,7 +81,8 @@ class PipelineSeparator : ILASTVisitor() {
             }
 
             is BundleInit -> {
-                parent.initializers.replaceAll { if (it == pipeLine) functionCall else it }
+                parent.initializers =
+                    parent.initializers.map { if (it == pipeLine) functionCall else it }.toMutableList()
             }
 
             else -> error("Unknown parent type $parent")
@@ -104,16 +108,14 @@ class PipelineSeparator : ILASTVisitor() {
                 }
             }
 
-            expressions.forEach { expression ->
-                children.add(
-                    Assignment(
-                        "element\$$index",
-                        expression.type,
-                        expression
-                    )
+            children.add(
+                Assignment(
+                    "element\$$index",
+                    expressions.type,
+                    expressions
                 )
-                index++
-            }
+            )
+            index++
         }
         val return_ = Return(
             Variable(listOf("element\$${index - 1}"))
@@ -130,38 +132,34 @@ class PipelineSeparator : ILASTVisitor() {
         index: Int,
         previous: PipeLineElement,
         current: PipeLineElement
-    ): List<Expression> {
+    ): Expression {
         return when (current) {
             is PipeLineTuple -> {
-                listOf(
-                    Tuple(
-                        current.expressions.mapIndexed { i, it ->
-                            when (it) {
-                                is PipeLineTuplePlaceholder ->
-                                    Variable(
-                                        listOf("element\$${index - 1}", "field${it.index}"),
-                                        it.type,
-                                        current.previousElement!!.type
-                                    )
+                Tuple(
+                    current.expressions.mapIndexed { i, it ->
+                        when (it) {
+                            is PipeLineTuplePlaceholder ->
+                                Variable(
+                                    listOf("element\$${index - 1}", "field${it.index}"),
+                                    it.type,
+                                    current.type
+                                )
 
-                                else -> it
-                            }
+                            else -> it
+                        }
 
-                        }.toMutableList(),
-                        current.type
-                    )
+                    }.toMutableList(),
+                    current.type
                 )
             }
 
 
             is PipeCall -> {
-                listOf(handlePipeCall(previous, current))
+                handlePipeCall(previous, current)
             }
 
             is GuardedPipeCall -> {
-                val guardCall = handleGuards(previous, current)
-
-                listOf(guardCall)
+                handleGuards(previous, current)
             }
 
             else -> error("this should not happen")
@@ -175,7 +173,7 @@ class PipelineSeparator : ILASTVisitor() {
 
         val args = getArgs(previous)
         val guardFunctionName = getGuardFunctionName()
-        val expressions: MutableList<TypedASTNode> = current.guards.map {
+        val expression: MutableList<TypedASTNode> = current.guards.map {
             Conditional(
                 it.guardExpression,
                 Return(
@@ -190,7 +188,7 @@ class PipelineSeparator : ILASTVisitor() {
             )
         ).toMutableList()
 
-        val scope = Scope(expressions)
+        val scope = Scope(expression)
         val guardFunction = Function(
             guardFunctionName,
             current.type,
@@ -200,7 +198,7 @@ class PipelineSeparator : ILASTVisitor() {
                     it.type
                 )
             }).distinctBy { it.name },
-           scope
+            scope
         )
         functions.add(guardFunction)
 
@@ -233,7 +231,8 @@ class PipelineSeparator : ILASTVisitor() {
     }
 
     fun getArgs(previous: PipeLineElement, backStep: Int = 1): List<Variable> {
-        return if (previous.type.getChildren().size == 1) {
+        return if (previous.type.getChildren().size == 1
+            || (previous is PipeLineTuple && previous.expressions.filter { it !is PipeLineTuplePlaceholder }.size == 1)) {
             listOf(
                 Variable(
                     listOf("element\$${index - backStep}"),
@@ -254,7 +253,7 @@ class PipelineSeparator : ILASTVisitor() {
 
     fun callWithPreviousNull(
         current: PipeLineElement,
-    ): List<Expression> {
+    ): Expression {
         when (current) {
 
             is PipeLineTuple -> {
@@ -266,21 +265,19 @@ class PipelineSeparator : ILASTVisitor() {
                     )
                 }.toMutableList()
                 if (expressions.size == 1) {
-                    return listOf(expressions[0])
+                    return expressions[0]
                 }
                 val type = Type(expressions.map { it.type })
-                return listOf(
-                    Tuple(
-                        expressions,
-                        type
-                    )
+                return Tuple(
+                    expressions,
+                    type
                 )
 
             }
 
             is GuardedPipeCall -> {
                 // todo
-                return error("Does it make sense to have guards as the first element of a pipeline?")
+                error("Does it make sense to have guards as the first element of a pipeline?")
             }
 
             else -> error("All elements should be pipeline tuples")
@@ -324,34 +321,3 @@ class PipelineSeparator : ILASTVisitor() {
         }
     }
 }
-
-class CapturedVariablesRetriever : ILASTVisitor() {
-    val capturedVariables: MutableList<Variable> = mutableListOf()
-
-    fun getCapturedVariables(expression: Expression): List<Variable> {
-        visitExpression(expression)
-        return capturedVariables
-    }
-
-    override fun visitExpression(expression: Expression, vararg args: Any) {
-        if (expression is Scope) {
-            capturedVariables.addAll(expression.capturedVariables)
-            return
-        }
-        super.visitExpression(expression, *args)
-    }
-
-    override fun visitVariable(variable: Variable, vararg args: Any) {
-        if (capturedVariables.any { it.getIdentifier() == variable.getIdentifier() }) {
-            return
-        }
-        if (variable.path.size == 1) {
-            capturedVariables.add(variable)
-            return
-        }
-        capturedVariables.add(Variable(listOf(variable.getIdentifier()), variable.type, variable.referencedBundle))
-    }
-
-
-}
-

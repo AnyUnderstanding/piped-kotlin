@@ -1,0 +1,14 @@
+pi main() : Int {
+    (1, 4) |> add |> (#0, 3) |> printTuple;
+    >> 0;
+}
+
+pi add(a : Int, b : Int) : Int {
+    >> a + b;
+}
+
+pi printTuple(a : Int, b : Int) : Int {
+    (a) |> print;
+    (b) |> print;
+    >> 0;
+}

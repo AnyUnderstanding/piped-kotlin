@@ -1,29 +1,29 @@
-define i32 @main()
+define i32 @main() 
 {
-   %v$0 = add i32 46, 0
+   %v$0 = add i32 40, 0
    %v$1 = call i32 @pipeLine3(i32 %v$0)
    
    %v$2 = add i32 0, 0
    
    ret i32 %v$2
 }
-define internal i32 @fib2(i32 %n)
+define i32 @fib(i32 %n) 
 {
    %v$3 = call i32 @pipeLine12(i32 %n, i32 %n)
    
    ret i32 %v$3
 }
-define internal i32 @print(i32 %value)
+define i32 @print(i32 %value) 
 {
    call i32 (ptr, ...) @printf(ptr noundef @.str, i32 noundef %value)
    
    
    ret i32 %value
 }
-define internal i32 @pipeLine3(i32 %field0)
+define i32 @pipeLine3(i32 %field0) 
 {
    
-   %element$1 = call i32 @fib2(i32 %field0)
+   %element$1 = call i32 @fib(i32 %field0)
    
    
    %element$2 = call i32 @print(i32 %element$1)
@@ -32,7 +32,7 @@ define internal i32 @pipeLine3(i32 %field0)
    
    ret i32 %element$2
 }
-define internal i32 @guard0(i32 %x, i32 %n)
+define i32 @guard0(i32 %x, i32 %n) 
 {
    %v$6 = add i32 2, 0
    %v$7 = icmp slt i32 %x, %v$6
@@ -52,25 +52,25 @@ define internal i32 @guard0(i32 %x, i32 %n)
    
    ret i32 %v$14
 }
-define internal i32 @pipeLine7(i32 %field0)
+define i32 @pipeLine7(i32 %field0) 
 {
    
-   %element$6 = call i32 @fib2(i32 %field0)
+   %element$6 = call i32 @fib(i32 %field0)
    
    
    
    ret i32 %element$6
 }
-define internal i32 @pipeLine10(i32 %field0)
+define i32 @pipeLine10(i32 %field0) 
 {
    
-   %element$9 = call i32 @fib2(i32 %field0)
+   %element$9 = call i32 @fib(i32 %field0)
    
    
    
    ret i32 %element$9
 }
-define internal i32 @pipeLine12(i32 %field0, i32 %n)
+define i32 @pipeLine12(i32 %field0, i32 %n) 
 {
    
    %element$11 = call i32 @guard0(i32 %field0, i32 %n)
@@ -80,6 +80,5 @@ define internal i32 @pipeLine12(i32 %field0, i32 %n)
    ret i32 %element$11
 }
 declare void @llvm.memcpy.p0.p0.i32(ptr noalias nocapture writeonly, ptr noalias nocapture readonly, i32, i1 immarg) #2
-declare i8* @malloc(i32) nounwind
 @.str = private unnamed_addr constant [4 x i8] c"%d\0A\00", align 1
 declare i32 @printf(ptr noundef, ...) #2

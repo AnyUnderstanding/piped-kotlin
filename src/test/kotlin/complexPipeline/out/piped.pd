@@ -1,0 +1,39 @@
+bundle $$Int$Int$$ {
+   let field0 : Int, 
+   let field1 : Int, 
+}
+pi main() : Int {
+   pipeLine4(1, 4, );
+   >> 0;
+}
+pi add(a : Int, b : Int) : Int {
+   >> a + b;
+}
+pi printTuple(a : Int, b : Int) : Int {
+   pipeLine7(a, );
+   pipeLine10(b, );
+   >> 0;
+}
+pi print(value : Int) : Int {
+   >> value;
+}
+fun pipeLine4(field0 : Int, field1 : Int, ): Int {
+   let element$0 : $$Int$Int$$ = $$Int$Int$$(field0, field1);
+   let element$1 : Int = add(element$0.field0, element$0.field1, );
+   let element$2 : $$Int$Int$$ = $$Int$Int$$(element$1.field0, 3);
+   let element$3 : Int = printTuple(element$2, );
+   >> element$3;
+}
+
+fun pipeLine7(field0 : Int, ): Int {
+   let element$5 : Int = field0;
+   let element$6 : Int = print(element$5, );
+   >> element$6;
+}
+
+fun pipeLine10(field0 : Int, ): Int {
+   let element$8 : Int = field0;
+   let element$9 : Int = print(element$8, );
+   >> element$9;
+}
+

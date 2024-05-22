@@ -1,14 +1,13 @@
 pi main() : Int {
-    >> (0, 1, 13) |> fib;
+    (46) |> fib2 |> print;
+    >> 0;
 }
 
-pi fib(prev: Int, curr: Int, count: Int) : Int {
-   >> (count) |> [ (c) |>
-        (c == 0) -> prev,
-        else -> (curr, prev + curr, c - 1) |> fib
-    ];
+pi fib2(n: Int) : Int {
+  >> (n) |> [ (x) |>
+           (x < 2) -> n,
+           else -> (x - 1) |> fib2 + (x - 2) |> fib2
+        ];
 }
-
-
 
 
