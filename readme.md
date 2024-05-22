@@ -37,7 +37,7 @@ let myTuple : (Int, Int) = (10, 20);
 let mySecondTuple : (Int, Bool, Int) = (x, false, y);
 ```
 ### Pipes
-Pipes are the core of Piped. Pipes are used to pass data through a series of transformations. Pipes are declared using the `pi` keyword. Pipes can take any number of arguments and return any number of values. Pipes are called using the `|>` operator. The `|>` operator takes the result of the left hand side and passes it a# Piped Lang
+Pipes are the core of Piped. Pipes are used to pass data through a series of transformations. Pipes are declared using the `pi` keyword. Pipes can take any number of arguments and return any number of values. Pipes are called using the `|>` operator. The `|>` operator takes the result of the left hand side and passes it to the right hand side.
 ```
 pi step1(a : Int) : Int {
     >> a + 1;
