@@ -16,15 +16,15 @@ print(add(1, 2)); ❌ Invalid pipe
 > [!NOTE]
 > Piped is a fun project and is not intended to be used in production.
 
-Piped is currently in the early stages of development. The language is still being designed and implemented. The Compiler contains a lot of bugs and the language is not yet stable. However, the language is being actively developed and improved. 
+Piped is currently in the early stages of development. The language is still being designed and implemented. The compiler contains a lot of bugs and the language is not yet stable. However, the language is being actively developed and improved. 
 
 ## Getting Started
 ### Variables
-Variables in Piped are declared using the `let` keyword. Variables are always immutable and cannot be reassigned. To declare a variable, you must specify the type of the variable. Types are started with a capital letter. As of now, Piped only supports the following types:
+Variables in Piped are declared using the `let` keyword. Variables are always immutable and cannot be reassigned. To declare a variable, you must specify the type of the variable. Types start with a capital letter. As of now, Piped only supports the following types:
 - Int
 - Bool
 - Tuples of the above types
-- Bundles (User defined types, similar to structs in C)
+- Bundles (user-defined types, similar to structs in C)
 
 Strings, Floats and Lists are not yet supported, but will be added soon.
 
@@ -55,8 +55,8 @@ pi main() : Int {
     >> (10) |> step1 |> step2 |> step3;
 }
 ```
-> [!INFO]
-> `>>` is the return operator. It is used to return a value from a pipe/scope.
+> [!NOTE]
+> `>>` is the return operator. It is used to return a value from a pipe or scope.
 
 Notice how the return type of `step1` is the argument type of `step2`. This is how pipes are connected. The return type of the first pipe must match the argument type of the second pipe. This is how data is passed through the pipes.
 In this case we have `Int |> Int -> Int |>  Int -> (Int, Int) |> (Int, Int) -> Int`. The final return type of the pipeline is the return type of the last pipe.
@@ -76,7 +76,7 @@ pi pipe2(a : Int, b : Int) : Int {
 }
 ```
 Calling `(1) |> pipe1 |> pipe2` won't work because the return type of `pipe1` does not match the argument type of `pipe2`. 
-To fix this you can use a pipeline placeholder denoted by `#x` where `x` is the index of the returned element.
+To fix this, you can use a pipeline placeholder denoted by `#x` where `x` is the index of the returned element.
 
 To fix the above example, you can do the following: `(1) |> pipe1 |> (#0, 3) |> pipe2`. 
 This calls `pipe1` with `1`, then calls `pipe2` with the first returned element of `pipe1` and `3`.
@@ -85,7 +85,7 @@ Now suppose you have a pipe `pipe3` which returns 3 integers. You can use multip
 ` (...) |> pipe3 |> (#0, #2) |> pipe2` will call `pipe3` and pass the first and the third returned element to `pipe2`.
 
 ### Guards
-In piped there are no if statements. Instead, you can use guards. Guards are similar to if statements, but they work better in piplines. To add a guard to a pipeline do the following:
+In Piped there are no if statements. Instead, you can use guards. Guards are similar to if statements, but they work better in piplines. To add a guard to a pipeline do the following:
 ```
 
 pi add(a : Int, b : Int) : Int {
@@ -100,7 +100,7 @@ pi main() : Bool {
     ];
 }
 ```
-> [!NOTE]
+> [!IMPORTANT]
 > The else block is always required.
 
 You can also write more complex guards:
@@ -117,10 +117,10 @@ pi main() : Bool {
 ```
 
 > [!NOTE]
-> (x + y>= 2) and (x == y) can both be true. In this case the first guard that is true is executed.
+> `(x + y>= 2)` and `(x == y)` can both be true. In this case the first guard that is true is executed.
 
 ### Bundles
-Bundles are user defined types. They are similar to structs in C. You can define a bundle using the `bundle` keyword. 
+Bundles are user-defined types. They are similar to structs in C. You can define a bundle using the `bundle` keyword. 
 ```
 bundle Point {
     x : Int;
@@ -164,7 +164,7 @@ pi main() : Int {
 [✅] Add support for Guards \
 [✅] Add support for Scopes \
 [🚧] Fix Bugs and add Tests \
-[🚧] Imporve perfomance and codegen \
+[🚧] Improve performance and codegen \
 [❌] Add support for Strings \
 [❌] Add support for Floats \
 [❌] Add support for Lists \
@@ -173,5 +173,5 @@ pi main() : Int {
 [❌] Add support for Imports \
 [❌] Add C Interop \
 [❌] Add `@Async` annotation \
-[❌] Add `@Chached` annotation 
+[❌] Add `@Cached` annotation 
 
