@@ -15,9 +15,7 @@ dependencies {
     implementation("org.antlr:antlr4:4.13.1")
 }
 
-tasks.test {
-    useJUnitPlatform()
-}
+
 kotlin {
     jvmToolchain(19)
 }
