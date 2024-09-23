@@ -4,7 +4,7 @@ import de.any.AST.Field
 import de.any.AST.Variable
 
 class VariableScope {
-    private val Fields = mutableMapOf<String, Field>()
+    private val fields = mutableMapOf<String, Field>()
     private var parent: VariableScope? = null
     private val children = mutableListOf<VariableScope>()
     val capturedVariables = mutableListOf<Variable>()
@@ -13,29 +13,29 @@ class VariableScope {
         if (fieldExists(field)) {
             throw Exception("Variable already exists")
         }
-        Fields[field.name] = field
+        fields[field.name] = field
     }
 
     fun fieldExists(field: Field): Boolean {
-        return Fields.containsKey(field.name)
+        return fields.containsKey(field.name)
     }
 
     fun getField(identifier: String): Field? {
-        return parent?.getField(identifier) ?: Fields[identifier]
+        return parent?.getField(identifier) ?: fields[identifier]
     }
 
     fun getVariableStrict(identifier: String): Field {
-        return parent?.getField(identifier) ?: Fields[identifier] ?: throw Exception("Field $identifier not found")
+        return parent?.getField(identifier) ?: fields[identifier] ?: throw Exception("Field $identifier not found")
     }
 
     fun getVariableStrict(variable: Variable): Field {
         val identifier = variable.getIdentifier()
-        return parent?.getField(identifier) ?: Fields[identifier] ?: throw Exception("Field $identifier not found")
+        return parent?.getField(identifier) ?: fields[identifier] ?: throw Exception("Field $identifier not found")
     }
 
     fun captureVariable(variable: Variable) {
         val identifier = variable.getIdentifier()
-        if (!Fields.containsKey(identifier)) {
+        if (!fields.containsKey(identifier)) {
             capturedVariables.add(variable)
         }
     }

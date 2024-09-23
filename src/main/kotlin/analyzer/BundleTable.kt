@@ -4,7 +4,7 @@ import de.any.AST.Bundle
 import de.any.AST.PrimitiveType
 import de.any.AST.Type
 
-object BundleTable {
+class BundleTable {
     private val bundleTable = mutableMapOf<String, Bundle>()
 
     fun addBundle(name: String, bundle: Bundle) {

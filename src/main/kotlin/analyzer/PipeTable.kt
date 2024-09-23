@@ -2,7 +2,7 @@ package de.any.analyzer
 
 import de.any.AST.Pipe
 
-object PipeTable {
+class PipeTable {
     val pipeTable = mutableMapOf<String, Pipe>()
 
     fun addPipe(name: String, pipe: Pipe) {

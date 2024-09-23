@@ -1,10 +1,13 @@
 package de.any.codegen.llvmTarget
 
-import de.any.AST.*
-import de.any.AST.ExpressionTranslator
+import de.any.AST.Assignment
+import de.any.AST.Variable
 import de.any.codegen.AstNodeTranslator
 
-class AssignmentTranslator : AstNodeTranslator<Assignment>() {
+
+class AssignmentTranslator(
+    val expressionTranslator: ExpressionTranslator
+) : AstNodeTranslator<Assignment>() {
 
     companion object {
         val assignmentTracking: MutableMap<String, String> = mutableMapOf()
@@ -24,7 +27,7 @@ class AssignmentTranslator : AstNodeTranslator<Assignment>() {
 
             else -> {
                 assignmentTracking[assignment.name] = assignment.name
-                val expression = ExpressionTranslator().gen(assignment.expression)
+                val expression = expressionTranslator.gen(assignment.expression)
                 appendBlock(
                     expression.code.replace(
                         expression.location,

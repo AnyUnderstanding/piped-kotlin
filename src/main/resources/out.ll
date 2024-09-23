@@ -1,83 +1,71 @@
-define i32 @main()
-{
-   %v$0 = add i32 46, 0
-   %v$1 = call i32 @pipeLine3(i32 %v$0)
-   
-   %v$2 = add i32 0, 0
-   
-   ret i32 %v$2
+%$$Int$Int$$ = type {
+   i32,
+   i32
 }
-define internal i32 @fib2(i32 %n)
+
+define i1 @main() 
 {
-   %v$3 = call i32 @pipeLine12(i32 %n, i32 %n)
+   %v$0 = add i32 3, 0
+   %v$1 = add i32 4, 0
+   %v$2 = call i1 @pipeLine0(i32 %v$0, i32 %v$1)
    
-   ret i32 %v$3
+   ret i1 %v$2
 }
-define internal i32 @print(i32 %value)
+define i1 @isPrimeAux(i32 %i, i32 %n) 
+{
+   %v$0 = add i32 3, 0
+   %v$1 = add i32 4, 0
+   %v$2 = call i1 @pipeLine0(i32 %v$0, i32 %v$1)
+   %v$3 = add i1 false, 0
+   
+   ret i1 %v$3
+}
+define i32 @print(i32 %value) 
 {
    call i32 (ptr, ...) @printf(ptr noundef @.str, i32 noundef %value)
    
+   %v$0 = add i32 3, 0
+   %v$1 = add i32 4, 0
+   %v$2 = call i1 @pipeLine0(i32 %v$0, i32 %v$1)
+   %v$3 = add i1 false, 0
    
    ret i32 %value
 }
-define internal i32 @pipeLine3(i32 %field0)
+define i1 @pipeLine0(i32 %field0, i32 %field1) 
 {
-   
-   %element$1 = call i32 @fib2(i32 %field0)
-   
-   
-   %element$2 = call i32 @print(i32 %element$1)
-   
-   
-   
-   ret i32 %element$2
-}
-define internal i32 @guard0(i32 %x, i32 %n)
-{
-   %v$6 = add i32 2, 0
-   %v$7 = icmp slt i32 %x, %v$6
-   
-   br i1 %v$7, label %label0, label %label1
-   label0:
-   
-   ret i32 %n
-   label1:
-   %v$8 = add i32 1, 0
-   %v$9 = sub i32 %x, %v$8
-   %v$10 = call i32 @pipeLine7(i32 %v$9)
-   %v$11 = add i32 2, 0
-   %v$12 = sub i32 %x, %v$11
-   %v$13 = call i32 @pipeLine10(i32 %v$12)
-   %v$14 = add i32 %v$10, %v$13
-   
-   ret i32 %v$14
-}
-define internal i32 @pipeLine7(i32 %field0)
-{
-   
-   %element$6 = call i32 @fib2(i32 %field0)
+   %v$0 = add i32 3, 0
+   %v$1 = add i32 4, 0
+   %v$2 = call i1 @pipeLine0(i32 %v$0, i32 %v$1)
+   %v$3 = add i1 false, 0
+   %v$4 = add i32 3, 0
+   %v$5 = add i32 4, 0
+   %v$6 = call i8* @malloc(i32 8)
+   %pipeLineVar0 = bitcast i8* %v$6 to %$$Int$Int$$*
+   %v$8 = getelementptr %$$Int$Int$$, ptr %pipeLineVar0, i32 0, i32 0
+   store i32 %v$4, ptr %v$8
+   %v$9 = getelementptr %$$Int$Int$$, ptr %pipeLineVar0, i32 0, i32 1
+   store i32 %v$5, ptr %v$9
    
    
+   %v$0 = add i32 3, 0
+   %v$1 = add i32 4, 0
+   %v$2 = call i1 @pipeLine0(i32 %v$0, i32 %v$1)
+   %v$3 = add i1 false, 0
+   %v$4 = add i32 3, 0
+   %v$5 = add i32 4, 0
+   %v$6 = call i8* @malloc(i32 8)
+   %v$7 = bitcast i8* %v$6 to %$$Int$Int$$*
+   %v$8 = getelementptr %$$Int$Int$$, ptr %v$7, i32 0, i32 0
+   store i32 %v$4, ptr %v$8
+   %v$9 = getelementptr %$$Int$Int$$, ptr %v$7, i32 0, i32 1
+   store i32 %v$5, ptr %v$9
+   %v$10 = getelementptr %$$Int$Int$$, ptr %pipeLineVar0, i32 0, i32 0
+   %v$11 = load i32, i32* %v$10
+   %v$12 = getelementptr %$$Int$Int$$, ptr %pipeLineVar0, i32 0, i32 1
+   %v$13 = load i32, i32* %v$12
+   %v$14 = call i1 @isPrimeAux(i32 %v$11, i32 %v$13)
    
-   ret i32 %element$6
-}
-define internal i32 @pipeLine10(i32 %field0)
-{
-   
-   %element$9 = call i32 @fib2(i32 %field0)
-   
-   
-   
-   ret i32 %element$9
-}
-define internal i32 @pipeLine12(i32 %field0, i32 %n)
-{
-   
-   %element$11 = call i32 @guard0(i32 %field0, i32 %n)
-   
-   
-   
-   ret i32 %element$11
+   ret i1 %v$14
 }
 declare void @llvm.memcpy.p0.p0.i32(ptr noalias nocapture writeonly, ptr noalias nocapture readonly, i32, i1 immarg) #2
 declare i8* @malloc(i32) nounwind

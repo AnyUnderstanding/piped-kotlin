@@ -80,5 +80,6 @@ define i32 @pipeLine12(i32 %field0, i32 %n)
    ret i32 %element$11
 }
 declare void @llvm.memcpy.p0.p0.i32(ptr noalias nocapture writeonly, ptr noalias nocapture readonly, i32, i1 immarg) #2
+declare i8* @malloc(i32) nounwind
 @.str = private unnamed_addr constant [4 x i8] c"%d\0A\00", align 1
 declare i32 @printf(ptr noundef, ...) #2

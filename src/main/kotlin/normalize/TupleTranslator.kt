@@ -4,7 +4,7 @@ import de.any.AST.*
 import de.any.AST.Function
 import de.any.analyzer.BundleTable
 
-class TupleTranslator : ILASTVisitor() {
+class TupleTranslator(val bundleTable: BundleTable) : ILASTVisitor() {
     val tuples = mutableSetOf<Type>()
     override fun visit(program: ILProgram, vararg args: Any) {
         super.visit(program, *args)
@@ -13,7 +13,7 @@ class TupleTranslator : ILASTVisitor() {
                 translateTuple(it).getBasicType()!!,
                 listOf(),
             ).apply {
-                this.fields = it.getChildren().mapIndexed { index, type ->
+                this.fields = it.getChildren(bundleTable).mapIndexed { index, type ->
                     Field(
                         "field$index",
                         when {
@@ -24,7 +24,7 @@ class TupleTranslator : ILASTVisitor() {
                 }
             }
             program.bundles.add(bundle)
-            BundleTable.addBundle(bundle.name, bundle)
+            bundleTable.addBundle(bundle.name, bundle)
         }
     }
 
@@ -44,7 +44,8 @@ class TupleTranslator : ILASTVisitor() {
     override fun visitReturn(return_: Return, vararg args: Any) {
         // TODO: this is somehow needed for guarded pipes, but why?
         return_.expression.type = translateTuple(return_.expression.type)
-        if (return_.expression.type.isBasicType()) return
+        // todo is this needed?
+//      if (return_.expression.type.isBasicType()) return
         super.visitReturn(return_, *args)
     }
 

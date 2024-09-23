@@ -8,40 +8,22 @@ import de.any.codegen.llvmTarget.InsertPredefined
 import de.any.codegen.llvmTarget.LlvmGenerator
 import de.any.codegen.pipedTarget.PipedGenerator
 import de.any.normalize.PipelineSeparator
+import de.any.normalize.PipelineSeparatorRework
 import de.any.normalize.ScopeSeparator
 import de.any.normalize.TupleTranslator
 import kotlin.test.Test
 import kotlin.test.BeforeTest
 
 
-class Bundles {
+internal class Bundles {
 
     val testName = "bundles"
     val path = "./src/test/kotlin/$testName/"
 
+
     @BeforeTest
     fun compile() {
-        val generatorStage = Compiler().fromFile("$path/Bundles.pd").tokenize {
-            PipedLexer(it)
-        }.toAst {
-            PipedParser(it).program()
-        }.addAstTranslator {
-            AntlrAstTranslator.visit(it) as de.any.AST.Program
-        }.addSteps(
-            InsertPredefined(),
-            SymbolCollector(),
-            TypeChecker(),
-        )
-            .addILSteps(
-                PipelineSeparator(),
-                ScopeSeparator(),
-                TupleTranslator(),
-            )
-        generatorStage.addGenerator(PipedGenerator()).toFile("$path/out/piped.pd")
-        generatorStage.addGenerator(LlvmGenerator()).showStats().toFile("$path/out/llvm.ll")
-
-        BundleTable.clear()
-        PipeTable.clear()
+        buildCompilerAndCompile(path, testName)
     }
 
     @Test

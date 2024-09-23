@@ -40,14 +40,14 @@ fun Type.getLlvmNamePointer(): String {
     return "${getLlvmName()}*"
 }
 
-fun Bundle.getByteCount(): Int {
+fun Bundle.getByteCount(bundleTable: BundleTable): Int {
     return fields.sumOf {
         when (it.type) {
             PrimitiveType.INT.type -> 4
             PrimitiveType.BOOL.type -> 1
             PrimitiveType.STRING.type -> 1
             PrimitiveType.NONE.type -> 0
-            else -> BundleTable.getBundleByTypeStrict(it.type).getByteCount()
+            else -> bundleTable.getBundleByTypeStrict(it.type).getByteCount(bundleTable)
         }
     }
 }

@@ -8,10 +8,7 @@ import de.any.codegen.llvmTarget.TranslationResult
 abstract class CodeGenerator<S, T> : ILASTVisitor() {
     var currentIndent: Int = 0
     val code = StringBuilder()
-
     val lineBuilder = StringBuilder()
-
-
 
     private fun indent(): String = "   ".repeat(currentIndent)
 

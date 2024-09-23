@@ -1,0 +1,20 @@
+pi main() : Int {
+   let a : Int = 1;
+   let b : Int = a + 1;
+   let c : Int = a + b;
+   let d : Int = a + b + c;
+   let e : Int = 1 + 2 * d;
+   let f : Int = 1 + 2 * e + 3;
+   let g : Int = f / 2;
+   let h : Int = 2 + g / 2;
+   pipeLine0(h, );
+   >> 0;
+}
+pi print(value : Int) : Int {
+   >> value;
+}
+fun pipeLine0(field0 : Int, ): Int {
+   let pipeLineVar0 : Int = h;
+   >> print(pipeLineVar0, );
+}
+

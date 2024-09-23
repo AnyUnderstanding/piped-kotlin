@@ -2,8 +2,12 @@ package de.any.normalize
 
 import de.any.AST.*
 import de.any.AST.Function
+import de.any.analyzer.BundleTable
 
-class PipelineSeparator : ILASTVisitor() {
+// TODO its probably the best to rewrite this class
+class PipelineSeparator(
+    val bundleTable: BundleTable
+) : ILASTVisitor() {
     val functions: MutableList<Function> = mutableListOf()
     private var index = 0
     private var guardCounter = 0
@@ -231,7 +235,7 @@ class PipelineSeparator : ILASTVisitor() {
     }
 
     fun getArgs(previous: PipeLineElement, backStep: Int = 1): List<Variable> {
-        return if (previous.type.getChildren().size == 1
+        return if (previous.type.getChildren(bundleTable).size == 1
             || (previous is PipeLineTuple && previous.expressions.filter { it !is PipeLineTuplePlaceholder }.size == 1)) {
             listOf(
                 Variable(
@@ -241,7 +245,7 @@ class PipelineSeparator : ILASTVisitor() {
                 )
             )
         } else {
-            previous.type.getChildren().mapIndexed { j, it1 ->
+            previous.type.getChildren(bundleTable).mapIndexed { j, it1 ->
                 Variable(
                     listOf("element\$${index - backStep}", "field$j"),
                     it1,
@@ -298,7 +302,7 @@ class PipelineSeparator : ILASTVisitor() {
                 )
             )
 
-            else -> type.getChildren().mapIndexed { index, type ->
+            else -> type.getChildren(bundleTable).mapIndexed { index, type ->
                 Field(
                     "field$index",
                     when {

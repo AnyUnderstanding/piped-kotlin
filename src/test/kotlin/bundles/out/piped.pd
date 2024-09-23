@@ -19,11 +19,11 @@ bundle $$Int$Int$$ {
    let field1 : Int, 
 }
 pi main() : Int {
-   let foo : Foo = pipeLine2(5, );
-   let foo2 : Foo = pipeLine5(3, );
-   let human : Human = pipeLine8(foo.bar.baz.qux * 3 + foo2.bar.baz.qux, foo2.bar.baz.qux + 1, );
-   pipeLine11(human.age, );
-   pipeLine14(human.dog.age, );
+   let foo : Foo = pipeLine0(5, );
+   let foo2 : Foo = pipeLine1(3, );
+   let human : Human = pipeLine2(foo.bar.baz.qux * 3 + foo2.bar.baz.qux, foo2.bar.baz.qux + 1, );
+   pipeLine3(human.age, );
+   pipeLine4(human.dog.age, );
    >> 0;
 }
 pi getFoo(x : Int) : Foo {
@@ -40,33 +40,28 @@ pi getHuman(hAge : Int, dAge : Int) : Human {
 pi print(value : Int) : Int {
    >> value;
 }
-fun pipeLine2(field0 : Int, ): Foo {
-   let element$0 : Int = field0;
-   let element$1 : Foo = getFoo(element$0, );
-   >> element$1;
+fun pipeLine0(field0 : Int, ): Foo {
+   let pipeLineVar0 : Int = 5;
+   >> getFoo(pipeLineVar0, );
 }
 
-fun pipeLine5(field0 : Int, ): Foo {
-   let element$3 : Int = field0;
-   let element$4 : Foo = getFoo(element$3, );
-   >> element$4;
+fun pipeLine1(field0 : Int, ): Foo {
+   let pipeLineVar2 : Int = 3;
+   >> getFoo(pipeLineVar2, );
 }
 
-fun pipeLine8(field0 : Int, field1 : Int, ): Human {
-   let element$6 : $$Int$Int$$ = $$Int$Int$$(field0, field1);
-   let element$7 : Human = getHuman(element$6.field0, element$6.field1, );
-   >> element$7;
+fun pipeLine2(field0 : Int, field1 : Int, ): Human {
+   let pipeLineVar4 : $$Int$Int$$ = $$Int$Int$$(foo.bar.baz.qux * 3 + foo2.bar.baz.qux, foo2.bar.baz.qux + 1);
+   >> getHuman(pipeLineVar4.field0, pipeLineVar4.field1, );
 }
 
-fun pipeLine11(field0 : Int, ): Int {
-   let element$9 : Int = field0;
-   let element$10 : Int = print(element$9, );
-   >> element$10;
+fun pipeLine3(field0 : Int, ): Int {
+   let pipeLineVar6 : Int = human.age;
+   >> print(pipeLineVar6, );
 }
 
-fun pipeLine14(field0 : Int, ): Int {
-   let element$12 : Int = field0;
-   let element$13 : Int = print(element$12, );
-   >> element$13;
+fun pipeLine4(field0 : Int, ): Int {
+   let pipeLineVar8 : Int = human.dog.age;
+   >> print(pipeLineVar8, );
 }
 

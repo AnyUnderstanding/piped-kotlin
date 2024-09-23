@@ -13,7 +13,7 @@ open class Type {
         return false
     }
 
-    open fun size(): Int {
+    open fun size(bundleTable: BundleTable): Int {
         return children.size
     }
 
@@ -30,7 +30,7 @@ open class Type {
 
     }
 
-    open fun getChildren(): List<Type> {
+    open fun getChildren(bundleTable: BundleTable): List<Type> {
         return children
     }
 
@@ -85,16 +85,16 @@ open class Type {
  */
 private class BasicType(val name: String) : Type() {
 
-    override fun size(): Int {
+    override fun size(bundleTable: BundleTable): Int {
         if (isBundleGeneratedFromTuple()) {
-            return BundleTable.getBundleByTypeStrict(this).fields.size
+            return bundleTable.getBundleByTypeStrict(this).fields.size
         }
         return 1
     }
 
-    override fun getChildren(): List<Type> {
+    override fun getChildren(bundleTable: BundleTable): List<Type> {
         if (isBundleGeneratedFromTuple()) {
-            return BundleTable.getBundleByTypeStrict(this).fields.map { it.type }
+            return bundleTable.getBundleByTypeStrict(this).fields.map { it.type }
         }
 
         return listOf(this)

@@ -7,7 +7,6 @@ import de.any.codegen.CodeTargetGenerator
 
 class PipedGenerator(val allowTuples: Boolean = false) : CodeTargetGenerator() {
 
-
     override fun gen(expression: Program): String {
         if (expression is ILProgram) {
             visit(expression as ILProgram)

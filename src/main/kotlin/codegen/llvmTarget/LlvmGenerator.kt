@@ -4,7 +4,10 @@ import de.any.AST.*
 import de.any.AST.Function
 import de.any.codegen.CodeTargetGenerator
 
-class LlvmGenerator : CodeTargetGenerator() {
+class LlvmGenerator(
+    val assignmentTranslator: AssignmentTranslator,
+    val expressionTranslator: ExpressionTranslator
+) : CodeTargetGenerator() {
     var labelCounter = 0
     override fun gen(expression: Program): String {
         require(expression is ILProgram) { "Program must be of type ILProgram" }
@@ -64,7 +67,7 @@ class LlvmGenerator : CodeTargetGenerator() {
     }
 
     override fun visitAssignment(assignment: Assignment, vararg args: Any) {
-        val translated = AssignmentTranslator().gen(assignment)
+        val translated = assignmentTranslator.gen(assignment)
         appendBlock(
             translated.code
         )
@@ -72,19 +75,19 @@ class LlvmGenerator : CodeTargetGenerator() {
     }
 
     override fun visitExpression(expression: Expression, vararg args: Any) {
-        val translated = ExpressionTranslator().gen(expression)
+        val translated = expressionTranslator.gen(expression)
         appendBlock(translated.code)
     }
 
     override fun visitReturn(return_: Return, vararg args: Any) {
-        val translated = ExpressionTranslator().gen(return_.expression)
+        val translated = expressionTranslator.gen(return_.expression)
 
         appendBlock(translated.code)
         useLine("ret ${return_.expression.type.getLlvmNamePointer()} ${translated.location}")
     }
 
     override fun visitConditional(conditional: Conditional, vararg args: Any) {
-        val condition = ExpressionTranslator().gen(conditional.condition)
+        val condition = expressionTranslator.gen(conditional.condition)
         appendBlock(condition.code)
         val trueLabel = getLabel()
         val falseLabel = getLabel()

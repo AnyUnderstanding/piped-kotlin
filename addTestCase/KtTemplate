@@ -1,17 +1,17 @@
 import de.any.AST.AntlrAstTranslator
 import de.any.Compiler
-import de.any.analyzer.BundleTable
-import de.any.analyzer.PipeTable
-import de.any.analyzer.SymbolCollector
-import de.any.analyzer.TypeChecker
+import de.any.analyzer.*
 import de.any.codegen.llvmTarget.InsertPredefined
 import de.any.codegen.llvmTarget.LlvmGenerator
 import de.any.codegen.pipedTarget.PipedGenerator
-import de.any.normalize.PipelineSeparator
+import de.any.normalize.PipelineSeparatorRework
 import de.any.normalize.ScopeSeparator
 import de.any.normalize.TupleTranslator
+import me.tatarka.inject.annotations.Inject
 import kotlin.test.Test
 import kotlin.test.BeforeTest
+
+
 
 
 class <TestName> {
@@ -20,7 +20,18 @@ class <TestName> {
    val path = "./src/test/kotlin/$testName/"
 
     @BeforeTest
-    fun compile() {
+    fun compile(){
+        Application::class.create().compiler()
+    }
+
+    @Inject
+    fun buildCompiler(
+        symbolCollector: SymbolCollector,
+        typeChecker: TypeChecker,
+        tupleTranslator: TupleTranslator,
+        pipelineSeparator: PipelineSeparatorRework,
+        llvmGenerator: LlvmGenerator
+    ) {
         val generatorStage = Compiler().fromFile("$path/<TestName>.pd").tokenize {
             PipedLexer(it)
         }.toAst {
@@ -29,19 +40,16 @@ class <TestName> {
             AntlrAstTranslator.visit(it) as de.any.AST.Program
         }.addSteps(
             InsertPredefined(),
-            SymbolCollector(),
-            TypeChecker(),
+            symbolCollector,
+            typeChecker,
         )
             .addILSteps(
-                PipelineSeparator(),
+                pipelineSeparator,
                 ScopeSeparator(),
-                TupleTranslator(),
+                tupleTranslator,
             )
         generatorStage.addGenerator(PipedGenerator()).toFile("$path/out/piped.pd")
-        generatorStage.addGenerator(LlvmGenerator()).showStats().toFile("$path/out/llvm.ll")
-
-        BundleTable.clear()
-        PipeTable.clear()
+        generatorStage.addGenerator(llvmGenerator).showStats().toFile("$path/out/llvm.ll")
     }
 
     @Test

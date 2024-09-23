@@ -52,6 +52,7 @@ abstract class ASTVisitor {
             is PipeLine -> visitPipeLine(expression, *args)
             is PipeLineTuplePlaceholder -> visitPipeLineTuplePlaceholder(expression, *args)
             is BundleInit -> visitBundleInit(expression, *args)
+            is FunctionCall -> visitFunctionCall(expression, *args) // todo this is part of the ILAST, yet there is no clear way to move this
         }
     }
 
@@ -141,6 +142,10 @@ abstract class ASTVisitor {
     open fun visitTypeDefinition(type: Type, vararg args: Any) {
         // no more children
     }
+
+    open fun visitFunctionCall(expression: FunctionCall, vararg args: Any) {
+        expression.parameters.forEach { visitExpression(it) }
+    }
 }
 
 abstract class ILASTVisitor : ASTVisitor() {
@@ -169,14 +174,6 @@ abstract class ILASTVisitor : ASTVisitor() {
         visitScope(function.body)
     }
 
-    override fun visitExpression(expression: Expression, vararg args: Any) {
-        if (expression is FunctionCall) {
-            visitFunctionCall(expression)
-        } else {
-            super.visitExpression(expression)
-        }
-    }
-
     override fun visitScope(scope: Scope, vararg args: Any) {
         scope.children.forEach {
             when (it) {
@@ -189,9 +186,7 @@ abstract class ILASTVisitor : ASTVisitor() {
         }
     }
 
-    open fun visitFunctionCall(expression: FunctionCall, vararg args: Any) {
-        expression.parameters.forEach { visitExpression(it) }
-    }
+
 
     open fun visitConditional(conditional: Conditional, vararg args: Any) {
         visitExpression(conditional.condition)

@@ -1,5 +1,11 @@
+bundle Option{
+  let value: Int,
+  let isSome: Bool
+}
+
 pi main() : Int {
-    (40) |> fib |> print;
+    let x : Int = (1) |> print |> isPrime;
+    (9) |> isPrime |> print;
     >> 1;
 }
 

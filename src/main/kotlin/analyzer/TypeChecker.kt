@@ -2,7 +2,8 @@ package de.any.analyzer
 
 import de.any.AST.*
 
-class TypeChecker : ASTVisitor() {
+
+class TypeChecker(val bundleTable: BundleTable, val pipeTable: PipeTable) : ASTVisitor() {
     var currentScope = VariableScope()
 
     override fun visitPipe(pipe: Pipe, vararg args: Any) {
@@ -90,8 +91,8 @@ class TypeChecker : ASTVisitor() {
         val lookUp = currentScope.getVariableStrict(variable)
 
         if (variable.isBundleField()) {
-            val bundleLookUp = BundleTable.getBundleByTypeStrict(lookUp.type)
-            variable.type = BundleTable.getTypeForPathStrict(bundleLookUp, variable.getPathWithoutIdentifier())
+            val bundleLookUp = bundleTable.getBundleByTypeStrict(lookUp.type)
+            variable.type = bundleTable.getTypeForPathStrict(bundleLookUp, variable.getPathWithoutIdentifier())
             variable.referencedBundle = lookUp.type
         } else {
             variable.type = lookUp.type
@@ -122,7 +123,7 @@ class TypeChecker : ASTVisitor() {
 
     override fun visitPipeCall(pipeLineElement: PipeCall, vararg args: Any) {
         super.visitPipeCall(pipeLineElement, *args)
-        val pipe = PipeTable.getPipeStrict(pipeLineElement.name)
+        val pipe = pipeTable.getPipeStrict(pipeLineElement.name)
         val inType = pipe.getInType()
         if (pipeLineElement.previousElement != null && pipeLineElement.previousElement!!.type != inType) {
             throw Exception("Type error: expected ${inType}, got ${pipeLineElement.previousElement!!.type}")
@@ -156,17 +157,17 @@ class TypeChecker : ASTVisitor() {
     }
 
     fun checkAndTypeGuardArgs(args: List<Field>, expected: Type) {
-        if (args.size != expected.getChildren().size) {
-            throw Exception("Type error: expected ${expected.size()} argument(s), got ${args.size}")
+        if (args.size != expected.getChildren(bundleTable).size) {
+            throw Exception("Type error: expected ${expected.size(bundleTable)} argument(s), got ${args.size}")
         }
-        args.zip(expected.getChildren()).forEach { (arg, type) ->
+        args.zip(expected.getChildren(bundleTable)).forEach { (arg, type) ->
             arg.type = type
         }
     }
 
     override fun visitPipeLineTuple(pipelineTuple: PipeLineTuple, vararg args: Any) {
         super.visitPipeLineTuple(pipelineTuple)
-        val inType = pipelineTuple.previousElement?.type?.getChildren()
+        val inType = pipelineTuple.previousElement?.type?.getChildren(bundleTable)
         val tupleTypes = pipelineTuple.expressions.map {
             when (it) {
                 is PipeLineTuplePlaceholder -> {
@@ -202,7 +203,7 @@ class TypeChecker : ASTVisitor() {
 
     override fun visitBundleInit(bundleInit: BundleInit, vararg args: Any) {
         super.visitBundleInit(bundleInit)
-        val bundle = BundleTable.getBundleByNameStrict(bundleInit.name)
+        val bundle = bundleTable.getBundleByNameStrict(bundleInit.name)
         val expected = bundle.fields.map { it.type }
         if (bundleInit.initializers.size != expected.size) {
             throw Exception("Type error: expected ${expected.size} arguments, got ${bundleInit.initializers.size}")

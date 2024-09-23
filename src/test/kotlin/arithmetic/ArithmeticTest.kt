@@ -1,10 +1,11 @@
 import kotlin.test.BeforeTest
 import kotlin.test.Test
+import kotlin.test.assertEquals
 
 
-internal class ComplexPipeline {
+class Arithmetic {
 
-    val testName = "complexPipeline"
+    val testName = "arithmetic"
     val path = "./src/test/kotlin/$testName/"
 
 
@@ -14,10 +15,13 @@ internal class ComplexPipeline {
     }
 
     @Test
-    fun complexPipeline() {
+    fun arithmetic() {
         val result = run(testName)!!
         println(result)
-        assert(false)
+        assertEquals(
+            result.trim(),
+            "9"
+        )
     }
 
 }
