@@ -127,7 +127,7 @@ bundle Point {
     y : Int;
 }
 ```
-T initialize a bundle:
+To initialize a bundle:
 
 ```
 let myPoint : Point = Point(10, 20);
