@@ -1,8 +1,7 @@
-pi main() : Bool {
-    >> (3, 4) |> isPrimeAux;
+pi main() : Int {
+   let a : Int = 3 * 5 + 1;
+   let b : Int = a + 1;
+   >> b;
 }
 
 
-pi isPrimeAux(i: Int, n: Int) : Bool {
-    >> false;
-}

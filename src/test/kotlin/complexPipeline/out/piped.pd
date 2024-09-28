@@ -20,7 +20,7 @@ pi print(value : Int) : Int {
 fun pipeLine0(field0 : Int, field1 : Int, ): Int {
    let pipeLineVar0 : $$Int$Int$$ = $$Int$Int$$(1, 4);
    let pipeLineVar1 : Int = add(pipeLineVar0.field0, pipeLineVar0.field1, );
-   let pipeLineVar2 : (Int,Int) = ;
+   let pipeLineVar2 : $$Int$Int$$ = $$Int$Int$$(pipeLineVar1, 3);
    >> printTuple(pipeLineVar2.field0, pipeLineVar2.field1, );
 }
 

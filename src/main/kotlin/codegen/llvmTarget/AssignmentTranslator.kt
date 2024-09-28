@@ -11,10 +11,10 @@ class AssignmentTranslator(
 
     companion object {
         val assignmentTracking: MutableMap<String, String> = mutableMapOf()
-
     }
 
     override fun gen(node: Assignment): TranslationResult {
+        code.clear()
         visitAssignment(node)
         return TranslationResult(code.toString(), "")
     }

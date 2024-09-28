@@ -5,409 +5,86 @@
 
 define i32 @main() 
 {
-   %v$96 = add i32 1, 0
-   %v$97 = add i32 4, 0
-   %v$98 = call i32 @pipeLine0(i32 %v$96, i32 %v$97)
+   %v$0 = add i32 1, 0
+   %v$1 = add i32 4, 0
+   %v$2 = call i32 @pipeLine0(i32 %v$0, i32 %v$1)
    
-   %v$96 = add i32 1, 0
-   %v$97 = add i32 4, 0
-   %v$98 = call i32 @pipeLine0(i32 %v$96, i32 %v$97)
-   %v$99 = add i32 0, 0
+   %v$3 = add i32 0, 0
    
-   ret i32 %v$99
+   ret i32 %v$3
 }
 define i32 @add(i32 %a, i32 %b) 
 {
-   %v$96 = add i32 1, 0
-   %v$97 = add i32 4, 0
-   %v$98 = call i32 @pipeLine0(i32 %v$96, i32 %v$97)
-   %v$99 = add i32 0, 0
-   %v$100 = add i32 %a, %b
+   %v$4 = add i32 %a, %b
    
-   ret i32 %v$100
+   ret i32 %v$4
 }
 define i32 @printTuple(i32 %a, i32 %b) 
 {
-   %v$96 = add i32 1, 0
-   %v$97 = add i32 4, 0
-   %v$98 = call i32 @pipeLine0(i32 %v$96, i32 %v$97)
-   %v$99 = add i32 0, 0
-   %v$100 = add i32 %a, %b
-   %v$101 = call i32 @pipeLine1(i32 %a)
+   %v$5 = call i32 @pipeLine1(i32 %a)
    
-   %v$96 = add i32 1, 0
-   %v$97 = add i32 4, 0
-   %v$98 = call i32 @pipeLine0(i32 %v$96, i32 %v$97)
-   %v$99 = add i32 0, 0
-   %v$100 = add i32 %a, %b
-   %v$101 = call i32 @pipeLine1(i32 %a)
-   %v$102 = call i32 @pipeLine2(i32 %b)
+   %v$6 = call i32 @pipeLine2(i32 %b)
    
-   %v$96 = add i32 1, 0
-   %v$97 = add i32 4, 0
-   %v$98 = call i32 @pipeLine0(i32 %v$96, i32 %v$97)
-   %v$99 = add i32 0, 0
-   %v$100 = add i32 %a, %b
-   %v$101 = call i32 @pipeLine1(i32 %a)
-   %v$102 = call i32 @pipeLine2(i32 %b)
-   %v$103 = add i32 0, 0
+   %v$7 = add i32 0, 0
    
-   ret i32 %v$103
+   ret i32 %v$7
 }
 define i32 @print(i32 %value) 
 {
    call i32 (ptr, ...) @printf(ptr noundef @.str, i32 noundef %value)
    
-   %v$96 = add i32 1, 0
-   %v$97 = add i32 4, 0
-   %v$98 = call i32 @pipeLine0(i32 %v$96, i32 %v$97)
-   %v$99 = add i32 0, 0
-   %v$100 = add i32 %a, %b
-   %v$101 = call i32 @pipeLine1(i32 %a)
-   %v$102 = call i32 @pipeLine2(i32 %b)
-   %v$103 = add i32 0, 0
    
    ret i32 %value
 }
 define i32 @pipeLine0(i32 %field0, i32 %field1) 
 {
-   %v$96 = add i32 1, 0
-   %v$97 = add i32 4, 0
-   %v$98 = call i32 @pipeLine0(i32 %v$96, i32 %v$97)
-   %v$99 = add i32 0, 0
-   %v$100 = add i32 %a, %b
-   %v$101 = call i32 @pipeLine1(i32 %a)
-   %v$102 = call i32 @pipeLine2(i32 %b)
-   %v$103 = add i32 0, 0
-   %v$104 = add i32 1, 0
-   %v$105 = add i32 4, 0
-   %v$106 = call i8* @malloc(i32 8)
-   %pipeLineVar0 = bitcast i8* %v$106 to %$$Int$Int$$*
-   %v$108 = getelementptr %$$Int$Int$$, ptr %pipeLineVar0, i32 0, i32 0
-   store i32 %v$104, ptr %v$108
-   %v$109 = getelementptr %$$Int$Int$$, ptr %pipeLineVar0, i32 0, i32 1
-   store i32 %v$105, ptr %v$109
+   %v$8 = add i32 1, 0
+   %v$9 = add i32 4, 0
+   %v$10 = call i8* @malloc(i32 8)
+   %pipeLineVar0 = bitcast i8* %v$10 to %$$Int$Int$$*
+   %v$12 = getelementptr %$$Int$Int$$, ptr %pipeLineVar0, i32 0, i32 0
+   store i32 %v$8, ptr %v$12
+   %v$13 = getelementptr %$$Int$Int$$, ptr %pipeLineVar0, i32 0, i32 1
+   store i32 %v$9, ptr %v$13
    
    
-   %v$96 = add i32 1, 0
-   %v$97 = add i32 4, 0
-   %v$98 = call i32 @pipeLine0(i32 %v$96, i32 %v$97)
-   %v$99 = add i32 0, 0
-   %v$100 = add i32 %a, %b
-   %v$101 = call i32 @pipeLine1(i32 %a)
-   %v$102 = call i32 @pipeLine2(i32 %b)
-   %v$103 = add i32 0, 0
-   %v$104 = add i32 1, 0
-   %v$105 = add i32 4, 0
-   %v$106 = call i8* @malloc(i32 8)
-   %pipeLineVar0 = bitcast i8* %v$106 to %$$Int$Int$$*
-   %v$108 = getelementptr %$$Int$Int$$, ptr %pipeLineVar0, i32 0, i32 0
-   store i32 %v$104, ptr %v$108
-   %v$109 = getelementptr %$$Int$Int$$, ptr %pipeLineVar0, i32 0, i32 1
-   store i32 %v$105, ptr %v$109
-   
-   %v$96 = add i32 1, 0
-   %v$97 = add i32 4, 0
-   %v$98 = call i32 @pipeLine0(i32 %v$96, i32 %v$97)
-   %v$99 = add i32 0, 0
-   %v$100 = add i32 %a, %b
-   %v$101 = call i32 @pipeLine1(i32 %a)
-   %v$102 = call i32 @pipeLine2(i32 %b)
-   %v$103 = add i32 0, 0
-   %v$104 = add i32 1, 0
-   %v$105 = add i32 4, 0
-   %v$106 = call i8* @malloc(i32 8)
-   %v$107 = bitcast i8* %v$106 to %$$Int$Int$$*
-   %v$108 = getelementptr %$$Int$Int$$, ptr %v$107, i32 0, i32 0
-   store i32 %v$104, ptr %v$108
-   %v$109 = getelementptr %$$Int$Int$$, ptr %v$107, i32 0, i32 1
-   store i32 %v$105, ptr %v$109
-   %v$110 = getelementptr %$$Int$Int$$, ptr %pipeLineVar0, i32 0, i32 0
-   %v$111 = load i32, i32* %v$110
-   %v$112 = getelementptr %$$Int$Int$$, ptr %pipeLineVar0, i32 0, i32 1
-   %v$113 = load i32, i32* %v$112
-   %pipeLineVar1 = call i32 @add(i32 %v$111, i32 %v$113)
+   %v$14 = getelementptr %$$Int$Int$$, ptr %pipeLineVar0, i32 0, i32 0
+   %v$15 = load i32, i32* %v$14
+   %v$16 = getelementptr %$$Int$Int$$, ptr %pipeLineVar0, i32 0, i32 1
+   %v$17 = load i32, i32* %v$16
+   %pipeLineVar1 = call i32 @add(i32 %v$15, i32 %v$17)
    
    
-   %v$96 = add i32 1, 0
-   %v$97 = add i32 4, 0
-   %v$98 = call i32 @pipeLine0(i32 %v$96, i32 %v$97)
-   %v$99 = add i32 0, 0
-   %v$100 = add i32 %a, %b
-   %v$101 = call i32 @pipeLine1(i32 %a)
-   %v$102 = call i32 @pipeLine2(i32 %b)
-   %v$103 = add i32 0, 0
-   %v$104 = add i32 1, 0
-   %v$105 = add i32 4, 0
-   %v$106 = call i8* @malloc(i32 8)
-   %pipeLineVar0 = bitcast i8* %v$106 to %$$Int$Int$$*
-   %v$108 = getelementptr %$$Int$Int$$, ptr %pipeLineVar0, i32 0, i32 0
-   store i32 %v$104, ptr %v$108
-   %v$109 = getelementptr %$$Int$Int$$, ptr %pipeLineVar0, i32 0, i32 1
-   store i32 %v$105, ptr %v$109
-   
-   %v$96 = add i32 1, 0
-   %v$97 = add i32 4, 0
-   %v$98 = call i32 @pipeLine0(i32 %v$96, i32 %v$97)
-   %v$99 = add i32 0, 0
-   %v$100 = add i32 %a, %b
-   %v$101 = call i32 @pipeLine1(i32 %a)
-   %v$102 = call i32 @pipeLine2(i32 %b)
-   %v$103 = add i32 0, 0
-   %v$104 = add i32 1, 0
-   %v$105 = add i32 4, 0
-   %v$106 = call i8* @malloc(i32 8)
-   %v$107 = bitcast i8* %v$106 to %$$Int$Int$$*
-   %v$108 = getelementptr %$$Int$Int$$, ptr %v$107, i32 0, i32 0
-   store i32 %v$104, ptr %v$108
-   %v$109 = getelementptr %$$Int$Int$$, ptr %v$107, i32 0, i32 1
-   store i32 %v$105, ptr %v$109
-   %v$110 = getelementptr %$$Int$Int$$, ptr %pipeLineVar0, i32 0, i32 0
-   %v$111 = load i32, i32* %v$110
-   %v$112 = getelementptr %$$Int$Int$$, ptr %pipeLineVar0, i32 0, i32 1
-   %v$113 = load i32, i32* %v$112
-   %pipeLineVar1 = call i32 @add(i32 %v$111, i32 %v$113)
-   
-   %v$96 = add i32 1, 0
-   %v$97 = add i32 4, 0
-   %v$98 = call i32 @pipeLine0(i32 %v$96, i32 %v$97)
-   %v$99 = add i32 0, 0
-   %v$100 = add i32 %a, %b
-   %v$101 = call i32 @pipeLine1(i32 %a)
-   %v$102 = call i32 @pipeLine2(i32 %b)
-   %v$103 = add i32 0, 0
-   %v$104 = add i32 1, 0
-   %v$105 = add i32 4, 0
-   %v$106 = call i8* @malloc(i32 8)
-   %v$107 = bitcast i8* %v$106 to %$$Int$Int$$*
-   %v$108 = getelementptr %$$Int$Int$$, ptr %v$107, i32 0, i32 0
-   store i32 %v$104, ptr %v$108
-   %v$109 = getelementptr %$$Int$Int$$, ptr %v$107, i32 0, i32 1
-   store i32 %v$105, ptr %v$109
-   %v$110 = getelementptr %$$Int$Int$$, ptr %pipeLineVar0, i32 0, i32 0
-   %v$111 = load i32, i32* %v$110
-   %v$112 = getelementptr %$$Int$Int$$, ptr %pipeLineVar0, i32 0, i32 1
-   %v$113 = load i32, i32* %v$112
-   %pipeLineVar2 = call i32 @add(i32 %v$111, i32 %v$113)
+   %v$19 = add i32 3, 0
+   %v$20 = call i8* @malloc(i32 8)
+   %pipeLineVar2 = bitcast i8* %v$20 to %$$Int$Int$$*
+   %v$22 = getelementptr %$$Int$Int$$, ptr %pipeLineVar2, i32 0, i32 0
+   store i32 %pipeLineVar1, ptr %v$22
+   %v$23 = getelementptr %$$Int$Int$$, ptr %pipeLineVar2, i32 0, i32 1
+   store i32 %v$19, ptr %v$23
    
    
-   %v$96 = add i32 1, 0
-   %v$97 = add i32 4, 0
-   %v$98 = call i32 @pipeLine0(i32 %v$96, i32 %v$97)
-   %v$99 = add i32 0, 0
-   %v$100 = add i32 %a, %b
-   %v$101 = call i32 @pipeLine1(i32 %a)
-   %v$102 = call i32 @pipeLine2(i32 %b)
-   %v$103 = add i32 0, 0
-   %v$104 = add i32 1, 0
-   %v$105 = add i32 4, 0
-   %v$106 = call i8* @malloc(i32 8)
-   %v$107 = bitcast i8* %v$106 to %$$Int$Int$$*
-   %v$108 = getelementptr %$$Int$Int$$, ptr %v$107, i32 0, i32 0
-   store i32 %v$104, ptr %v$108
-   %v$109 = getelementptr %$$Int$Int$$, ptr %v$107, i32 0, i32 1
-   store i32 %v$105, ptr %v$109
-   %v$110 = getelementptr %$$Int$Int$$, ptr %pipeLineVar0, i32 0, i32 0
-   %v$111 = load i32, i32* %v$110
-   %v$112 = getelementptr %$$Int$Int$$, ptr %pipeLineVar0, i32 0, i32 1
-   %v$113 = load i32, i32* %v$112
-   %v$114 = call i32 @add(i32 %v$111, i32 %v$113)
-   %v$115 = getelementptr %$$Int$Int$$, ptr %pipeLineVar2, i32 0, i32 0
-   %v$116 = load i32, i32* %v$115
-   %v$117 = getelementptr %$$Int$Int$$, ptr %pipeLineVar2, i32 0, i32 1
-   %v$118 = load i32, i32* %v$117
-   %v$119 = call i32 @printTuple(i32 %v$116, i32 %v$118)
+   %v$24 = getelementptr %$$Int$Int$$, ptr %pipeLineVar2, i32 0, i32 0
+   %v$25 = load i32, i32* %v$24
+   %v$26 = getelementptr %$$Int$Int$$, ptr %pipeLineVar2, i32 0, i32 1
+   %v$27 = load i32, i32* %v$26
+   %v$28 = call i32 @printTuple(i32 %v$25, i32 %v$27)
    
-   ret i32 %v$119
+   ret i32 %v$28
 }
 define i32 @pipeLine1(i32 %field0) 
 {
-   %v$96 = add i32 1, 0
-   %v$97 = add i32 4, 0
-   %v$98 = call i32 @pipeLine0(i32 %v$96, i32 %v$97)
-   %v$99 = add i32 0, 0
-   %v$100 = add i32 %a, %b
-   %v$101 = call i32 @pipeLine1(i32 %a)
-   %v$102 = call i32 @pipeLine2(i32 %b)
-   %v$103 = add i32 0, 0
-   %v$104 = add i32 1, 0
-   %v$105 = add i32 4, 0
-   %v$106 = call i8* @malloc(i32 8)
-   %pipeLineVar0 = bitcast i8* %v$106 to %$$Int$Int$$*
-   %v$108 = getelementptr %$$Int$Int$$, ptr %pipeLineVar0, i32 0, i32 0
-   store i32 %v$104, ptr %v$108
-   %v$109 = getelementptr %$$Int$Int$$, ptr %pipeLineVar0, i32 0, i32 1
-   store i32 %v$105, ptr %v$109
    
-   %v$96 = add i32 1, 0
-   %v$97 = add i32 4, 0
-   %v$98 = call i32 @pipeLine0(i32 %v$96, i32 %v$97)
-   %v$99 = add i32 0, 0
-   %v$100 = add i32 %a, %b
-   %v$101 = call i32 @pipeLine1(i32 %a)
-   %v$102 = call i32 @pipeLine2(i32 %b)
-   %v$103 = add i32 0, 0
-   %v$104 = add i32 1, 0
-   %v$105 = add i32 4, 0
-   %v$106 = call i8* @malloc(i32 8)
-   %v$107 = bitcast i8* %v$106 to %$$Int$Int$$*
-   %v$108 = getelementptr %$$Int$Int$$, ptr %v$107, i32 0, i32 0
-   store i32 %v$104, ptr %v$108
-   %v$109 = getelementptr %$$Int$Int$$, ptr %v$107, i32 0, i32 1
-   store i32 %v$105, ptr %v$109
-   %v$110 = getelementptr %$$Int$Int$$, ptr %pipeLineVar0, i32 0, i32 0
-   %v$111 = load i32, i32* %v$110
-   %v$112 = getelementptr %$$Int$Int$$, ptr %pipeLineVar0, i32 0, i32 1
-   %v$113 = load i32, i32* %v$112
-   %pipeLineVar1 = call i32 @add(i32 %v$111, i32 %v$113)
+   %v$29 = call i32 @print(i32 %field0)
    
-   %v$96 = add i32 1, 0
-   %v$97 = add i32 4, 0
-   %v$98 = call i32 @pipeLine0(i32 %v$96, i32 %v$97)
-   %v$99 = add i32 0, 0
-   %v$100 = add i32 %a, %b
-   %v$101 = call i32 @pipeLine1(i32 %a)
-   %v$102 = call i32 @pipeLine2(i32 %b)
-   %v$103 = add i32 0, 0
-   %v$104 = add i32 1, 0
-   %v$105 = add i32 4, 0
-   %v$106 = call i8* @malloc(i32 8)
-   %v$107 = bitcast i8* %v$106 to %$$Int$Int$$*
-   %v$108 = getelementptr %$$Int$Int$$, ptr %v$107, i32 0, i32 0
-   store i32 %v$104, ptr %v$108
-   %v$109 = getelementptr %$$Int$Int$$, ptr %v$107, i32 0, i32 1
-   store i32 %v$105, ptr %v$109
-   %v$110 = getelementptr %$$Int$Int$$, ptr %pipeLineVar0, i32 0, i32 0
-   %v$111 = load i32, i32* %v$110
-   %v$112 = getelementptr %$$Int$Int$$, ptr %pipeLineVar0, i32 0, i32 1
-   %v$113 = load i32, i32* %v$112
-   %pipeLineVar2 = call i32 @add(i32 %v$111, i32 %v$113)
-   
-   
-   %v$96 = add i32 1, 0
-   %v$97 = add i32 4, 0
-   %v$98 = call i32 @pipeLine0(i32 %v$96, i32 %v$97)
-   %v$99 = add i32 0, 0
-   %v$100 = add i32 %a, %b
-   %v$101 = call i32 @pipeLine1(i32 %a)
-   %v$102 = call i32 @pipeLine2(i32 %b)
-   %v$103 = add i32 0, 0
-   %v$104 = add i32 1, 0
-   %v$105 = add i32 4, 0
-   %v$106 = call i8* @malloc(i32 8)
-   %v$107 = bitcast i8* %v$106 to %$$Int$Int$$*
-   %v$108 = getelementptr %$$Int$Int$$, ptr %v$107, i32 0, i32 0
-   store i32 %v$104, ptr %v$108
-   %v$109 = getelementptr %$$Int$Int$$, ptr %v$107, i32 0, i32 1
-   store i32 %v$105, ptr %v$109
-   %v$110 = getelementptr %$$Int$Int$$, ptr %pipeLineVar0, i32 0, i32 0
-   %v$111 = load i32, i32* %v$110
-   %v$112 = getelementptr %$$Int$Int$$, ptr %pipeLineVar0, i32 0, i32 1
-   %v$113 = load i32, i32* %v$112
-   %v$114 = call i32 @add(i32 %v$111, i32 %v$113)
-   %v$115 = getelementptr %$$Int$Int$$, ptr %pipeLineVar2, i32 0, i32 0
-   %v$116 = load i32, i32* %v$115
-   %v$117 = getelementptr %$$Int$Int$$, ptr %pipeLineVar2, i32 0, i32 1
-   %v$118 = load i32, i32* %v$117
-   %v$119 = call i32 @printTuple(i32 %v$116, i32 %v$118)
-   %v$120 = call i32 @print(i32 %a)
-   
-   ret i32 %v$120
+   ret i32 %v$29
 }
 define i32 @pipeLine2(i32 %field0) 
 {
-   %v$96 = add i32 1, 0
-   %v$97 = add i32 4, 0
-   %v$98 = call i32 @pipeLine0(i32 %v$96, i32 %v$97)
-   %v$99 = add i32 0, 0
-   %v$100 = add i32 %a, %b
-   %v$101 = call i32 @pipeLine1(i32 %a)
-   %v$102 = call i32 @pipeLine2(i32 %b)
-   %v$103 = add i32 0, 0
-   %v$104 = add i32 1, 0
-   %v$105 = add i32 4, 0
-   %v$106 = call i8* @malloc(i32 8)
-   %pipeLineVar0 = bitcast i8* %v$106 to %$$Int$Int$$*
-   %v$108 = getelementptr %$$Int$Int$$, ptr %pipeLineVar0, i32 0, i32 0
-   store i32 %v$104, ptr %v$108
-   %v$109 = getelementptr %$$Int$Int$$, ptr %pipeLineVar0, i32 0, i32 1
-   store i32 %v$105, ptr %v$109
    
-   %v$96 = add i32 1, 0
-   %v$97 = add i32 4, 0
-   %v$98 = call i32 @pipeLine0(i32 %v$96, i32 %v$97)
-   %v$99 = add i32 0, 0
-   %v$100 = add i32 %a, %b
-   %v$101 = call i32 @pipeLine1(i32 %a)
-   %v$102 = call i32 @pipeLine2(i32 %b)
-   %v$103 = add i32 0, 0
-   %v$104 = add i32 1, 0
-   %v$105 = add i32 4, 0
-   %v$106 = call i8* @malloc(i32 8)
-   %v$107 = bitcast i8* %v$106 to %$$Int$Int$$*
-   %v$108 = getelementptr %$$Int$Int$$, ptr %v$107, i32 0, i32 0
-   store i32 %v$104, ptr %v$108
-   %v$109 = getelementptr %$$Int$Int$$, ptr %v$107, i32 0, i32 1
-   store i32 %v$105, ptr %v$109
-   %v$110 = getelementptr %$$Int$Int$$, ptr %pipeLineVar0, i32 0, i32 0
-   %v$111 = load i32, i32* %v$110
-   %v$112 = getelementptr %$$Int$Int$$, ptr %pipeLineVar0, i32 0, i32 1
-   %v$113 = load i32, i32* %v$112
-   %pipeLineVar1 = call i32 @add(i32 %v$111, i32 %v$113)
+   %v$30 = call i32 @print(i32 %field0)
    
-   %v$96 = add i32 1, 0
-   %v$97 = add i32 4, 0
-   %v$98 = call i32 @pipeLine0(i32 %v$96, i32 %v$97)
-   %v$99 = add i32 0, 0
-   %v$100 = add i32 %a, %b
-   %v$101 = call i32 @pipeLine1(i32 %a)
-   %v$102 = call i32 @pipeLine2(i32 %b)
-   %v$103 = add i32 0, 0
-   %v$104 = add i32 1, 0
-   %v$105 = add i32 4, 0
-   %v$106 = call i8* @malloc(i32 8)
-   %v$107 = bitcast i8* %v$106 to %$$Int$Int$$*
-   %v$108 = getelementptr %$$Int$Int$$, ptr %v$107, i32 0, i32 0
-   store i32 %v$104, ptr %v$108
-   %v$109 = getelementptr %$$Int$Int$$, ptr %v$107, i32 0, i32 1
-   store i32 %v$105, ptr %v$109
-   %v$110 = getelementptr %$$Int$Int$$, ptr %pipeLineVar0, i32 0, i32 0
-   %v$111 = load i32, i32* %v$110
-   %v$112 = getelementptr %$$Int$Int$$, ptr %pipeLineVar0, i32 0, i32 1
-   %v$113 = load i32, i32* %v$112
-   %pipeLineVar2 = call i32 @add(i32 %v$111, i32 %v$113)
-   
-   
-   %v$96 = add i32 1, 0
-   %v$97 = add i32 4, 0
-   %v$98 = call i32 @pipeLine0(i32 %v$96, i32 %v$97)
-   %v$99 = add i32 0, 0
-   %v$100 = add i32 %a, %b
-   %v$101 = call i32 @pipeLine1(i32 %a)
-   %v$102 = call i32 @pipeLine2(i32 %b)
-   %v$103 = add i32 0, 0
-   %v$104 = add i32 1, 0
-   %v$105 = add i32 4, 0
-   %v$106 = call i8* @malloc(i32 8)
-   %v$107 = bitcast i8* %v$106 to %$$Int$Int$$*
-   %v$108 = getelementptr %$$Int$Int$$, ptr %v$107, i32 0, i32 0
-   store i32 %v$104, ptr %v$108
-   %v$109 = getelementptr %$$Int$Int$$, ptr %v$107, i32 0, i32 1
-   store i32 %v$105, ptr %v$109
-   %v$110 = getelementptr %$$Int$Int$$, ptr %pipeLineVar0, i32 0, i32 0
-   %v$111 = load i32, i32* %v$110
-   %v$112 = getelementptr %$$Int$Int$$, ptr %pipeLineVar0, i32 0, i32 1
-   %v$113 = load i32, i32* %v$112
-   %v$114 = call i32 @add(i32 %v$111, i32 %v$113)
-   %v$115 = getelementptr %$$Int$Int$$, ptr %pipeLineVar2, i32 0, i32 0
-   %v$116 = load i32, i32* %v$115
-   %v$117 = getelementptr %$$Int$Int$$, ptr %pipeLineVar2, i32 0, i32 1
-   %v$118 = load i32, i32* %v$117
-   %v$119 = call i32 @printTuple(i32 %v$116, i32 %v$118)
-   %v$120 = call i32 @print(i32 %a)
-   %v$121 = call i32 @print(i32 %b)
-   
-   ret i32 %v$121
+   ret i32 %v$30
 }
 declare void @llvm.memcpy.p0.p0.i32(ptr noalias nocapture writeonly, ptr noalias nocapture readonly, i32, i1 immarg) #2
 declare i8* @malloc(i32) nounwind

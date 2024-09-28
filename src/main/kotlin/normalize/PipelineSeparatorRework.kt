@@ -142,12 +142,27 @@ class PipelineSeparatorRework(val bundleTable: BundleTable) : ILASTVisitor() {
     }
 
 
-    fun getExpressionFromPipelineTuple(
+    private fun
+            getExpressionFromPipelineTuple(
         tuple: PipeLineTuple,
+        args: List<Variable>? = null
     ): Expression {
         val expectedType = getTupleType(tuple.expressions)
         if (tuple.expressions.size == 1) {
             return tuple.expressions.first()
+        }
+        tuple.expressions.forEachIndexed { index, it ->
+            if (it is PipeLineTuplePlaceholder) {
+                if (args?.size == 1) {
+                    tuple.expressions[it.index] = Variable(listOf(getPreviousVariableName(2)), it.type, expectedType)
+                } else {
+                    tuple.expressions[it.index] = Variable(
+                        listOf(getPreviousVariableName(2), "field$index"),
+                        it.type,
+                        expectedType
+                    )
+                }
+            }
         }
         return Tuple(tuple.expressions, expectedType)
     }
@@ -172,13 +187,15 @@ class PipelineSeparatorRework(val bundleTable: BundleTable) : ILASTVisitor() {
     }
 
     private fun handlePipeLineTuple(element: PipeLineTuple, args: List<Variable>): Pair<Assignment?, List<Variable>> {
+
         val expressions = element.expressions.map {
             if (it is PipeLineTuplePlaceholder) {
-                args[it.index]
+                return@map args[it.index]
             } else {
                 it
             }
         }
+
 
         val assignmentName = getVariableName()
 
@@ -186,7 +203,7 @@ class PipelineSeparatorRework(val bundleTable: BundleTable) : ILASTVisitor() {
             Assignment(
                 assignmentName,
                 getTupleType(expressions),
-                element
+                getExpressionFromPipelineTuple(element, args)
             ),
             getArgs(assignmentName, element.type)
         )
@@ -241,5 +258,9 @@ class PipelineSeparatorRework(val bundleTable: BundleTable) : ILASTVisitor() {
 
     fun getVariableName(): String {
         return "pipeLineVar${scopeIndex++}"
+    }
+
+    fun getPreviousVariableName(backStep : Int): String {
+        return "pipeLineVar${scopeIndex - backStep}"
     }
 }
