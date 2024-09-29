@@ -7,14 +7,14 @@ pi main() : Int {
    let f : Int = 1 + 2 * e + 3;
    let g : Int = f / 2;
    let h : Int = 2 + g / 2;
-   pipeLine0(h, );
+   pipeLine$0(h, );
    >> 0;
 }
 pi print(value : Int) : Int {
    >> value;
 }
-fun pipeLine0(field0 : Int, ): Int {
-   let pipeLineVar0 : Int = h;
-   >> print(pipeLineVar0, );
+fun pipeLine$0(field$0 : Int, ): Int {
+   let pipeLineVar$0 : Int = pipeLineVar$-1;
+   >> print(pipeLineVar$0, );
 }
 

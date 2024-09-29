@@ -12,11 +12,11 @@ define i32 @main()
    %d = call i32 @scope$3()
    
    
-   %v$131 = call i32 @pipeLine0(i32 %d)
+   %v$107 = call i32 @pipeLine$0(i32 %d)
    
-   %v$132 = add i32 0, 0
+   %v$108 = add i32 0, 0
    
-   ret i32 %v$132
+   ret i32 %v$108
 }
 define i32 @print(i32 %value) 
 {
@@ -25,12 +25,12 @@ define i32 @print(i32 %value)
    
    ret i32 %value
 }
-define i32 @pipeLine0(i32 %field0) 
+define i32 @pipeLine$0(i32 %field$0) 
 {
    
-   %v$133 = call i32 @print(i32 %d)
+   %v$109 = call i32 @print(i32 %pipeLineVar$-1)
    
-   ret i32 %v$133
+   ret i32 %v$109
 }
 define i32 @scope$0(i32 %a, i32 %b) 
 {
@@ -42,22 +42,22 @@ define i32 @scope$0(i32 %a, i32 %b)
 }
 define i32 @scope$1(i32 %a, i32 %b, i32 %c) 
 {
-   %v$135 = add i32 %a, %b
-   %v$136 = add i32 %v$135, %c
+   %v$111 = add i32 %a, %b
+   %v$112 = add i32 %v$111, %c
    
-   ret i32 %v$136
+   ret i32 %v$112
 }
 define i32 @scope$2() 
 {
-   %v$137 = call i32 @scope$1(i32 %a, i32 %b, i32 %c)
+   %v$113 = call i32 @scope$1(i32 %a, i32 %b, i32 %c)
    
-   ret i32 %v$137
+   ret i32 %v$113
 }
 define i32 @scope$3() 
 {
-   %v$138 = call i32 @scope$2()
+   %v$114 = call i32 @scope$2()
    
-   ret i32 %v$138
+   ret i32 %v$114
 }
 declare void @llvm.memcpy.p0.p0.i32(ptr noalias nocapture writeonly, ptr noalias nocapture readonly, i32, i1 immarg) #2
 declare i8* @malloc(i32) nounwind

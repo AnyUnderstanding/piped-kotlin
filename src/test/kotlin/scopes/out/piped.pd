@@ -3,15 +3,15 @@ pi main() : Int {
    let b : Int = 2;
    let c : Int = scope$0(a, b, );
    let d : Int = scope$3();
-   pipeLine0(d, );
+   pipeLine$0(d, );
    >> 0;
 }
 pi print(value : Int) : Int {
    >> value;
 }
-fun pipeLine0(field0 : Int, ): Int {
-   let pipeLineVar0 : Int = d;
-   >> print(pipeLineVar0, );
+fun pipeLine$0(field$0 : Int, ): Int {
+   let pipeLineVar$0 : Int = pipeLineVar$-1;
+   >> print(pipeLineVar$0, );
 }
 
 fun scope$0(a : Int, b : Int, ): Int {

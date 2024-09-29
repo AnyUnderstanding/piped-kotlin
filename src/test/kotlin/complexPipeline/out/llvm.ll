@@ -29,6 +29,11 @@ define i32 @printTuple(i32 %a, i32 %b)
    
    ret i32 %v$7
 }
+define i32 @id(i32 %elem) 
+{
+   
+   ret i32 %elem
+}
 define i32 @print(i32 %value) 
 {
    call i32 (ptr, ...) @printf(ptr noundef @.str, i32 noundef %value)
@@ -68,23 +73,33 @@ define i32 @pipeLine0(i32 %field0, i32 %field1)
    %v$25 = load i32, i32* %v$24
    %v$26 = getelementptr %$$Int$Int$$, ptr %pipeLineVar2, i32 0, i32 1
    %v$27 = load i32, i32* %v$26
-   %v$28 = call i32 @printTuple(i32 %v$25, i32 %v$27)
+   %pipeLineVar3 = call i32 @printTuple(i32 %v$25, i32 %v$27)
    
-   ret i32 %v$28
+   
+   %pipeLineVar4 = call i32 @id(i32 %pipeLineVar3)
+   
+   
+   
+   %pipeLineVar6 = call i32 @id(i32 %field0)
+   
+   
+   %v$31 = call i32 @print(i32 %pipeLineVar6)
+   
+   ret i32 %v$31
 }
 define i32 @pipeLine1(i32 %field0) 
 {
    
-   %v$29 = call i32 @print(i32 %field0)
+   %v$32 = call i32 @print(i32 %field0)
    
-   ret i32 %v$29
+   ret i32 %v$32
 }
 define i32 @pipeLine2(i32 %field0) 
 {
    
-   %v$30 = call i32 @print(i32 %field0)
+   %v$33 = call i32 @print(i32 %field0)
    
-   ret i32 %v$30
+   ret i32 %v$33
 }
 declare void @llvm.memcpy.p0.p0.i32(ptr noalias nocapture writeonly, ptr noalias nocapture readonly, i32, i1 immarg) #2
 declare i8* @malloc(i32) nounwind

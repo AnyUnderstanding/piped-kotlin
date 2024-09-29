@@ -1,15 +1,15 @@
 define i32 @main() 
 {
-   %v$139 = add i32 1, 0
-   %v$140 = add i32 2, 0
-   %v$141 = add i32 %v$139, %v$140
-   %v$142 = add i32 3, 0
-   %v$143 = mul i32 %v$141, %v$142
-   %v$144 = call i32 @pipeLine0(i32 %v$143)
+   %v$115 = add i32 1, 0
+   %v$116 = add i32 2, 0
+   %v$117 = add i32 %v$115, %v$116
+   %v$118 = add i32 3, 0
+   %v$119 = mul i32 %v$117, %v$118
+   %v$120 = call i32 @pipeLine$0(i32 %v$119)
    
-   %v$145 = add i32 0, 0
+   %v$121 = add i32 0, 0
    
-   ret i32 %v$145
+   ret i32 %v$121
 }
 define i32 @print(i32 %value) 
 {
@@ -18,18 +18,18 @@ define i32 @print(i32 %value)
    
    ret i32 %value
 }
-define i32 @pipeLine0(i32 %field0) 
+define i32 @pipeLine$0(i32 %field$0) 
 {
-   %v$146 = add i32 1, 0
-   %v$147 = add i32 2, 0
-   %v$148 = add i32 %v$146, %v$147
-   %v$149 = add i32 3, 0
-   %pipeLineVar0 = mul i32 %v$148, %v$149
+   %v$122 = add i32 1, 0
+   %v$123 = add i32 2, 0
+   %v$124 = add i32 %v$122, %v$123
+   %v$125 = add i32 3, 0
+   %pipeLineVar$0 = mul i32 %v$124, %v$125
    
    
-   %v$151 = call i32 @print(i32 %pipeLineVar0)
+   %v$127 = call i32 @print(i32 %pipeLineVar$0)
    
-   ret i32 %v$151
+   ret i32 %v$127
 }
 declare void @llvm.memcpy.p0.p0.i32(ptr noalias nocapture writeonly, ptr noalias nocapture readonly, i32, i1 immarg) #2
 declare i8* @malloc(i32) nounwind

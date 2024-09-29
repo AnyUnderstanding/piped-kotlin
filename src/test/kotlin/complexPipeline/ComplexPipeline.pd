@@ -1,5 +1,5 @@
 pi main() : Int {
-    (1, 4) |> add |> (#0, 3) |> printTuple;
+    (1, 4) |> add |> (#0, 3) |> printTuple |> id |> (#0) |> id |> print;
     >> 0;
 }
 
@@ -11,4 +11,8 @@ pi printTuple(a : Int, b : Int) : Int {
     (a) |> print;
     (b) |> print;
     >> 0;
+}
+
+pi id(elem : Int) : Int {
+   >> elem;
 }

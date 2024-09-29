@@ -3,34 +3,41 @@ bundle $$Int$Int$$ {
    let field1 : Int, 
 }
 pi main() : Int {
-   pipeLine0(1, 4, );
+   pipeLine$0(1, 4, );
    >> 0;
 }
 pi add(a : Int, b : Int) : Int {
    >> a + b;
 }
 pi printTuple(a : Int, b : Int) : Int {
-   pipeLine1(a, );
-   pipeLine2(b, );
+   pipeLine$1(a, );
+   pipeLine$2(b, );
    >> 0;
+}
+pi id(elem : Int) : Int {
+   >> elem;
 }
 pi print(value : Int) : Int {
    >> value;
 }
-fun pipeLine0(field0 : Int, field1 : Int, ): Int {
-   let pipeLineVar0 : $$Int$Int$$ = $$Int$Int$$(1, 4);
-   let pipeLineVar1 : Int = add(pipeLineVar0.field0, pipeLineVar0.field1, );
-   let pipeLineVar2 : $$Int$Int$$ = $$Int$Int$$(pipeLineVar1, 3);
-   >> printTuple(pipeLineVar2.field0, pipeLineVar2.field1, );
+fun pipeLine$0(field$0 : Int, field$1 : Int, ): Int {
+   let pipeLineVar$0 : $$Int$Int$$ = $$Int$Int$$(1, 4);
+   let pipeLineVar$1 : Int = add(pipeLineVar$0.field$0, pipeLineVar$0.field$1, );
+   let pipeLineVar$2 : $$Int$Int$$ = $$Int$Int$$(pipeLineVar$1, 3);
+   let pipeLineVar$3 : Int = printTuple(pipeLineVar$2.field$0, pipeLineVar$2.field$1, );
+   let pipeLineVar$4 : Int = id(pipeLineVar$3, );
+   let pipeLineVar$5 : Int = pipeLineVar$4;
+   let pipeLineVar$6 : Int = id(pipeLineVar$5, );
+   >> print(pipeLineVar$6, );
 }
 
-fun pipeLine1(field0 : Int, ): Int {
-   let pipeLineVar4 : Int = a;
-   >> print(pipeLineVar4, );
+fun pipeLine$1(field$0 : Int, ): Int {
+   let pipeLineVar$8 : Int = pipeLineVar$7;
+   >> print(pipeLineVar$8, );
 }
 
-fun pipeLine2(field0 : Int, ): Int {
-   let pipeLineVar6 : Int = b;
-   >> print(pipeLineVar6, );
+fun pipeLine$2(field$0 : Int, ): Int {
+   let pipeLineVar$10 : Int = pipeLineVar$9;
+   >> print(pipeLineVar$10, );
 }
 

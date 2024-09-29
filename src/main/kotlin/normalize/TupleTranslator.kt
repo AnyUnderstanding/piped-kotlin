@@ -6,6 +6,20 @@ import de.any.analyzer.BundleTable
 
 class TupleTranslator(val bundleTable: BundleTable) : ILASTVisitor() {
     val tuples = mutableSetOf<Type>()
+
+    companion object {
+        val fieldPrefix = "field$"
+
+        fun translateTuple(tuple: Type): Type {
+            if (tuple.isBasicType()) return tuple
+            return Type.fromStringUnsafe(
+                tuple.asPipedString()
+                    .replace("(", "$$")
+                    .replace(")", "$$").replace(",", "$")
+            )
+        }
+    }
+
     override fun visit(program: ILProgram, vararg args: Any) {
         super.visit(program, *args)
         tuples.distinct().forEach {
@@ -15,7 +29,7 @@ class TupleTranslator(val bundleTable: BundleTable) : ILASTVisitor() {
             ).apply {
                 this.fields = it.getChildren(bundleTable).mapIndexed { index, type ->
                     Field(
-                        "field$index",
+                        fieldPrefix + index,
                         when {
                             type.isBasicType() -> type
                             else -> translateTuple(type)
@@ -131,18 +145,6 @@ class TupleTranslator(val bundleTable: BundleTable) : ILASTVisitor() {
         if (tuple.isBasicType()) return tuple
         tuples.add(tuple)
         return translateTuple(tuple)
-    }
-
-
-    companion object {
-        fun translateTuple(tuple: Type): Type {
-            if (tuple.isBasicType()) return tuple
-            return Type.fromStringUnsafe(
-                tuple.asPipedString()
-                    .replace("(", "$$")
-                    .replace(")", "$$").replace(",", "$")
-            )
-        }
     }
 
 }
