@@ -1,17 +1,16 @@
 define i32 @main() 
 {
-   %v$0 = add i32 40, 0
-   %v$1 = call i32 @pipeLine3(i32 %v$0)
+   %v$221 = call i32 @pipeline$12()
    
-   %v$2 = add i32 0, 0
+   %v$222 = add i32 0, 0
    
-   ret i32 %v$2
+   ret i32 %v$222
 }
 define i32 @fib(i32 %n) 
 {
-   %v$3 = call i32 @pipeLine12(i32 %n, i32 %n)
+   %v$223 = call i32 @pipeline$15(i32 %n)
    
-   ret i32 %v$3
+   ret i32 %v$223
 }
 define i32 @print(i32 %value) 
 {
@@ -20,64 +19,60 @@ define i32 @print(i32 %value)
    
    ret i32 %value
 }
-define i32 @pipeLine3(i32 %field0) 
+define i32 @pipeline$12() 
 {
-   
-   %element$1 = call i32 @fib(i32 %field0)
-   
-   
-   %element$2 = call i32 @print(i32 %element$1)
+   %pipelineVar$0 = add i32 40, 0
    
    
+   %pipelineVar$1 = call i32 @fib(i32 %pipelineVar$0)
    
-   ret i32 %element$2
+   
+   %v$226 = call i32 @print(i32 %pipelineVar$1)
+   
+   ret i32 %v$226
 }
-define i32 @guard0(i32 %x, i32 %n) 
+define i32 @pipeline$13(i32 %x) 
 {
-   %v$6 = add i32 2, 0
-   %v$7 = icmp slt i32 %x, %v$6
+   %v$227 = add i32 1, 0
+   %pipelineVar$0 = sub i32 %x, %v$227
    
-   br i1 %v$7, label %label0, label %label1
+   
+   %v$229 = call i32 @fib(i32 %pipelineVar$0)
+   
+   ret i32 %v$229
+}
+define i32 @pipeline$14(i32 %x) 
+{
+   %v$230 = add i32 2, 0
+   %pipelineVar$0 = sub i32 %x, %v$230
+   
+   
+   %v$232 = call i32 @fib(i32 %pipelineVar$0)
+   
+   ret i32 %v$232
+}
+define i32 @guard$1(i32 %x, i32 %n) 
+{
+   %v$233 = add i32 2, 0
+   %v$234 = icmp slt i32 %x, %v$233
+   
+   br i1 %v$234, label %label0, label %label1
    label0:
    
    ret i32 %n
    label1:
-   %v$8 = add i32 1, 0
-   %v$9 = sub i32 %x, %v$8
-   %v$10 = call i32 @pipeLine7(i32 %v$9)
-   %v$11 = add i32 2, 0
-   %v$12 = sub i32 %x, %v$11
-   %v$13 = call i32 @pipeLine10(i32 %v$12)
-   %v$14 = add i32 %v$10, %v$13
+   %v$235 = call i32 @pipeline$13(i32 %x)
+   %v$236 = call i32 @pipeline$14(i32 %x)
+   %v$237 = add i32 %v$235, %v$236
    
-   ret i32 %v$14
+   ret i32 %v$237
 }
-define i32 @pipeLine7(i32 %field0) 
+define i32 @pipeline$15(i32 %n) 
 {
    
-   %element$6 = call i32 @fib(i32 %field0)
+   %v$238 = call i32 @guard$1(i32 %n, i32 %n)
    
-   
-   
-   ret i32 %element$6
-}
-define i32 @pipeLine10(i32 %field0) 
-{
-   
-   %element$9 = call i32 @fib(i32 %field0)
-   
-   
-   
-   ret i32 %element$9
-}
-define i32 @pipeLine12(i32 %field0, i32 %n) 
-{
-   
-   %element$11 = call i32 @guard0(i32 %field0, i32 %n)
-   
-   
-   
-   ret i32 %element$11
+   ret i32 %v$238
 }
 declare void @llvm.memcpy.p0.p0.i32(ptr noalias nocapture writeonly, ptr noalias nocapture readonly, i32, i1 immarg) #2
 declare i8* @malloc(i32) nounwind

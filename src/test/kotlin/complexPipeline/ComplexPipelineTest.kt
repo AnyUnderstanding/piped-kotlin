@@ -1,5 +1,6 @@
 import kotlin.test.BeforeTest
 import kotlin.test.Test
+import kotlin.test.assertEquals
 
 
 internal class ComplexPipeline {
@@ -17,7 +18,7 @@ internal class ComplexPipeline {
     fun complexPipeline() {
         val result = run(testName)!!
         println(result)
-        assert(false)
+        assertEquals( "5\n3\n3141\n1\n1\n2\n3\n42\n43\n1\n2", result.trim())
     }
 
 }

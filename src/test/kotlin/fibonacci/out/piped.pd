@@ -1,42 +1,38 @@
 pi main() : Int {
-   pipeLine3(40, );
+   pipeline$12();
    >> 0;
 }
 pi fib(n : Int) : Int {
-   >> pipeLine12(n, n, );
+   >> pipeline$15(n, );
 }
 pi print(value : Int) : Int {
    >> value;
 }
-fun pipeLine3(field0 : Int, ): Int {
-   let element$0 : Int = field0;
-   let element$1 : Int = fib(element$0, );
-   let element$2 : Int = print(element$1, );
-   >> element$2;
+fun pipeline$12(): Int {
+   let pipelineVar$0 : Int = 40;
+   let pipelineVar$1 : Int = fib(pipelineVar$0, );
+   >> print(pipelineVar$1, );
 }
 
-fun guard0(x : Int, n : Int, ): Int {
+fun pipeline$13(x : Int, ): Int {
+   let pipelineVar$0 : Int = x - 1;
+   >> fib(pipelineVar$0, );
+}
+
+fun pipeline$14(x : Int, ): Int {
+   let pipelineVar$0 : Int = x - 2;
+   >> fib(pipelineVar$0, );
+}
+
+fun guard$1(x : Int, n : Int, ): Int {
    if (x < 2) {
       >> n;
    }
-   >> (pipeLine7(x - 1, ) + pipeLine10(x - 2, ));
+   >> (pipeline$13(x, ) + pipeline$14(x, ));
 }
 
-fun pipeLine7(field0 : Int, ): Int {
-   let element$5 : Int = field0;
-   let element$6 : Int = fib(element$5, );
-   >> element$6;
-}
-
-fun pipeLine10(field0 : Int, ): Int {
-   let element$8 : Int = field0;
-   let element$9 : Int = fib(element$8, );
-   >> element$9;
-}
-
-fun pipeLine12(field0 : Int, n : Int, ): Int {
-   let element$4 : Int = field0;
-   let element$11 : Int = guard0(element$4, n, );
-   >> element$11;
+fun pipeline$15(n : Int, ): Int {
+   let pipelineVar$3 : Int = n;
+   >> guard$1(pipelineVar$3, n, );
 }
 

@@ -23,7 +23,7 @@ class TypeChecker(val bundleTable: BundleTable, val pipeTable: PipeTable) : ASTV
         currentScope.addField(Field(assignment.name, real))
 
         if (expected != real) {
-            throw Exception("Type error: expected $expected, got $real")
+            throw Exception("Type error: expected $expected, got $real in assignment: ${assignment}")
         }
     }
 
@@ -126,9 +126,9 @@ class TypeChecker(val bundleTable: BundleTable, val pipeTable: PipeTable) : ASTV
         val pipe = pipeTable.getPipeStrict(pipeLineElement.name)
         val inType = pipe.getInType()
         if (pipeLineElement.previousElement != null && pipeLineElement.previousElement!!.type != inType) {
-            throw Exception("Type error: expected ${inType}, got ${pipeLineElement.previousElement!!.type}")
+            throw Exception("Type error: expected ${inType}, got ${pipeLineElement.previousElement!!.type} in pipe call $pipeLineElement")
         } else if (pipeLineElement.previousElement == null && inType != PrimitiveType.NONE.type) {
-            throw Exception("Type error: expected ${inType}, got ${PrimitiveType.NONE.type}")
+            throw Exception("Type error: expected ${inType}, got ${PrimitiveType.NONE.type} in pipe call $pipeLineElement")
         }
         pipeLineElement.type = pipe.returnType
     }

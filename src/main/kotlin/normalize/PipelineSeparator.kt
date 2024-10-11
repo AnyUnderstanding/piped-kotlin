@@ -48,6 +48,45 @@ class PipelineSeparator(
         visitScope(scope)
     }
 
+    fun buildScope(
+        pipeLine: PipeLine,
+        functionArgs: List<Field>
+    ): Scope {
+        val scope = Scope(mutableListOf())
+        val children = scope.children
+        pipeLine.elements.foreachWithPreviousIndexed { _, previous, current ->
+            val expressions = when (previous) {
+                // todo cases can be collapesed if the function gets passed the arguments as a single bundle
+                null -> {
+                    callWithPreviousNull(current)
+                }
+
+                else -> {
+                    callWithPrevious(index, previous, current)
+                }
+            }
+
+            children.add(
+                Assignment(
+                    "element\$$index",
+                    expressions.type,
+                    expressions
+                )
+            )
+            index++
+        }
+        val return_ = Return(
+            Variable(listOf("element\$${index - 1}"))
+        )
+        return_.expression.type = pipeLine.type
+        return_.type = pipeLine.type
+        children.add(
+            return_
+        )
+        return scope
+    }
+
+
     fun replacePipeline(pipeLine: PipeLine, functionCall: FunctionCall) {
         val parent = pipeLine.parent
         functionCall.parent = parent
@@ -91,45 +130,6 @@ class PipelineSeparator(
 
             else -> error("Unknown parent type $parent")
         }
-    }
-
-
-    fun buildScope(
-        pipeLine: PipeLine,
-        functionArgs: List<Field>
-    ): Scope {
-        val scope = Scope(mutableListOf())
-        val children = scope.children
-        pipeLine.elements.foreachWithPreviousIndexed { _, previous, current ->
-            val expressions = when (previous) {
-                // todo cases can be collapesed if the function gets passed the arguments as a single bundle
-                null -> {
-                    callWithPreviousNull(current)
-                }
-
-                else -> {
-                    callWithPrevious(index, previous, current)
-                }
-            }
-
-            children.add(
-                Assignment(
-                    "element\$$index",
-                    expressions.type,
-                    expressions
-                )
-            )
-            index++
-        }
-        val return_ = Return(
-            Variable(listOf("element\$${index - 1}"))
-        )
-        return_.expression.type = pipeLine.type
-        return_.type = pipeLine.type
-        children.add(
-            return_
-        )
-        return scope
     }
 
     fun callWithPrevious(

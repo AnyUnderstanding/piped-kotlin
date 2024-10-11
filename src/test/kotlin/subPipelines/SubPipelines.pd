@@ -1,0 +1,26 @@
+bundle Foo{
+  let bar: Int,
+  let baz: Int,
+}
+
+
+
+pi main() : Int {
+    (1, (1,2) |> add) |> add |> print;
+
+    let x: Int = 1;
+    (x, (x,x) |> add) |> add |> print;
+
+    let foo: Foo = Foo(5, 10);
+    (foo, (foo.bar, foo.baz) |> add) |> combine |> print;
+
+    >> 0;
+}
+
+pi add(a: Int, b : Int) : Int {
+    >> a + b;
+}
+
+pi combine(foo: Foo, value: Int) : Int{
+  >> foo.bar * value + foo.baz;
+}

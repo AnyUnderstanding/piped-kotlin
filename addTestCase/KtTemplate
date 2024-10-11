@@ -1,18 +1,5 @@
-import de.any.AST.AntlrAstTranslator
-import de.any.Compiler
-import de.any.analyzer.*
-import de.any.codegen.llvmTarget.InsertPredefined
-import de.any.codegen.llvmTarget.LlvmGenerator
-import de.any.codegen.pipedTarget.PipedGenerator
-import de.any.normalize.PipelineSeparatorRework
-import de.any.normalize.ScopeSeparator
-import de.any.normalize.TupleTranslator
-import me.tatarka.inject.annotations.Inject
 import kotlin.test.Test
 import kotlin.test.BeforeTest
-
-
-
 
 class <TestName> {
 
@@ -20,41 +7,12 @@ class <TestName> {
    val path = "./src/test/kotlin/$testName/"
 
     @BeforeTest
-    fun compile(){
-        Application::class.create().compiler()
-    }
-
-    @Inject
-    fun buildCompiler(
-        symbolCollector: SymbolCollector,
-        typeChecker: TypeChecker,
-        tupleTranslator: TupleTranslator,
-        pipelineSeparator: PipelineSeparatorRework,
-        llvmGenerator: LlvmGenerator
-    ) {
-        val generatorStage = Compiler().fromFile("$path/<TestName>.pd").tokenize {
-            PipedLexer(it)
-        }.toAst {
-            PipedParser(it).program()
-        }.addAstTranslator {
-            AntlrAstTranslator.visit(it) as de.any.AST.Program
-        }.addSteps(
-            InsertPredefined(),
-            symbolCollector,
-            typeChecker,
-        )
-            .addILSteps(
-                pipelineSeparator,
-                ScopeSeparator(),
-                tupleTranslator,
-            )
-        generatorStage.addGenerator(PipedGenerator()).toFile("$path/out/piped.pd")
-        generatorStage.addGenerator(llvmGenerator).showStats().toFile("$path/out/llvm.ll")
+    fun compile() {
+        buildCompilerAndCompile(path, testName)
     }
 
     @Test
     fun <testName>(){
        val result = run(testName)
     }
-
 }

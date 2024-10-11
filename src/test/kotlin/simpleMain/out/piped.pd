@@ -1,12 +1,12 @@
 pi main() : Int {
-   pipeLine$0((1 + 2) * 3, );
+   pipeline$17();
    >> 0;
 }
 pi print(value : Int) : Int {
    >> value;
 }
-fun pipeLine$0(field$0 : Int, ): Int {
-   let pipeLineVar$0 : Int = (1 + 2) * 3;
-   >> print(pipeLineVar$0, );
+fun pipeline$17(): Int {
+   let pipelineVar$0 : Int = (1 + 2) * 3;
+   >> print(pipelineVar$0, );
 }
 

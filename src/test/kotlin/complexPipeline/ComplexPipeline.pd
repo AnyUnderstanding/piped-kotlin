@@ -1,5 +1,22 @@
+bundle Foo{
+   let bar: Int,
+}
+
 pi main() : Int {
+    let foo : Foo = Foo(42);
+
     (1, 4) |> add |> (#0, 3) |> printTuple |> id |> (#0) |> id |> print;
+
+    (1) |> (#0, #0) |> printTuple;
+
+    (1,2,3) |> (#2, #1, #0) |> (#1, #0) |> printTuple;
+
+    (1, foo.bar) |> (#1, foo.bar + 1) |> printTuple |> (#0, 10) |> [ (x,y) |>
+        ((x * y) == 0) -> (0,0),
+        ((x * y) > 0) -> (1,2),
+        else -> (3,4)
+    ] |> printTuple;
+
     >> 0;
 }
 
@@ -10,7 +27,7 @@ pi add(a : Int, b : Int) : Int {
 pi printTuple(a : Int, b : Int) : Int {
     (a) |> print;
     (b) |> print;
-    >> 0;
+    >> 3141;
 }
 
 pi id(elem : Int) : Int {

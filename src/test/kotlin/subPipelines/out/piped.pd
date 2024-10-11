@@ -1,0 +1,62 @@
+bundle Foo {
+   let bar : Int, 
+   let baz : Int, 
+}
+bundle $$Int$Int$$ {
+   let field$0 : Int, 
+   let field$1 : Int, 
+}
+bundle $$Foo$Int$$ {
+   let field$0 : Foo, 
+   let field$1 : Int, 
+}
+pi main() : Int {
+   pipeline$19();
+   let x : Int = 1;
+   pipeline$21(x, );
+   let foo : Foo = Foo(5, 10);
+   pipeline$23(foo, foo.bar, foo.baz, );
+   >> 0;
+}
+pi add(a : Int, b : Int) : Int {
+   >> a + b;
+}
+pi combine(foo : Foo, value : Int) : Int {
+   >> foo.bar * value + foo.baz;
+}
+pi print(value : Int) : Int {
+   >> value;
+}
+fun pipeline$18(): Int {
+   let pipelineVar$0 : $$Int$Int$$ = $$Int$Int$$(1, 2);
+   >> add(pipelineVar$0.field$0, pipelineVar$0.field$1, );
+}
+
+fun pipeline$19(): Int {
+   let pipelineVar$0 : $$Int$Int$$ = $$Int$Int$$(1, pipeline$18());
+   let pipelineVar$1 : Int = add(pipelineVar$0.field$0, pipelineVar$0.field$1, );
+   >> print(pipelineVar$1, );
+}
+
+fun pipeline$20(x : Int, ): Int {
+   let pipelineVar$0 : $$Int$Int$$ = $$Int$Int$$(x, x);
+   >> add(pipelineVar$0.field$0, pipelineVar$0.field$1, );
+}
+
+fun pipeline$21(x : Int, ): Int {
+   let pipelineVar$3 : $$Int$Int$$ = $$Int$Int$$(x, pipeline$20(x, ));
+   let pipelineVar$4 : Int = add(pipelineVar$3.field$0, pipelineVar$3.field$1, );
+   >> print(pipelineVar$4, );
+}
+
+fun pipeline$22(foo$bar : Int, foo$baz : Int, ): Int {
+   let pipelineVar$0 : $$Int$Int$$ = $$Int$Int$$(foo$bar, foo$baz);
+   >> add(pipelineVar$0.field$0, pipelineVar$0.field$1, );
+}
+
+fun pipeline$23(foo : Foo, foo$bar : Int, foo$baz : Int, ): Int {
+   let pipelineVar$6 : $$Foo$Int$$ = $$Foo$Int$$(foo, pipeline$22(foo$bar, foo$baz, ));
+   let pipelineVar$7 : Int = combine(pipelineVar$6.field$0, pipelineVar$6.field$1, );
+   >> print(pipelineVar$7, );
+}
+

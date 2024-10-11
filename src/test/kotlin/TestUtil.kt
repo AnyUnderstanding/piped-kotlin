@@ -9,6 +9,7 @@ import de.any.codegen.llvmTarget.ExpressionTranslator
 import de.any.codegen.llvmTarget.InsertPredefined
 import de.any.codegen.llvmTarget.LlvmGenerator
 import de.any.codegen.pipedTarget.PipedGenerator
+import de.any.normalize.PipelineSeparator
 import de.any.normalize.PipelineSeparatorRework
 import de.any.normalize.ScopeSeparator
 import de.any.normalize.TupleTranslator

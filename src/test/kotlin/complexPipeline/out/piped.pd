@@ -1,18 +1,30 @@
+bundle Foo {
+   let bar : Int, 
+}
 bundle $$Int$Int$$ {
-   let field0 : Int, 
-   let field1 : Int, 
+   let field$0 : Int, 
+   let field$1 : Int, 
+}
+bundle $$Int$Int$Int$$ {
+   let field$0 : Int, 
+   let field$1 : Int, 
+   let field$2 : Int, 
 }
 pi main() : Int {
-   pipeLine$0(1, 4, );
+   let foo : Foo = Foo(42);
+   pipeline$6();
+   pipeline$7();
+   pipeline$8();
+   pipeline$9(foo.bar, );
    >> 0;
 }
 pi add(a : Int, b : Int) : Int {
    >> a + b;
 }
 pi printTuple(a : Int, b : Int) : Int {
-   pipeLine$1(a, );
-   pipeLine$2(b, );
-   >> 0;
+   pipeline$10(a, );
+   pipeline$11(b, );
+   >> 3141;
 }
 pi id(elem : Int) : Int {
    >> elem;
@@ -20,24 +32,56 @@ pi id(elem : Int) : Int {
 pi print(value : Int) : Int {
    >> value;
 }
-fun pipeLine$0(field$0 : Int, field$1 : Int, ): Int {
-   let pipeLineVar$0 : $$Int$Int$$ = $$Int$Int$$(1, 4);
-   let pipeLineVar$1 : Int = add(pipeLineVar$0.field$0, pipeLineVar$0.field$1, );
-   let pipeLineVar$2 : $$Int$Int$$ = $$Int$Int$$(pipeLineVar$1, 3);
-   let pipeLineVar$3 : Int = printTuple(pipeLineVar$2.field$0, pipeLineVar$2.field$1, );
-   let pipeLineVar$4 : Int = id(pipeLineVar$3, );
-   let pipeLineVar$5 : Int = pipeLineVar$4;
-   let pipeLineVar$6 : Int = id(pipeLineVar$5, );
-   >> print(pipeLineVar$6, );
+fun pipeline$6(): Int {
+   let pipelineVar$0 : $$Int$Int$$ = $$Int$Int$$(1, 4);
+   let pipelineVar$1 : Int = add(pipelineVar$0.field$0, pipelineVar$0.field$1, );
+   let pipelineVar$2 : $$Int$Int$$ = $$Int$Int$$(pipelineVar$1, 3);
+   let pipelineVar$3 : Int = printTuple(pipelineVar$2.field$0, pipelineVar$2.field$1, );
+   let pipelineVar$4 : Int = id(pipelineVar$3, );
+   let pipelineVar$5 : Int = pipelineVar$4;
+   let pipelineVar$6 : Int = id(pipelineVar$5, );
+   >> print(pipelineVar$6, );
 }
 
-fun pipeLine$1(field$0 : Int, ): Int {
-   let pipeLineVar$8 : Int = pipeLineVar$7;
-   >> print(pipeLineVar$8, );
+fun pipeline$7(): Int {
+   let pipelineVar$8 : Int = 1;
+   let pipelineVar$9 : $$Int$Int$$ = $$Int$Int$$(pipelineVar$8, pipelineVar$8);
+   >> printTuple(pipelineVar$9.field$0, pipelineVar$9.field$1, );
 }
 
-fun pipeLine$2(field$0 : Int, ): Int {
-   let pipeLineVar$10 : Int = pipeLineVar$9;
-   >> print(pipeLineVar$10, );
+fun pipeline$8(): Int {
+   let pipelineVar$11 : $$Int$Int$Int$$ = $$Int$Int$Int$$(1, 2, 3);
+   let pipelineVar$12 : $$Int$Int$Int$$ = $$Int$Int$Int$$(pipelineVar$11.field$2, pipelineVar$11.field$1, pipelineVar$11.field$0);
+   let pipelineVar$13 : $$Int$Int$$ = $$Int$Int$$(pipelineVar$12.field$1, pipelineVar$12.field$0);
+   >> printTuple(pipelineVar$13.field$0, pipelineVar$13.field$1, );
+}
+
+fun guard$0(x : Int, y : Int, foo$bar : Int, ): $$Int$Int$$ {
+   if ((x * y) == 0) {
+      >> $$Int$Int$$(0, 0);
+   }
+   if ((x * y) > 0) {
+      >> $$Int$Int$$(1, 2);
+   }
+   >> $$Int$Int$$(3, 4);
+}
+
+fun pipeline$9(foo$bar : Int, ): Int {
+   let pipelineVar$15 : $$Int$Int$$ = $$Int$Int$$(1, foo$bar);
+   let pipelineVar$16 : $$Int$Int$$ = $$Int$Int$$(pipelineVar$15.field$1, foo$bar + 1);
+   let pipelineVar$17 : Int = printTuple(pipelineVar$16.field$0, pipelineVar$16.field$1, );
+   let pipelineVar$18 : $$Int$Int$$ = $$Int$Int$$(pipelineVar$17, 10);
+   let pipelineVar$19 : $$Int$Int$$ = guard$0(pipelineVar$18.field$0, pipelineVar$18.field$1, foo$bar, );
+   >> printTuple(pipelineVar$19.field$0, pipelineVar$19.field$1, );
+}
+
+fun pipeline$10(a : Int, ): Int {
+   let pipelineVar$21 : Int = a;
+   >> print(pipelineVar$21, );
+}
+
+fun pipeline$11(b : Int, ): Int {
+   let pipelineVar$23 : Int = b;
+   >> print(pipelineVar$23, );
 }
 

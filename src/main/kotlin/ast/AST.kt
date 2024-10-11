@@ -52,7 +52,7 @@ class Bundle(
     }
 
     fun getField(name: String): Field {
-        return fields.find { it.name == name } ?: throw Exception("Field not found")
+        return fields.find { it.name == name } ?: throw Exception("Field not found: $name")
     }
 
     override fun toString(): String {
@@ -123,6 +123,14 @@ class Assignment(val name: String, var expectedType: Type, var expression: Expre
 
     override fun toString(): String {
         return "Assignment: $name: $expectedType = $expression"
+    }
+
+    fun getAsVariable(): Variable {
+        return Variable(
+            listOf(name),
+            expectedType,
+            expectedType
+        )
     }
 }
 
@@ -335,7 +343,7 @@ class StringValue(value: String) : Value(value) {
 }
 
 
-class Variable(val path: List<String>) : Expression() {
+class Variable(var path: List<String>) : Expression() {
     lateinit var referencedBundle: Type
 
     constructor(path: List<String>, type: Type) : this(path) {
@@ -354,6 +362,8 @@ class Variable(val path: List<String>) : Expression() {
     fun isBundleField() = path.size > 1
 
     fun getIdentifier() = path[0]
+
+    fun getPathAsString() = path.joinToString("$")
 
     fun getPathWithoutIdentifier() = path.drop(1)
 
@@ -465,6 +475,7 @@ class PreDefinedNode(val content: String) : TypedASTNode() {
     init {
         type = PrimitiveType.NONE.type
     }
+
     override fun toString(): String {
         return "PreCompiledNode: $content"
     }

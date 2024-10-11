@@ -1,15 +1,10 @@
 define i32 @main() 
 {
-   %v$115 = add i32 1, 0
-   %v$116 = add i32 2, 0
-   %v$117 = add i32 %v$115, %v$116
-   %v$118 = add i32 3, 0
-   %v$119 = mul i32 %v$117, %v$118
-   %v$120 = call i32 @pipeLine$0(i32 %v$119)
+   %v$251 = call i32 @pipeline$17()
    
-   %v$121 = add i32 0, 0
+   %v$252 = add i32 0, 0
    
-   ret i32 %v$121
+   ret i32 %v$252
 }
 define i32 @print(i32 %value) 
 {
@@ -18,18 +13,18 @@ define i32 @print(i32 %value)
    
    ret i32 %value
 }
-define i32 @pipeLine$0(i32 %field$0) 
+define i32 @pipeline$17() 
 {
-   %v$122 = add i32 1, 0
-   %v$123 = add i32 2, 0
-   %v$124 = add i32 %v$122, %v$123
-   %v$125 = add i32 3, 0
-   %pipeLineVar$0 = mul i32 %v$124, %v$125
+   %v$253 = add i32 1, 0
+   %v$254 = add i32 2, 0
+   %v$255 = add i32 %v$253, %v$254
+   %v$256 = add i32 3, 0
+   %pipelineVar$0 = mul i32 %v$255, %v$256
    
    
-   %v$127 = call i32 @print(i32 %pipeLineVar$0)
+   %v$258 = call i32 @print(i32 %pipelineVar$0)
    
-   ret i32 %v$127
+   ret i32 %v$258
 }
 declare void @llvm.memcpy.p0.p0.i32(ptr noalias nocapture writeonly, ptr noalias nocapture readonly, i32, i1 immarg) #2
 declare i8* @malloc(i32) nounwind

@@ -27,7 +27,7 @@ class BundleTable {
     }
 
     fun getBundleByTypeStrict(type: Type): Bundle {
-        return bundleTable.values.find { it.name == type.getBasicType() } ?: throw Exception("Bundle not found")
+        return bundleTable.values.find { it.name == type.getBasicType() } ?: throw Exception("Bundle not found: $type")
     }
 
     fun containsBundle(name: String): Boolean {
