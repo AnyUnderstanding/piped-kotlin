@@ -13,6 +13,7 @@ pi main() : Int {
 
     let foo: Foo = Foo(5, 10);
     (foo, (foo.bar, foo.baz) |> add) |> combine |> print;
+    (foo, (1, 1) |> add) |> combine |> print;
 
     >> 0;
 }
@@ -22,5 +23,5 @@ pi add(a: Int, b : Int) : Int {
 }
 
 pi combine(foo: Foo, value: Int) : Int{
-  >> foo.bar * value + foo.baz;
+   >> foo.bar * value + foo.baz;
 }

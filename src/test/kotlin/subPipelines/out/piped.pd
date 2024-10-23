@@ -11,11 +11,12 @@ bundle $$Foo$Int$$ {
    let field$1 : Int, 
 }
 pi main() : Int {
-   pipeline$19();
+   pipeline$1();
    let x : Int = 1;
-   pipeline$21(x, );
+   pipeline$3(x, );
    let foo : Foo = Foo(5, 10);
-   pipeline$23(foo, foo.bar, foo.baz, );
+   pipeline$5(foo, foo.bar, foo.baz, );
+   pipeline$7(foo, );
    >> 0;
 }
 pi add(a : Int, b : Int) : Int {
@@ -27,36 +28,47 @@ pi combine(foo : Foo, value : Int) : Int {
 pi print(value : Int) : Int {
    >> value;
 }
-fun pipeline$18(): Int {
+fun pipeline$0(): Int {
    let pipelineVar$0 : $$Int$Int$$ = $$Int$Int$$(1, 2);
    >> add(pipelineVar$0.field$0, pipelineVar$0.field$1, );
 }
 
-fun pipeline$19(): Int {
-   let pipelineVar$0 : $$Int$Int$$ = $$Int$Int$$(1, pipeline$18());
+fun pipeline$1(): Int {
+   let pipelineVar$0 : $$Int$Int$$ = $$Int$Int$$(1, pipeline$0());
    let pipelineVar$1 : Int = add(pipelineVar$0.field$0, pipelineVar$0.field$1, );
    >> print(pipelineVar$1, );
 }
 
-fun pipeline$20(x : Int, ): Int {
+fun pipeline$2(x : Int, ): Int {
    let pipelineVar$0 : $$Int$Int$$ = $$Int$Int$$(x, x);
    >> add(pipelineVar$0.field$0, pipelineVar$0.field$1, );
 }
 
-fun pipeline$21(x : Int, ): Int {
-   let pipelineVar$3 : $$Int$Int$$ = $$Int$Int$$(x, pipeline$20(x, ));
+fun pipeline$3(x : Int, ): Int {
+   let pipelineVar$3 : $$Int$Int$$ = $$Int$Int$$(x, pipeline$2(x, ));
    let pipelineVar$4 : Int = add(pipelineVar$3.field$0, pipelineVar$3.field$1, );
    >> print(pipelineVar$4, );
 }
 
-fun pipeline$22(foo$bar : Int, foo$baz : Int, ): Int {
+fun pipeline$4(foo$bar : Int, foo$baz : Int, ): Int {
    let pipelineVar$0 : $$Int$Int$$ = $$Int$Int$$(foo$bar, foo$baz);
    >> add(pipelineVar$0.field$0, pipelineVar$0.field$1, );
 }
 
-fun pipeline$23(foo : Foo, foo$bar : Int, foo$baz : Int, ): Int {
-   let pipelineVar$6 : $$Foo$Int$$ = $$Foo$Int$$(foo, pipeline$22(foo$bar, foo$baz, ));
+fun pipeline$5(foo : Foo, foo$bar : Int, foo$baz : Int, ): Int {
+   let pipelineVar$6 : $$Foo$Int$$ = $$Foo$Int$$(foo, pipeline$4(foo$bar, foo$baz, ));
    let pipelineVar$7 : Int = combine(pipelineVar$6.field$0, pipelineVar$6.field$1, );
    >> print(pipelineVar$7, );
+}
+
+fun pipeline$6(): Int {
+   let pipelineVar$0 : $$Int$Int$$ = $$Int$Int$$(1, 1);
+   >> add(pipelineVar$0.field$0, pipelineVar$0.field$1, );
+}
+
+fun pipeline$7(foo : Foo, ): Int {
+   let pipelineVar$9 : $$Foo$Int$$ = $$Foo$Int$$(foo, pipeline$6());
+   let pipelineVar$10 : Int = combine(pipelineVar$9.field$0, pipelineVar$9.field$1, );
+   >> print(pipelineVar$10, );
 }
 

@@ -1,25 +1,25 @@
 pi main() : Int {
-   pipeline$12();
+   pipeline$13();
    >> 0;
 }
 pi fib(n : Int) : Int {
-   >> pipeline$15(n, );
+   >> pipeline$16(n, );
 }
 pi print(value : Int) : Int {
    >> value;
 }
-fun pipeline$12(): Int {
+fun pipeline$13(): Int {
    let pipelineVar$0 : Int = 40;
    let pipelineVar$1 : Int = fib(pipelineVar$0, );
    >> print(pipelineVar$1, );
 }
 
-fun pipeline$13(x : Int, ): Int {
+fun pipeline$14(x : Int, ): Int {
    let pipelineVar$0 : Int = x - 1;
    >> fib(pipelineVar$0, );
 }
 
-fun pipeline$14(x : Int, ): Int {
+fun pipeline$15(x : Int, ): Int {
    let pipelineVar$0 : Int = x - 2;
    >> fib(pipelineVar$0, );
 }
@@ -28,10 +28,10 @@ fun guard$1(x : Int, n : Int, ): Int {
    if (x < 2) {
       >> n;
    }
-   >> (pipeline$13(x, ) + pipeline$14(x, ));
+   >> (pipeline$14(x, ) + pipeline$15(x, ));
 }
 
-fun pipeline$15(n : Int, ): Int {
+fun pipeline$16(n : Int, ): Int {
    let pipelineVar$3 : Int = n;
    >> guard$1(pipelineVar$3, n, );
 }

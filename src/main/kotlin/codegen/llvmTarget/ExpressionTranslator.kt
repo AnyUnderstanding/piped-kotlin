@@ -11,7 +11,9 @@ import de.any.codegen.AstNodeTranslator
  *
  * @property bundleTable Table containing bundle definitions for type resolution.
  */
-class ExpressionTranslator(val bundleTable: BundleTable) : AstNodeTranslator<Expression>() {
+class ExpressionTranslator(
+    val bundleTable: BundleTable
+) : AstNodeTranslator<Expression>() {
 
     /**
      * A companion object for the ExpressionTranslator class.
@@ -84,7 +86,9 @@ class ExpressionTranslator(val bundleTable: BundleTable) : AstNodeTranslator<Exp
         repeat(bundleInit.initializers.size) {
             val fieldPointer = getBundleFieldPointer(bundleInit.type, name, it)
             val initializer = bundleInit.initializers[it]
-            if (initializer.type.isBundle()) {
+            if (!initializer.type.isBundle()) {
+                useLine("store ${initializer.type.getLlvmName()} ${locations[it].location}, ptr ${fieldPointer}")
+            } else {
                 val bundle = bundleTable.getBundleByTypeStrict(initializer.type)
                 val dest = fieldPointer
                 val src = locations[it].location
@@ -99,9 +103,8 @@ class ExpressionTranslator(val bundleTable: BundleTable) : AstNodeTranslator<Exp
                         )
                     }, i1 0)\n"
                 )
-                return
+
             }
-            useLine("store ${initializer.type.getLlvmName()} ${locations[it].location}, ptr ${fieldPointer}")
 
         }
 
@@ -150,6 +153,9 @@ class ExpressionTranslator(val bundleTable: BundleTable) : AstNodeTranslator<Exp
         if (variable.path.size == 1) {
             location =
                 ("%" + (AssignmentTranslator.assignmentTracking[variable.getIdentifier()] ?: variable.getIdentifier()))
+            return
+        } else if (variable.type.isBundle()) {
+            location = getBundleFieldPointer(variable)
             return
         }
         val pointer = getBundleFieldPointer(variable)
@@ -204,7 +210,11 @@ class ExpressionTranslator(val bundleTable: BundleTable) : AstNodeTranslator<Exp
      */
     override fun visitFunctionCall(expression: FunctionCall, vararg args: Any) {
         val args = expression.parameters.map { genSubexpression(it).location }.zip(expression.parameters).map {
-            "${it.second.type.getLlvmName()} ${it.first}"
+            if (it.second.type.isBundle()) {
+                "${it.second.type.getLlvmName()}* ${AssignmentTranslator.assignmentTracking[it.first] ?: it.first}"
+            } else {
+                "${it.second.type.getLlvmName()} ${AssignmentTranslator.assignmentTracking[it.first] ?: it.first}"
+            }
         }
         val name = createVariableName()
         location = name

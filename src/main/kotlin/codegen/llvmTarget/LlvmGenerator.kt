@@ -6,9 +6,10 @@ import de.any.codegen.CodeTargetGenerator
 
 class LlvmGenerator(
     val assignmentTranslator: AssignmentTranslator,
-    val expressionTranslator: ExpressionTranslator
+    val expressionTranslator: ExpressionTranslator,
 ) : CodeTargetGenerator() {
     var labelCounter = 0
+
     override fun gen(expression: Program): String {
         require(expression is ILProgram) { "Program must be of type ILProgram" }
         visit(expression as ILProgram)
@@ -47,18 +48,29 @@ class LlvmGenerator(
 
     fun getFunctionDefinition(pipe: Pipe): String {
         val returnType = pipe.returnType.getLlvmNamePointer()
-        val parameters = pipe.parameters.joinToString(", ") { "${it.type.getLlvmName()} %${it.name}" }
+        val parameters = pipe.parameters.joinToString(", ") {
+            if (it.type.isBundle()) {
+                "${it.type.getLlvmName()}* %${it.name}"
+            } else {
+                "${it.type.getLlvmName()} %${it.name}"
+            }
+        }
         return "define $returnType @${pipe.name}($parameters) "
     }
 
     fun getFunctionDefinition(function: Function): String {
         val returnType = function.returnType.getLlvmNamePointer()
-        val parameters = function.parameters.joinToString(", ") { "${it.type.getLlvmName()} %${it.name}" }
+        val parameters = function.parameters.joinToString(", ") {
+            if (it.type.isBundle()) {
+                "${it.type.getLlvmName()}* %${it.name}"
+            } else {
+                "${it.type.getLlvmName()} %${it.name}"
+            }
+        }
         return "define $returnType @${function.name}($parameters) "
     }
 
     override fun visitScope(scope: Scope, vararg args: Any) {
-
         useLine("{")
         increaseIndent()
         super.visitScope(scope)
@@ -107,4 +119,3 @@ class LlvmGenerator(
 
 
 }
-

@@ -41,6 +41,8 @@ class AssignmentTranslator(
 
     fun assignVariable(assignedVariableName: String, variable: Variable): String {
         assignmentTracking[assignedVariableName] = variable.getIdentifier()
+        // todo this is hacky
+        assignmentTracking["%$assignedVariableName"] = variable.getIdentifier()
         return assignedVariableName
     }
 

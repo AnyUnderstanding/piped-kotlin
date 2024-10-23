@@ -12,18 +12,18 @@ bundle $$Int$Int$Int$$ {
 }
 pi main() : Int {
    let foo : Foo = Foo(42);
-   pipeline$6();
    pipeline$7();
    pipeline$8();
-   pipeline$9(foo.bar, );
+   pipeline$9();
+   pipeline$10(foo.bar, );
    >> 0;
 }
 pi add(a : Int, b : Int) : Int {
    >> a + b;
 }
 pi printTuple(a : Int, b : Int) : Int {
-   pipeline$10(a, );
-   pipeline$11(b, );
+   pipeline$11(a, );
+   pipeline$12(b, );
    >> 3141;
 }
 pi id(elem : Int) : Int {
@@ -32,7 +32,7 @@ pi id(elem : Int) : Int {
 pi print(value : Int) : Int {
    >> value;
 }
-fun pipeline$6(): Int {
+fun pipeline$7(): Int {
    let pipelineVar$0 : $$Int$Int$$ = $$Int$Int$$(1, 4);
    let pipelineVar$1 : Int = add(pipelineVar$0.field$0, pipelineVar$0.field$1, );
    let pipelineVar$2 : $$Int$Int$$ = $$Int$Int$$(pipelineVar$1, 3);
@@ -43,13 +43,13 @@ fun pipeline$6(): Int {
    >> print(pipelineVar$6, );
 }
 
-fun pipeline$7(): Int {
+fun pipeline$8(): Int {
    let pipelineVar$8 : Int = 1;
    let pipelineVar$9 : $$Int$Int$$ = $$Int$Int$$(pipelineVar$8, pipelineVar$8);
    >> printTuple(pipelineVar$9.field$0, pipelineVar$9.field$1, );
 }
 
-fun pipeline$8(): Int {
+fun pipeline$9(): Int {
    let pipelineVar$11 : $$Int$Int$Int$$ = $$Int$Int$Int$$(1, 2, 3);
    let pipelineVar$12 : $$Int$Int$Int$$ = $$Int$Int$Int$$(pipelineVar$11.field$2, pipelineVar$11.field$1, pipelineVar$11.field$0);
    let pipelineVar$13 : $$Int$Int$$ = $$Int$Int$$(pipelineVar$12.field$1, pipelineVar$12.field$0);
@@ -66,7 +66,7 @@ fun guard$0(x : Int, y : Int, foo$bar : Int, ): $$Int$Int$$ {
    >> $$Int$Int$$(3, 4);
 }
 
-fun pipeline$9(foo$bar : Int, ): Int {
+fun pipeline$10(foo$bar : Int, ): Int {
    let pipelineVar$15 : $$Int$Int$$ = $$Int$Int$$(1, foo$bar);
    let pipelineVar$16 : $$Int$Int$$ = $$Int$Int$$(pipelineVar$15.field$1, foo$bar + 1);
    let pipelineVar$17 : Int = printTuple(pipelineVar$16.field$0, pipelineVar$16.field$1, );
@@ -75,12 +75,12 @@ fun pipeline$9(foo$bar : Int, ): Int {
    >> printTuple(pipelineVar$19.field$0, pipelineVar$19.field$1, );
 }
 
-fun pipeline$10(a : Int, ): Int {
+fun pipeline$11(a : Int, ): Int {
    let pipelineVar$21 : Int = a;
    >> print(pipelineVar$21, );
 }
 
-fun pipeline$11(b : Int, ): Int {
+fun pipeline$12(b : Int, ): Int {
    let pipelineVar$23 : Int = b;
    >> print(pipelineVar$23, );
 }

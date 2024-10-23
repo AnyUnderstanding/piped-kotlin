@@ -11,6 +11,7 @@ class SubPipelines {
         4
         3
         85
+        20
     """.trimIndent()
 
     @BeforeTest

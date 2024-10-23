@@ -28,7 +28,7 @@ import de.any.normalize.TupleTranslator
 fun main() {
     createCompiler(
         BundleTable(),
-        PipeTable()
+        PipeTable(),
     )
 }
 

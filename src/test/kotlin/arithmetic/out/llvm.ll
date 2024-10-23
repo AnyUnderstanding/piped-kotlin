@@ -3,46 +3,46 @@ define i32 @main()
    %a = add i32 1, 0
    
    
-   %v$1 = add i32 1, 0
-   %b = add i32 %a, %v$1
+   %v$27 = add i32 1, 0
+   %b = add i32 %a, %v$27
    
    
    %c = add i32 %a, %b
    
    
-   %v$4 = add i32 %a, %b
-   %d = add i32 %v$4, %c
+   %v$30 = add i32 %a, %b
+   %d = add i32 %v$30, %c
    
    
-   %v$6 = add i32 1, 0
-   %v$7 = add i32 2, 0
-   %v$8 = mul i32 %v$7, %d
-   %e = add i32 %v$6, %v$8
+   %v$32 = add i32 1, 0
+   %v$33 = add i32 2, 0
+   %v$34 = mul i32 %v$33, %d
+   %e = add i32 %v$32, %v$34
    
    
-   %v$10 = add i32 1, 0
-   %v$11 = add i32 2, 0
-   %v$12 = mul i32 %v$11, %e
-   %v$13 = add i32 %v$10, %v$12
-   %v$14 = add i32 3, 0
-   %f = add i32 %v$13, %v$14
+   %v$36 = add i32 1, 0
+   %v$37 = add i32 2, 0
+   %v$38 = mul i32 %v$37, %e
+   %v$39 = add i32 %v$36, %v$38
+   %v$40 = add i32 3, 0
+   %f = add i32 %v$39, %v$40
    
    
-   %v$16 = add i32 2, 0
-   %g = sdiv i32 %f, %v$16
+   %v$42 = add i32 2, 0
+   %g = sdiv i32 %f, %v$42
    
    
-   %v$18 = add i32 2, 0
-   %v$19 = add i32 2, 0
-   %v$20 = sdiv i32 %g, %v$19
-   %h = add i32 %v$18, %v$20
+   %v$44 = add i32 2, 0
+   %v$45 = add i32 2, 0
+   %v$46 = sdiv i32 %g, %v$45
+   %h = add i32 %v$44, %v$46
    
    
-   %v$22 = call i32 @pipeline$0(i32 %h)
+   %v$48 = call i32 @pipeline$1(i32 %h)
    
-   %v$23 = add i32 0, 0
+   %v$49 = add i32 0, 0
    
-   ret i32 %v$23
+   ret i32 %v$49
 }
 define i32 @print(i32 %value) 
 {
@@ -51,12 +51,12 @@ define i32 @print(i32 %value)
    
    ret i32 %value
 }
-define i32 @pipeline$0(i32 %h) 
+define i32 @pipeline$1(i32 %h) 
 {
    
-   %v$24 = call i32 @print(i32 %h)
+   %v$50 = call i32 @print(i32 %h)
    
-   ret i32 %v$24
+   ret i32 %v$50
 }
 declare void @llvm.memcpy.p0.p0.i32(ptr noalias nocapture writeonly, ptr noalias nocapture readonly, i32, i1 immarg) #2
 declare i8* @malloc(i32) nounwind

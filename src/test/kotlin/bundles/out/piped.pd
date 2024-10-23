@@ -19,11 +19,11 @@ bundle $$Int$Int$$ {
    let field$1 : Int, 
 }
 pi main() : Int {
-   let foo : Foo = pipeline$1();
-   let foo2 : Foo = pipeline$2();
-   let human : Human = pipeline$3(foo.bar.baz.qux, foo2.bar.baz.qux, );
-   pipeline$4(human.age, );
-   pipeline$5(human.dog.age, );
+   let foo : Foo = pipeline$2();
+   let foo2 : Foo = pipeline$3();
+   let human : Human = pipeline$4(foo.bar.baz.qux, foo2.bar.baz.qux, );
+   pipeline$5(human.age, );
+   pipeline$6(human.dog.age, );
    >> 0;
 }
 pi getFoo(x : Int) : Foo {
@@ -40,27 +40,27 @@ pi getHuman(hAge : Int, dAge : Int) : Human {
 pi print(value : Int) : Int {
    >> value;
 }
-fun pipeline$1(): Foo {
+fun pipeline$2(): Foo {
    let pipelineVar$0 : Int = 5;
    >> getFoo(pipelineVar$0, );
 }
 
-fun pipeline$2(): Foo {
+fun pipeline$3(): Foo {
    let pipelineVar$2 : Int = 3;
    >> getFoo(pipelineVar$2, );
 }
 
-fun pipeline$3(foo$bar$baz$qux : Int, foo2$bar$baz$qux : Int, ): Human {
+fun pipeline$4(foo$bar$baz$qux : Int, foo2$bar$baz$qux : Int, ): Human {
    let pipelineVar$4 : $$Int$Int$$ = $$Int$Int$$(foo$bar$baz$qux * 3 + foo2$bar$baz$qux, foo2$bar$baz$qux + 1);
    >> getHuman(pipelineVar$4.field$0, pipelineVar$4.field$1, );
 }
 
-fun pipeline$4(human$age : Int, ): Int {
+fun pipeline$5(human$age : Int, ): Int {
    let pipelineVar$6 : Int = human$age;
    >> print(pipelineVar$6, );
 }
 
-fun pipeline$5(human$dog$age : Int, ): Int {
+fun pipeline$6(human$dog$age : Int, ): Int {
    let pipelineVar$8 : Int = human$dog$age;
    >> print(pipelineVar$8, );
 }

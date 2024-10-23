@@ -26,54 +26,54 @@
 
 define i32 @main() 
 {
-   %foo = call %Foo* @pipeline$1()
+   %foo = call %Foo* @pipeline$2()
    
    
-   %foo2 = call %Foo* @pipeline$2()
+   %foo2 = call %Foo* @pipeline$3()
    
    
-   %v$27 = getelementptr %Foo, ptr %foo, i32 0, i32 0, i32 0, i32 0
-   %v$28 = load i32, i32* %v$27
-   %v$29 = getelementptr %Foo, ptr %foo2, i32 0, i32 0, i32 0, i32 0
-   %v$30 = load i32, i32* %v$29
-   %human = call %Human* @pipeline$3(i32 %v$28, i32 %v$30)
+   %v$53 = getelementptr %Foo, ptr %foo, i32 0, i32 0, i32 0, i32 0
+   %v$54 = load i32, i32* %v$53
+   %v$55 = getelementptr %Foo, ptr %foo2, i32 0, i32 0, i32 0, i32 0
+   %v$56 = load i32, i32* %v$55
+   %human = call %Human* @pipeline$4(i32 %v$54, i32 %v$56)
    
    
-   %v$32 = getelementptr %Human, ptr %human, i32 0, i32 0
-   %v$33 = load i32, i32* %v$32
-   %v$34 = call i32 @pipeline$4(i32 %v$33)
+   %v$58 = getelementptr %Human, ptr %human, i32 0, i32 0
+   %v$59 = load i32, i32* %v$58
+   %v$60 = call i32 @pipeline$5(i32 %v$59)
    
-   %v$35 = getelementptr %Human, ptr %human, i32 0, i32 1, i32 0
-   %v$36 = load i32, i32* %v$35
-   %v$37 = call i32 @pipeline$5(i32 %v$36)
+   %v$61 = getelementptr %Human, ptr %human, i32 0, i32 1, i32 0
+   %v$62 = load i32, i32* %v$61
+   %v$63 = call i32 @pipeline$6(i32 %v$62)
    
-   %v$38 = add i32 0, 0
+   %v$64 = add i32 0, 0
    
-   ret i32 %v$38
+   ret i32 %v$64
 }
 define %Foo* @getFoo(i32 %x) 
 {
-   %v$39 = call i8* @malloc(i32 4)
-   %baz = bitcast i8* %v$39 to %Baz*
-   %v$41 = getelementptr %Baz, ptr %baz, i32 0, i32 0
-   store i32 %x, ptr %v$41
+   %v$65 = call i8* @malloc(i32 4)
+   %baz = bitcast i8* %v$65 to %Baz*
+   %v$67 = getelementptr %Baz, ptr %baz, i32 0, i32 0
+   store i32 %x, ptr %v$67
    
    
-   %v$42 = call i8* @malloc(i32 4)
-   %bar = bitcast i8* %v$42 to %Bar*
-   %v$44 = getelementptr %Bar, ptr %bar, i32 0, i32 0
-   %v$45 = bitcast ptr %v$44 to i8*
-   %v$46 = bitcast ptr %baz to i8*
-      call void @llvm.memcpy.p0.p0.i32(ptr %v$45, ptr %v$46, i32 4, i1 0)
+   %v$68 = call i8* @malloc(i32 4)
+   %bar = bitcast i8* %v$68 to %Bar*
+   %v$70 = getelementptr %Bar, ptr %bar, i32 0, i32 0
+   %v$71 = bitcast ptr %v$70 to i8*
+   %v$72 = bitcast ptr %baz to i8*
+      call void @llvm.memcpy.p0.p0.i32(ptr %v$71, ptr %v$72, i32 4, i1 0)
    
    
    
-   %v$47 = call i8* @malloc(i32 4)
-   %foo = bitcast i8* %v$47 to %Foo*
-   %v$49 = getelementptr %Foo, ptr %foo, i32 0, i32 0
-   %v$50 = bitcast ptr %v$49 to i8*
-   %v$51 = bitcast ptr %bar to i8*
-      call void @llvm.memcpy.p0.p0.i32(ptr %v$50, ptr %v$51, i32 4, i1 0)
+   %v$73 = call i8* @malloc(i32 4)
+   %foo = bitcast i8* %v$73 to %Foo*
+   %v$75 = getelementptr %Foo, ptr %foo, i32 0, i32 0
+   %v$76 = bitcast ptr %v$75 to i8*
+   %v$77 = bitcast ptr %bar to i8*
+      call void @llvm.memcpy.p0.p0.i32(ptr %v$76, ptr %v$77, i32 4, i1 0)
    
    
    
@@ -82,20 +82,20 @@ define %Foo* @getFoo(i32 %x)
 }
 define %Human* @getHuman(i32 %hAge, i32 %dAge) 
 {
-   %v$52 = call i8* @malloc(i32 4)
-   %dog = bitcast i8* %v$52 to %Dog*
-   %v$54 = getelementptr %Dog, ptr %dog, i32 0, i32 0
-   store i32 %dAge, ptr %v$54
+   %v$78 = call i8* @malloc(i32 4)
+   %dog = bitcast i8* %v$78 to %Dog*
+   %v$80 = getelementptr %Dog, ptr %dog, i32 0, i32 0
+   store i32 %dAge, ptr %v$80
    
    
-   %v$55 = call i8* @malloc(i32 8)
-   %human = bitcast i8* %v$55 to %Human*
-   %v$57 = getelementptr %Human, ptr %human, i32 0, i32 0
-   store i32 %hAge, ptr %v$57
-   %v$58 = getelementptr %Human, ptr %human, i32 0, i32 1
-   %v$59 = bitcast ptr %v$58 to i8*
-   %v$60 = bitcast ptr %dog to i8*
-      call void @llvm.memcpy.p0.p0.i32(ptr %v$59, ptr %v$60, i32 4, i1 0)
+   %v$81 = call i8* @malloc(i32 8)
+   %human = bitcast i8* %v$81 to %Human*
+   %v$83 = getelementptr %Human, ptr %human, i32 0, i32 0
+   store i32 %hAge, ptr %v$83
+   %v$84 = getelementptr %Human, ptr %human, i32 0, i32 1
+   %v$85 = bitcast ptr %v$84 to i8*
+   %v$86 = bitcast ptr %dog to i8*
+      call void @llvm.memcpy.p0.p0.i32(ptr %v$85, ptr %v$86, i32 4, i1 0)
    
    
    
@@ -109,60 +109,60 @@ define i32 @print(i32 %value)
    
    ret i32 %value
 }
-define %Foo* @pipeline$1() 
+define %Foo* @pipeline$2() 
 {
    %pipelineVar$0 = add i32 5, 0
    
    
-   %v$62 = call %Foo* @getFoo(i32 %pipelineVar$0)
+   %v$88 = call %Foo* @getFoo(i32 h)
    
-   ret %Foo* %v$62
+   ret %Foo* %v$88
 }
-define %Foo* @pipeline$2() 
+define %Foo* @pipeline$3() 
 {
    %pipelineVar$2 = add i32 3, 0
    
    
-   %v$64 = call %Foo* @getFoo(i32 %pipelineVar$2)
+   %v$90 = call %Foo* @getFoo(i32 %pipelineVar$2)
    
-   ret %Foo* %v$64
+   ret %Foo* %v$90
 }
-define %Human* @pipeline$3(i32 %foo$bar$baz$qux, i32 %foo2$bar$baz$qux) 
+define %Human* @pipeline$4(i32 %foo$bar$baz$qux, i32 %foo2$bar$baz$qux) 
 {
-   %v$65 = add i32 3, 0
-   %v$66 = mul i32 %foo$bar$baz$qux, %v$65
-   %v$67 = add i32 %v$66, %foo2$bar$baz$qux
-   %v$68 = add i32 1, 0
-   %v$69 = add i32 %foo2$bar$baz$qux, %v$68
-   %v$70 = call i8* @malloc(i32 8)
-   %pipelineVar$4 = bitcast i8* %v$70 to %$$Int$Int$$*
-   %v$72 = getelementptr %$$Int$Int$$, ptr %pipelineVar$4, i32 0, i32 0
-   store i32 %v$67, ptr %v$72
-   %v$73 = getelementptr %$$Int$Int$$, ptr %pipelineVar$4, i32 0, i32 1
-   store i32 %v$69, ptr %v$73
+   %v$91 = add i32 3, 0
+   %v$92 = mul i32 %foo$bar$baz$qux, %v$91
+   %v$93 = add i32 %v$92, %foo2$bar$baz$qux
+   %v$94 = add i32 1, 0
+   %v$95 = add i32 %foo2$bar$baz$qux, %v$94
+   %v$96 = call i8* @malloc(i32 8)
+   %pipelineVar$4 = bitcast i8* %v$96 to %$$Int$Int$$*
+   %v$98 = getelementptr %$$Int$Int$$, ptr %pipelineVar$4, i32 0, i32 0
+   store i32 %v$93, ptr %v$98
+   %v$99 = getelementptr %$$Int$Int$$, ptr %pipelineVar$4, i32 0, i32 1
+   store i32 %v$95, ptr %v$99
    
    
-   %v$74 = getelementptr %$$Int$Int$$, ptr %pipelineVar$4, i32 0, i32 0
-   %v$75 = load i32, i32* %v$74
-   %v$76 = getelementptr %$$Int$Int$$, ptr %pipelineVar$4, i32 0, i32 1
-   %v$77 = load i32, i32* %v$76
-   %v$78 = call %Human* @getHuman(i32 %v$75, i32 %v$77)
+   %v$100 = getelementptr %$$Int$Int$$, ptr %pipelineVar$4, i32 0, i32 0
+   %v$101 = load i32, i32* %v$100
+   %v$102 = getelementptr %$$Int$Int$$, ptr %pipelineVar$4, i32 0, i32 1
+   %v$103 = load i32, i32* %v$102
+   %v$104 = call %Human* @getHuman(i32 %v$101, i32 %v$103)
    
-   ret %Human* %v$78
+   ret %Human* %v$104
 }
-define i32 @pipeline$4(i32 %human$age) 
-{
-   
-   %v$79 = call i32 @print(i32 %human$age)
-   
-   ret i32 %v$79
-}
-define i32 @pipeline$5(i32 %human$dog$age) 
+define i32 @pipeline$5(i32 %human$age) 
 {
    
-   %v$80 = call i32 @print(i32 %human$dog$age)
+   %v$105 = call i32 @print(i32 %human$age)
    
-   ret i32 %v$80
+   ret i32 %v$105
+}
+define i32 @pipeline$6(i32 %human$dog$age) 
+{
+   
+   %v$106 = call i32 @print(i32 %human$dog$age)
+   
+   ret i32 %v$106
 }
 declare void @llvm.memcpy.p0.p0.i32(ptr noalias nocapture writeonly, ptr noalias nocapture readonly, i32, i1 immarg) #2
 declare i8* @malloc(i32) nounwind

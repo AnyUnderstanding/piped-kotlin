@@ -7,13 +7,13 @@ pi main() : Int {
    let f : Int = 1 + 2 * e + 3;
    let g : Int = f / 2;
    let h : Int = 2 + g / 2;
-   pipeline$0(h, );
+   pipeline$1(h, );
    >> 0;
 }
 pi print(value : Int) : Int {
    >> value;
 }
-fun pipeline$0(h : Int, ): Int {
+fun pipeline$1(h : Int, ): Int {
    let pipelineVar$0 : Int = h;
    >> print(pipelineVar$0, );
 }

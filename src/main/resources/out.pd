@@ -1,182 +1,25 @@
-bundle Option {
-   let value : Int, 
-   let isSome : Bool, 
-}
-bundle $$Int$Int$$ {
-   let field$0 : Int, 
-   let field$1 : Int, 
-}
-bundle $$Int$Int$Int$$ {
-   let field$0 : Int, 
-   let field$1 : Int, 
-   let field$2 : Int, 
+bundle Foo {
+   let bar : Int, 
 }
 pi main() : Int {
-   pipeline$0();
+   let foo : Foo = Foo(10);
+   pipeline$0(foo, );
    >> 1;
 }
-pi simpleLoop(n : Int) : Int {
-   pipeline$1(n, );
-   >> pipeline$3(n, );
-}
-pi isPrimeOver(n : Int) : Int {
-   let prime : Bool = pipeline$4(n, );
-   >> pipeline$6(n, );
-}
-pi isPrime(n : Int) : Bool {
-   >> pipeline$8(n, );
-}
-pi isPrimeAux(i : Int, n : Int) : Bool {
-   >> pipeline$10(i, n, );
-}
-pi fibN(x : Int, n : Int) : Int {
-   pipeline$11(x, );
-   >> pipeline$13(n, );
-}
-pi fib(x : Int) : Int {
-   >> pipeline$14(x, );
-}
-pi fibAux(prev : Int, curr : Int, count : Int) : Int {
-   >> pipeline$16(count, );
+pi printFoo(foo : Foo) : Int {
+   >> pipeline$1(foo.bar, );
 }
 pi print(value : Int) : Int {
    >> value;
 }
-fun pipeline$0(): Bool {
-   let pipelineVar$0 : Int = 1;
-   let pipelineVar$1 : Int = print(pipelineVar$0, );
-   >> isPrime(pipelineVar$1, );
+fun pipeline$0(foo : Foo, ): Int {
+   let pipelineVar$0 : Foo = foo;
+   let pipelineVar$1 : Foo = pipelineVar$0;
+   >> printFoo(pipelineVar$1, );
 }
 
-fun pipeline$1(n : Int, ): Int {
-   let pipelineVar$3 : Int = n;
+fun pipeline$1(foo$bar : Int, ): Int {
+   let pipelineVar$3 : Int = foo$bar;
    >> print(pipelineVar$3, );
-}
-
-fun pipeline$2(n : Int, ): Int {
-   let pipelineVar$0 : Int = n - 1;
-   >> simpleLoop(pipelineVar$0, );
-}
-
-fun guard$0(n : Int, ): Int {
-   if (n == 0) {
-      >> 0;
-   }
-   >> pipeline$2(n, );
-}
-
-fun pipeline$3(n : Int, ): Int {
-   let pipelineVar$5 : Int = n;
-   >> guard$0(pipelineVar$5, );
-}
-
-fun pipeline$4(n : Int, ): Bool {
-   let pipelineVar$7 : Int = n;
-   >> isPrime(pipelineVar$7, );
-}
-
-fun pipeline$5(x : Int, ): Int {
-   let pipelineVar$0 : Int = x + 1;
-   >> isPrimeOver(pipelineVar$0, );
-}
-
-fun guard$1(x : Int, ): Int {
-   if (prime) {
-      >> x;
-   }
-   >> pipeline$5(x, );
-}
-
-fun pipeline$6(n : Int, ): Int {
-   let pipelineVar$9 : Int = n;
-   >> guard$1(pipelineVar$9, );
-}
-
-fun pipeline$7(n : Int, ): Bool {
-   let pipelineVar$0 : $$Int$Int$$ = $$Int$Int$$(2, n);
-   >> isPrimeAux(pipelineVar$0.field$0, pipelineVar$0.field$1, );
-}
-
-fun guard$2(n : Int, ): Bool {
-   if (n <= 1) {
-      >> false;
-   }
-   if (n == 2) {
-      >> true;
-   }
-   >> pipeline$7(n, );
-}
-
-fun pipeline$8(n : Int, ): Bool {
-   let pipelineVar$11 : Int = n;
-   >> guard$2(pipelineVar$11, );
-}
-
-fun pipeline$9(i : Int, n : Int, ): Bool {
-   let pipelineVar$0 : $$Int$Int$$ = $$Int$Int$$(i + 1, n);
-   >> isPrimeAux(pipelineVar$0.field$0, pipelineVar$0.field$1, );
-}
-
-fun guard$3(i : Int, n : Int, ): Bool {
-   if ((i * i) > n) {
-      >> true;
-   }
-   if (((n / i) * i) < n) {
-      >> true;
-   }
-   if (((n / i) * i) == n) {
-      >> false;
-   }
-   >> pipeline$9(i, n, );
-}
-
-fun pipeline$10(i : Int, n : Int, ): Bool {
-   let pipelineVar$13 : $$Int$Int$$ = $$Int$Int$$(i, n);
-   >> guard$3(pipelineVar$13.field$0, pipelineVar$13.field$1, );
-}
-
-fun pipeline$11(x : Int, ): Int {
-   let pipelineVar$15 : Int = x;
-   let pipelineVar$16 : Int = fib(pipelineVar$15, );
-   >> print(pipelineVar$16, );
-}
-
-fun pipeline$12(x : Int, n : Int, ): Int {
-   let pipelineVar$0 : $$Int$Int$$ = $$Int$Int$$(x, n - 1);
-   >> fibN(pipelineVar$0.field$0, pipelineVar$0.field$1, );
-}
-
-fun guard$4(n : Int, ): Int {
-   if (n == 0) {
-      >> x;
-   }
-   >> pipeline$12(x, n, );
-}
-
-fun pipeline$13(n : Int, ): Int {
-   let pipelineVar$18 : Int = n;
-   >> guard$4(pipelineVar$18, );
-}
-
-fun pipeline$14(x : Int, ): Int {
-   let pipelineVar$20 : $$Int$Int$Int$$ = $$Int$Int$Int$$(0, 1, x);
-   >> fibAux(pipelineVar$20.field$0, pipelineVar$20.field$1, pipelineVar$20.field$2, );
-}
-
-fun pipeline$15(curr : Int, prev : Int, c : Int, ): Int {
-   let pipelineVar$0 : $$Int$Int$Int$$ = $$Int$Int$Int$$(curr, prev + curr, c - 1);
-   >> fib(pipelineVar$0.field$0, pipelineVar$0.field$1, pipelineVar$0.field$2, );
-}
-
-fun guard$5(c : Int, ): Int {
-   if (c == 0) {
-      >> prev;
-   }
-   >> pipeline$15(curr, prev, c, );
-}
-
-fun pipeline$16(count : Int, ): Int {
-   let pipelineVar$22 : Int = count;
-   >> guard$5(pipelineVar$22, );
 }
 

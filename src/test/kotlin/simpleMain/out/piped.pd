@@ -1,11 +1,11 @@
 pi main() : Int {
-   pipeline$17();
+   pipeline$18();
    >> 0;
 }
 pi print(value : Int) : Int {
    >> value;
 }
-fun pipeline$17(): Int {
+fun pipeline$18(): Int {
    let pipelineVar$0 : Int = (1 + 2) * 3;
    >> print(pipelineVar$0, );
 }
